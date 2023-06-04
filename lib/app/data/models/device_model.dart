@@ -1,8 +1,8 @@
 class DeviceModel {
-  int status;
-  String errorNum;
-  String message;
-  IoTDevice ioTDevice;
+  int? status;
+  String? errorNum;
+  String? message;
+  IoTDevice? ioTDevice;
 
   DeviceModel({this.status, this.errorNum, this.message, this.ioTDevice});
 
@@ -19,20 +19,20 @@ class DeviceModel {
     data['errorNum'] = errorNum;
     data['message'] = message;
     if (ioTDevice != null) {
-      data['IoTDevice'] = ioTDevice.toJson();
+      data['IoTDevice'] = ioTDevice!.toJson();
     }
     return data;
   }
 }
 
 class IoTDevice {
-  int id;
-  String name;
-  String token;
-  int startRead;
-  String connectionStatus;
-  String flowStatus;
-  List<Readings> readings;
+  int? id;
+  String? name;
+  String? token;
+  int? startRead;
+  String? connectionStatus;
+  String? flowStatus;
+  List<Readings>? readings;
 
   IoTDevice({this.id, this.name, this.token, this.startRead, this.connectionStatus, this.flowStatus, this.readings});
 
@@ -46,7 +46,7 @@ class IoTDevice {
     if (json['readings'] != null) {
       readings = <Readings>[];
       json['readings'].forEach((v) {
-        readings.add(Readings.fromJson(v));
+        readings!.add(Readings.fromJson(v));
       });
     }
   }
@@ -60,19 +60,19 @@ class IoTDevice {
     data['connection_status'] = connectionStatus;
     data['flow_status'] = flowStatus;
     if (readings != null) {
-      data['readings'] = readings.map((v) => v.toJson()).toList();
+      data['readings'] = readings!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Readings {
-  int id;
-  int deviceId;
-  int litersConsumed;
-  int flowRate;
-  String createdAt;
-  String updatedAt;
+  int? id;
+  int? deviceId;
+  int? litersConsumed;
+  int? flowRate;
+  String? createdAt;
+  String? updatedAt;
 
   Readings({this.id, this.deviceId, this.litersConsumed, this.flowRate, this.createdAt, this.updatedAt});
 

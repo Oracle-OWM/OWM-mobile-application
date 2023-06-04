@@ -11,9 +11,9 @@ class ConsumModel {
     this.amount,
   });
 
-  String date;
-  double energy;
-  double amount;
+  String? date;
+  double? energy;
+  double? amount;
 
   factory ConsumModel.fromJson(Map<String, dynamic> json) => ConsumModel(
         date: json["date"],

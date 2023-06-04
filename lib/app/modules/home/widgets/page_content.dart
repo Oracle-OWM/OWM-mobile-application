@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
-import 'package:osm_v2/app/modules/device/view/device_view.dart';
 
 import 'package:osm_v2/app/modules/home/controllers/home_controller.dart';
 import 'package:osm_v2/app/routes/app_pages.dart';
 
 import '../../about_us/about_us.dart';
-import '../../bill_tabs/bill_tabs.dart';
 import '../../contact.dart';
-import '../../login/view/login.dart';
 import '../../question.dart';
 import '../../setting_page.dart';
 import 'card.dart';
 
 class PageContent extends GetView<HomeController> {
-  const PageContent({Key key}) : super(key: key);
+  const PageContent({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +23,7 @@ class PageContent extends GetView<HomeController> {
             height: 10,
           ),
           Text(
-            controller.loginData.user.firstName,
+            controller.loginData.user!.firstName!,
             style: TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.bold,
@@ -179,7 +176,7 @@ class PageContent extends GetView<HomeController> {
               Get.toNamed(
                 Routes.deviceView,
                 arguments: {
-                  'device': controller.allDevicesModel.ioTDevices[0],
+                  'device': controller.allDevicesModel!.ioTDevices![0],
                 },
               );
             },

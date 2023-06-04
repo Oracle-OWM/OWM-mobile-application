@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'shared_prefs.dart';
@@ -45,9 +44,7 @@ class AppServices extends GetxService {
 
   getprofileImage() async {
     String value = await SharedPrefsHelper.getPic();
-    if (value != null) {
-      profileImage.value = value;
-    }
+    profileImage.value = value;
   }
 
   changeisLoggedin(bool value) {
@@ -56,7 +53,7 @@ class AppServices extends GetxService {
   }
 
   getisLoggedinFromPrefs() async {
-    bool val = await SharedPrefsHelper.getisLoggedin() ?? false;
+    bool val = await SharedPrefsHelper.getisLoggedin();
     isLoggedin.value = val;
   }
 

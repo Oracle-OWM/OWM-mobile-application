@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:osm_v2/app/modules/home/view/home_view.dart';
 import '../core/utils.dart';
 import '../data/services/app_services.dart';
-import '../data/services/translation_service.dart';
 import 'package:get/get.dart';
 
 class Contact extends StatelessWidget {
   final appServices = Get.find<AppServices>();
+
+  Contact({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -45,9 +46,7 @@ class Contact extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.bold,
-                          color: appServices.isDark.value
-                              ? Colors.white
-                              : Colors.black,
+                          color: appServices.isDark.value ? Colors.white : Colors.black,
                         ),
                       ),
                     ],
@@ -66,9 +65,7 @@ class Contact extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
-                                  color: appServices.isDark.value
-                                      ? Colors.white
-                                      : Colors.black,
+                                  color: appServices.isDark.value ? Colors.white : Colors.black,
                                 ),
                               ),
                               leading: Image.asset(
@@ -94,9 +91,7 @@ class Contact extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
-                                  color: appServices.isDark.value
-                                      ? Colors.white
-                                      : Colors.black,
+                                  color: appServices.isDark.value ? Colors.white : Colors.black,
                                 ),
                               ),
                               leading: Image.asset(
@@ -120,9 +115,7 @@ class Contact extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
-                                  color: appServices.isDark.value
-                                      ? Colors.white
-                                      : Colors.black,
+                                  color: appServices.isDark.value ? Colors.white : Colors.black,
                                 ),
                               ),
                               leading: Image.asset(

@@ -9,6 +9,8 @@ import '../show_prev.dart';
 
 class BillTabs extends StatelessWidget {
   final appServices = Get.find<AppServices>();
+
+  BillTabs({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -35,10 +37,10 @@ class BillTabs extends StatelessWidget {
             tabs: [Tab(text: 'paay'.tr), Tab(text: 'prev'.tr)],
           ),
         ),
-        body: TabBarView(
+        body: const TabBarView(
           children: [
             Pay(),
-            const ShowPrev(),
+            ShowPrev(),
           ],
         ),
       ),

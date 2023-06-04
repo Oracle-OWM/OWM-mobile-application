@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:osm_v2/app/data/services/translation_service.dart';
 import '../data/services/app_services.dart';
 import 'package:get/get.dart';
 import 'home/view/home_view.dart';
@@ -7,7 +6,7 @@ import 'home/view/home_view.dart';
 class Questions extends StatelessWidget {
   final appServices = Get.find<AppServices>();
 
-  Questions({Key key}) : super(key: key);
+  Questions({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

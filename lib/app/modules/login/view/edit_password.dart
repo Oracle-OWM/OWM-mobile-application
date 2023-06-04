@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,7 +7,7 @@ import 'package:osm_v2/app/modules/login/controller/edit_password_controller.dar
 import '../../setting_page.dart';
 
 class EditPasswordView extends GetView<EditPasswordController> {
-  const EditPasswordView({Key key}) : super(key: key);
+  const EditPasswordView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -51,13 +50,14 @@ class EditPasswordView extends GetView<EditPasswordController> {
                             border: Border.all(width: 4, color: Colors.white),
                             boxShadow: [BoxShadow(spreadRadius: 2, blurRadius: 10, color: Colors.black.withOpacity(0.1))],
                             shape: BoxShape.circle,
-                            image: DecorationImage(
+                            image: const DecorationImage(
                               fit: BoxFit.cover,
-                              image: controller.appServices.profileImage.value.isEmpty
-                                  ? const AssetImage('assets/girl.png')
-                                  : FileImage(
-                                      File(controller.appServices.profileImage.value),
-                                    ),
+                              // image: controller.appServices.profileImage.value.isEmpty
+                              //     ? const AssetImage('assets/girl.png')
+                              //     : FileImage(
+                              //         File(controller.appServices.profileImage.value),
+                              //       ),
+                              image: AssetImage('assets/girl.png'),
                             )),
                       );
                     }),

@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:osm_v2/app/data/services/dio_helper.dart';
-import 'package:osm_v2/app/data/services/theme.dart';
 import 'package:osm_v2/app/modules/login/controller/login_controller.dart';
-
-import '../../home/view/home_view.dart';
 
 import 'forget.dart';
 
 class Login extends GetView<LoginController> {
-  const Login({Key key}) : super(key: key);
+  const Login({Key? key}) : super(key: key);
 
   @override
   Widget build(context) {
@@ -30,13 +27,10 @@ class Login extends GetView<LoginController> {
                   child: Column(
                     children: [
                       Padding(
-                        padding:
-                            const EdgeInsets.only(top: 10, right: 20, left: 20),
+                        padding: const EdgeInsets.only(top: 10, right: 20, left: 20),
                         child: TextFormField(
                           style: TextStyle(
-                            color: controller.appServices.isDark.value
-                                ? Colors.white
-                                : Colors.black,
+                            color: controller.appServices.isDark.value ? Colors.white : Colors.black,
                           ),
                           controller: controller.email,
                           keyboardType: TextInputType.name,
@@ -49,15 +43,15 @@ class Login extends GetView<LoginController> {
                               color: Color.fromRGBO(34, 177, 76, 1),
                             ),
                           ),
-                          validator: (String value) {
-                            if (value.isEmpty) {
+                          validator: (String? value) {
+                            if (value!.isEmpty) {
                               return "please user".tr;
                             } else {
                               return null;
                             }
                           },
-                          onSaved: (String value) {
-                            controller.mail = value;
+                          onSaved: (String? value) {
+                            controller.mail = value!;
                           },
                         ),
                       ),
@@ -67,9 +61,7 @@ class Login extends GetView<LoginController> {
                           padding: const EdgeInsets.only(right: 20, left: 20),
                           child: TextFormField(
                             style: TextStyle(
-                              color: controller.appServices.isDark.value
-                                  ? Colors.white
-                                  : Colors.black,
+                              color: controller.appServices.isDark.value ? Colors.white : Colors.black,
                             ),
                             obscureText: controller.check.value,
                             controller: controller.pass,
@@ -78,19 +70,16 @@ class Login extends GetView<LoginController> {
                               labelText: 'Password'.tr,
                               hintText: "pass validate empty".tr,
                               border: const OutlineInputBorder(),
-                              prefixIcon: const Icon(Icons.lock,
-                                  color: Color.fromRGBO(34, 177, 76, 1)),
+                              prefixIcon: const Icon(Icons.lock, color: Color.fromRGBO(34, 177, 76, 1)),
                               suffixIcon: IconButton(
-                                  icon: const Icon(Icons.remove_red_eye,
-                                      color: Color.fromRGBO(34, 177, 76, 1)),
+                                  icon: const Icon(Icons.remove_red_eye, color: Color.fromRGBO(34, 177, 76, 1)),
                                   onPressed: () {
-                                    print(controller.check);
-                                    controller.check.value =
-                                        !controller.check.value;
+                                    // print(controller.check);
+                                    controller.check.value = !controller.check.value;
                                   }),
                             ),
-                            validator: (String value) {
-                              if (value.isEmpty) {
+                            validator: (String? value) {
+                              if (value!.isEmpty) {
                                 return "please password".tr;
                               } else if (value.length < 6) {
                                 return "6 digit".tr;
@@ -98,8 +87,8 @@ class Login extends GetView<LoginController> {
                                 return null;
                               }
                             },
-                            onSaved: (String value) {
-                              controller.passwd = value;
+                            onSaved: (String? value) {
+                              controller.passwd = value!;
                             },
                           ),
                         ),
@@ -109,9 +98,7 @@ class Login extends GetView<LoginController> {
                         padding: const EdgeInsets.only(right: 20, left: 20),
                         child: TextFormField(
                           style: TextStyle(
-                            color: controller.appServices.isDark.value
-                                ? Colors.white
-                                : Colors.black,
+                            color: controller.appServices.isDark.value ? Colors.white : Colors.black,
                           ),
                           controller: controller.ip,
                           keyboardType: TextInputType.text,
@@ -119,12 +106,10 @@ class Login extends GetView<LoginController> {
                             labelText: 'IP'.tr,
                             hintText: "Enter Server's IP".tr,
                             border: const OutlineInputBorder(),
-                            prefixIcon: const Icon(
-                                Icons.electrical_services_rounded,
-                                color: Color.fromRGBO(34, 177, 76, 1)),
+                            prefixIcon: const Icon(Icons.electrical_services_rounded, color: Color.fromRGBO(34, 177, 76, 1)),
                           ),
-                          validator: (String value) {
-                            if (value.isEmpty) {
+                          validator: (String? value) {
+                            if (value!.isEmpty) {
                               return "please Enter IP".tr;
                             } else if (value.length < 6) {
                               return "6 digit".tr;
@@ -132,8 +117,8 @@ class Login extends GetView<LoginController> {
                               return null;
                             }
                           },
-                          onSaved: (String value) {
-                            controller.serverIP = value;
+                          onSaved: (String? value) {
+                            controller.serverIP = value!;
                           },
                         ),
                       ),
@@ -143,8 +128,7 @@ class Login extends GetView<LoginController> {
               ),
               const SizedBox(height: 30),
               MaterialButton(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
                 shape: const StadiumBorder(),
                 color: const Color.fromRGBO(0, 154, 202, 1),
                 child: controller.load
@@ -159,10 +143,10 @@ class Login extends GetView<LoginController> {
                         ),
                       ),
                 onPressed: () async {
-                  if (controller.formKey.currentState.validate()) {
-                    controller.formKey.currentState.save();
-                    print('object');
-                      DioHelper.init(path: controller.serverIP);
+                  if (controller.formKey.currentState!.validate()) {
+                    controller.formKey.currentState!.save();
+                    // print('object');
+                    DioHelper.init(path: controller.serverIP);
                     controller.login(
                       username: controller.mail,
                       password: controller.passwd,
@@ -174,9 +158,7 @@ class Login extends GetView<LoginController> {
               TextButton(
                 child: Text("Forgot Password?".tr,
                     style: TextStyle(
-                      color: controller.appServices.isDark.value
-                          ? Colors.white
-                          : Colors.black,
+                      color: controller.appServices.isDark.value ? Colors.white : Colors.black,
                       fontSize: 17,
                     )),
                 onPressed: () => Get.offAll(const Forget()),

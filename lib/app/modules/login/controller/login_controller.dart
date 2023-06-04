@@ -1,8 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:osm_v2/app/data/services/theme.dart';
-import 'package:osm_v2/app/modules/home/view/home_view.dart';
 import 'package:osm_v2/app/routes/app_pages.dart';
 
 import '../../../data/models/login_model.dart';
@@ -19,30 +17,24 @@ class LoginController extends GetxController {
   var pass = TextEditingController();
   var ip = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  String mail;
-  String passwd;
-  String serverIP;
-  LoginModel loginModel;
+  String? mail;
+  String? passwd;
+  String? serverIP;
+  LoginModel? loginModel;
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
-  void login({String username, String password}) {
+  void login({String? username, String? password}) {
     DioHelper.postData(
       url: EndPoints.login,
       data: {'identifier': username, 'password': password},
     ).then((value) async {
       loginModel = LoginModel.fromJson(value.data);
       // UiTheme.successGetBar(loginModel.message);
-      if (loginModel.status == 200) {
-        appServices.accessToken.value = loginModel.user.tokenData.accessToken;
+      if (loginModel!.status == 200) {
+        appServices.accessToken.value = loginModel!.user!.tokenData!.accessToken!;
         Get.offAllNamed(Routes.home, arguments: {'data': loginModel});
       } else {
         Get.dialog(Dialog(
-          backgroundColor:
-              (appServices.isDark.value) ? Colors.grey.shade700 : Colors.white,
+          backgroundColor: (appServices.isDark.value) ? Colors.grey.shade700 : Colors.white,
           insetPadding: const EdgeInsets.all(20),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(25),
@@ -56,8 +48,7 @@ class LoginController extends GetxController {
                   "invalid".tr,
                   style: TextStyle(
                     fontSize: 18,
-                    color:
-                        appServices.isDark.value ? Colors.white : Colors.black,
+                    color: appServices.isDark.value ? Colors.white : Colors.black,
                   ),
                 ),
               ],

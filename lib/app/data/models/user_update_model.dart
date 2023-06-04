@@ -16,10 +16,10 @@ class UserUpdateModel {
     this.confirmPassword,
   });
 
-  int id;
-  String name;
-  String password;
-  String confirmPassword;
+  int? id;
+  String? name;
+  String? password;
+  String? confirmPassword;
 
   factory UserUpdateModel.fromJson(Map<String, dynamic> json) => UserUpdateModel(
         id: json["id"],

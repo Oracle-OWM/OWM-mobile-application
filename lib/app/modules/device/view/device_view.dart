@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:osm_v2/app/modules/device/controllers/device_controller.dart';
 
 class DeviceView extends GetView<DeviceController> {
-  const DeviceView({Key key}) : super(key: key);
+  const DeviceView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class DeviceView extends GetView<DeviceController> {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
-            title: Text(controller.deviceModel.name),
+            title: Text(controller.deviceModel.name!),
             bottom: const TabBar(
               tabs: [
                 Tab(
@@ -42,9 +42,9 @@ class DeviceView extends GetView<DeviceController> {
                               .startRead[controller.deviceModel.name] ==
                           1
                       ? controller.changePowerStatus(
-                          controller.deviceModel.token, 0)
+                          controller.deviceModel.token!, 0)
                       : controller.changePowerStatus(
-                          controller.deviceModel.token, 1);
+                          controller.deviceModel.token!, 1);
                 },
                 child: Icon(
                   controller.appServices

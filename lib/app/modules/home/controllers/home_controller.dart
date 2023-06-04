@@ -19,14 +19,14 @@ class HomeController extends GetxController {
   final double coverHeight = 280;
   final double profileHeight = 144;
   LoginModel loginData = Get.arguments['data'];
-  DeviceModel deviceModel;
-  AllDevicesModel allDevicesModel;
+  DeviceModel? deviceModel;
+  AllDevicesModel? allDevicesModel;
   RxBool loading = false.obs;
   RxBool dataReturned = false.obs;
 
   final wsUrl = Uri.parse('ws://192.168.1.17:6001/app/livepost_key?protocol=7&client=js&version=7.5.0&flash=false');
   String deviceChannel = '{"event":"pusher:subscribe", "data":{"auth":"","channel":"dashboard-IoTDevice-details-channel"}}';
-  WebSocketChannel channel;
+  WebSocketChannel? channel;
   @override
   void onInit() {
     openSocket();
@@ -40,16 +40,14 @@ class HomeController extends GetxController {
       'token': deviceID,
     }).then((value) {
       deviceModel = DeviceModel.fromJson(value.data);
-      if (deviceModel.status == 200) {
+      if (deviceModel!.status == 200) {
         getAllDevices();
         Get.back();
-        UiTheme.successGetBar(deviceModel.message);
+        UiTheme.successGetBar(deviceModel!.message!);
       } else {
         UiTheme.errorGetBar('Error associating Device');
       }
-    }).catchError((onError) {
-      print(onError);
-    });
+    }).catchError((onError) {});
   }
 
   Future<void> getAllDevices() async {
@@ -57,18 +55,18 @@ class HomeController extends GetxController {
     dataReturned.value = false;
     await DioHelper.getData(
       url: EndPoints.getAssociateUser,
-      token: loginData.user.tokenData.accessToken,
+      token: loginData.user!.tokenData!.accessToken,
     ).then((value) {
       allDevicesModel = AllDevicesModel.fromJson(value.data);
-      if (allDevicesModel.status == 200) {
-        for (int i = 0; i < allDevicesModel.ioTDevices.length; i++) {
-          appServices.startRead[allDevicesModel.ioTDevices[i].name] = allDevicesModel.ioTDevices[i].startRead;
-          appServices.flowStatus[allDevicesModel.ioTDevices[i].name] = allDevicesModel.ioTDevices[i].flowStatus;
+      if (allDevicesModel!.status == 200) {
+        for (int i = 0; i < allDevicesModel!.ioTDevices!.length; i++) {
+          appServices.startRead[allDevicesModel!.ioTDevices![i].name!] = allDevicesModel!.ioTDevices![i].startRead;
+          appServices.flowStatus[allDevicesModel!.ioTDevices![i].name!] = allDevicesModel!.ioTDevices![i].flowStatus;
         }
-        UiTheme.successGetBar(allDevicesModel.message);
+        UiTheme.successGetBar(allDevicesModel!.message!);
         dataReturned.value = true;
       } else {
-        UiTheme.errorGetBar(allDevicesModel.message);
+        UiTheme.errorGetBar(allDevicesModel!.message!);
       }
     }).catchError((error) {});
     loading.value = false;
@@ -76,11 +74,11 @@ class HomeController extends GetxController {
 
   openSocket() async {
     channel = WebSocketChannel.connect(wsUrl);
-    channel.sink.add(deviceChannel);
+    channel!.sink.add(deviceChannel);
   }
 
   readNewMessage() {
-    channel.stream.listen(
+    channel!.stream.listen(
       (message) {
         Map s = jsonDecode(message);
         if (s.containsKey('data')) {
@@ -111,7 +109,7 @@ class HomeController extends GetxController {
     );
   }
 
-  ChangePowerStatusModel changePowerStatusModel;
+  ChangePowerStatusModel? changePowerStatusModel;
   void changePowerStatus(int index, String deviceID, int state) {
     DioHelper.postData(
       url: EndPoints.changePowerStatus,
@@ -123,14 +121,12 @@ class HomeController extends GetxController {
       },
     ).then((value) {
       changePowerStatusModel = ChangePowerStatusModel.fromJson(value.data);
-      if (changePowerStatusModel.status == 200) {
-        appServices.startRead[allDevicesModel.ioTDevices[index].name] = state;
-        UiTheme.successGetBar(changePowerStatusModel.message);
+      if (changePowerStatusModel!.status == 200) {
+        appServices.startRead[allDevicesModel!.ioTDevices![index].name!] = state;
+        UiTheme.successGetBar(changePowerStatusModel!.message!);
       } else {
         UiTheme.errorGetBar('Error changing the state of the device');
       }
-    }).catchError((onError) {
-      print(onError);
-    });
+    }).catchError((onError) {});
   }
 }

@@ -3,10 +3,10 @@ import 'package:get/get.dart';
 import 'package:osm_v2/app/modules/home/controllers/home_controller.dart';
 
 class PageCard extends GetView<HomeController> {
-  final String img;
-  final String tit;
-  final Function onTapp;
-  const PageCard({Key key, this.img, this.tit, this.onTapp}) : super(key: key);
+  final String? img;
+  final String? tit;
+  final GestureTapCallback? onTapp;
+  const PageCard({Key? key, this.img, this.tit, this.onTapp}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class PageCard extends GetView<HomeController> {
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage(
-                      img,
+                      img!,
                     ),
                     fit: BoxFit.cover,
                   ),
@@ -36,7 +36,7 @@ class PageCard extends GetView<HomeController> {
               ),
               ListTile(
                 onTap: onTapp,
-                title: Text(tit,
+                title: Text(tit!,
                     style: TextStyle(
                       color: controller.appServices.isDark.value ? Colors.white : Colors.black,
                     )),

@@ -6,7 +6,7 @@ import 'package:osm_v2/app/modules/home/widgets/page_content.dart';
 import 'package:osm_v2/app/modules/home/widgets/top_part.dart';
 
 class HomeView extends GetView<HomeController> {
-  const HomeView({Key key}) : super(key: key);
+  const HomeView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +17,10 @@ class HomeView extends GetView<HomeController> {
           children: [
             const TopPart(),
             !controller.dataReturned.value
-                ? Center(
+                ? const Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
+                      children: [
                         CircularProgressIndicator(),
                         Text('Trying to get the Device data please wait, if this takes long check your connection'),
                       ],

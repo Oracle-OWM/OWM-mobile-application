@@ -1,8 +1,8 @@
 class AllDevicesModel {
-  int status;
-  String errorNum;
-  String message;
-  List<IoTDevices> ioTDevices;
+  int? status;
+  String? errorNum;
+  String? message;
+  List<IoTDevices>? ioTDevices;
 
   AllDevicesModel({this.status, this.errorNum, this.message, this.ioTDevices});
 
@@ -13,7 +13,7 @@ class AllDevicesModel {
     if (json['IoTDevices'] != null) {
       ioTDevices = <IoTDevices>[];
       json['IoTDevices'].forEach((v) {
-        ioTDevices.add(IoTDevices.fromJson(v));
+        ioTDevices!.add(IoTDevices.fromJson(v));
       });
     }
   }
@@ -24,20 +24,20 @@ class AllDevicesModel {
     data['errorNum'] = errorNum;
     data['message'] = message;
     if (ioTDevices != null) {
-      data['IoTDevices'] = ioTDevices.map((v) => v.toJson()).toList();
+      data['IoTDevices'] = ioTDevices!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class IoTDevices {
-  int id;
-  String name;
-  String token;
-  int startRead;
-  String connectionStatus;
-  String flowStatus;
-  List<Readings> readings;
+  int? id;
+  String? name;
+  String? token;
+  int? startRead;
+  String? connectionStatus;
+  String? flowStatus;
+  List<Readings>? readings;
 
   IoTDevices(
       {this.id,
@@ -58,7 +58,7 @@ class IoTDevices {
     if (json['readings'] != null) {
       readings = <Readings>[];
       json['readings'].forEach((v) {
-        readings.add(Readings.fromJson(v));
+        readings!.add(Readings.fromJson(v));
       });
     }
   }
@@ -72,19 +72,19 @@ class IoTDevices {
     data['connection_status'] = connectionStatus;
     data['flow_status'] = flowStatus;
     if (readings != null) {
-      data['readings'] = readings.map((v) => v.toJson()).toList();
+      data['readings'] = readings!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Readings {
-  int id;
-  int deviceId;
-  int litersConsumed;
-  int flowRate;
-  String createdAt;
-  String updatedAt;
+  int? id;
+  int? deviceId;
+  int? litersConsumed;
+  int? flowRate;
+  String? createdAt;
+  String? updatedAt;
 
   Readings(
       {this.id,

@@ -1,22 +1,19 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';
 import 'package:osm_v2/app/data/services/app_services.dart';
-
-import '../../../data/models/user_update_model.dart';
-import '../../../data/services/shared_helper.dart';
 import '../../../data/services/shared_prefs.dart';
 
 import '../../setting_page.dart';
 
 class EditProfileUI extends StatefulWidget {
+  const EditProfileUI({Key? key}) : super(key: key);
+
   @override
-  _EditProfileUIState createState() => _EditProfileUIState();
+  EditProfileUIState createState() => EditProfileUIState();
 }
 
-class _EditProfileUIState extends State<EditProfileUI> {
+class EditProfileUIState extends State<EditProfileUI> {
   final appServices = Get.find<AppServices>();
   bool load = false;
   bool isObsecurePassword = true;
@@ -27,16 +24,15 @@ class _EditProfileUIState extends State<EditProfileUI> {
   void postData() async {
     load = true;
     try {
-      var response = await Dio().post('https://rooot.azurewebsites.net/user/create',
-          data: UserUpdateModel(
-            id: SharedHelper.getId(),
-            name: (nuser.text.isEmpty) ? SharedHelper.getUsername() : nuser.text,
-          ).toJson());
+      // var response = await Dio().post('https://rooot.azurewebsites.net/user/create',
+      //     data: UserUpdateModel(
+      //       id: SharedHelper.getId(),
+      //       name: (nuser.text.isEmpty) ? SharedHelper.getUsername() : nuser.text,
+      //     ).toJson());
       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const SettingPageUI()));
       load = false;
     } catch (e) {
       load = false;
-      print(e);
     }
   }
 
@@ -81,13 +77,14 @@ class _EditProfileUIState extends State<EditProfileUI> {
                             border: Border.all(width: 4, color: Colors.white),
                             boxShadow: [BoxShadow(spreadRadius: 2, blurRadius: 10, color: Colors.black.withOpacity(0.1))],
                             shape: BoxShape.circle,
-                            image: DecorationImage(
+                            image: const DecorationImage(
                               fit: BoxFit.cover,
-                              image: appServices.profileImage.value.isEmpty
-                                  ? const AssetImage('assets/girl.png')
-                                  : FileImage(
-                                      File(appServices.profileImage.value),
-                                    ),
+                              // image: appServices.profileImage.value.isEmpty
+                              //     ? const AssetImage('assets/girl.png')
+                              //     : FileImage(
+                              //         File(appServices.profileImage.value),
+                              //       ),
+                              image: AssetImage('assets/girl.png'),
                             )),
                       );
                     }),
@@ -234,10 +231,10 @@ class _EditProfileUIState extends State<EditProfileUI> {
   }
 
   void takePhoto(ImageSource source) async {
-    final pickedFile = await _picker.getImage(
+    final pickedFile = await _picker.pickImage(
       source: source,
     );
-    appServices.profileImage.value = pickedFile.path;
+    appServices.profileImage.value = pickedFile!.path;
     SharedPrefsHelper.storePic(pickedFile.path);
   }
 }

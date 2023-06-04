@@ -3,7 +3,7 @@ import 'package:osm_v2/app/modules/splash/controllers/splash_controller.dart';
 import 'package:get/get.dart';
 
 class SplashView extends GetView<SplashController> {
-  const SplashView({Key key}) : super(key: key);
+  const SplashView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

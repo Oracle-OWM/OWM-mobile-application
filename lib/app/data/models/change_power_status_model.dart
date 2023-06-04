@@ -1,7 +1,7 @@
 class ChangePowerStatusModel {
-  int status;
-  String message;
-  String errorNum;
+  int? status;
+  String? message;
+  String? errorNum;
 
   ChangePowerStatusModel({this.status, this.message, this.errorNum});
 

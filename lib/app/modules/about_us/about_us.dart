@@ -5,6 +5,8 @@ import '../../data/services/app_services.dart';
 
 class About extends StatelessWidget {
   final appServices = Get.find<AppServices>();
+
+  About({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,16 +31,16 @@ class About extends StatelessWidget {
       body: ListView(
         children: [
           const SizedBox(height: 8),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
+          const Padding(
+            padding: EdgeInsets.all(8.0),
             child: Card(
               clipBehavior: Clip.antiAliasWithSaveLayer,
-              shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(8.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
+                  children: [
                     Text(
                       "Oracle Team",
                       style: TextStyle(
@@ -71,7 +73,7 @@ class About extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Container(
+              child: SizedBox(
                 width: 90,
                 height: 90,
                 child: CircleAvatar(

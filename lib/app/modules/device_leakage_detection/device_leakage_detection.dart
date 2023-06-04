@@ -1,17 +1,13 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
+// import 'package:http/http.dart' as http;
 import 'package:osm_v2/app/modules/home/controllers/home_controller.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
-import '../../data/services/app_services.dart';
-import '../../routes/app_pages.dart';
-import '../home/view/home_view.dart';
+
 import '../home/widgets/top_part.dart';
 
 class DeviceAndLeakageDetection extends GetView<HomeController> {
-  const DeviceAndLeakageDetection({Key key}) : super(key: key);
+  const DeviceAndLeakageDetection({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,21 +28,17 @@ class DeviceAndLeakageDetection extends GetView<HomeController> {
                 height: 10,
               ),
               Text(
-                controller.loginData.user.firstName,
+                controller.loginData.user!.firstName!,
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  color: controller.appServices.isDark.value
-                      ? Colors.white
-                      : Colors.black,
+                  color: controller.appServices.isDark.value ? Colors.white : Colors.black,
                 ),
               ),
               InkWell(
                 onTap: () async {
                   // controller.readNewMessage();
-                  String barcodeScanRes =
-                      await FlutterBarcodeScanner.scanBarcode(
-                          'red', 'cancel', false, ScanMode.QR);
+                  String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode('red', 'cancel', false, ScanMode.QR);
                   if (barcodeScanRes != '-1') {
                     controller.postDevice(barcodeScanRes);
                   }
@@ -60,9 +52,8 @@ class DeviceAndLeakageDetection extends GetView<HomeController> {
               const Divider(),
               controller.loading.value && controller.allDevicesModel == null
                   ? const CircularProgressIndicator.adaptive()
-                  : controller.allDevicesModel.ioTDevices.isEmpty
-                      ? const Text(
-                          'Couldn\'t find any device connected to your account please make sure to scan the QR code first')
+                  : controller.allDevicesModel!.ioTDevices!.isEmpty
+                      ? const Text('Couldn\'t find any device connected to your account please make sure to scan the QR code first')
                       : SizedBox(
                           width: Get.width,
                           height: Get.height / 4,
@@ -74,11 +65,7 @@ class DeviceAndLeakageDetection extends GetView<HomeController> {
                             mainAxisSpacing: 20,
                             crossAxisCount: 4,
                             children: [
-                              for (int i = 0;
-                                  i <
-                                      controller
-                                          .allDevicesModel.ioTDevices.length;
-                                  i++)
+                              for (int i = 0; i < controller.allDevicesModel!.ioTDevices!.length; i++)
                                 Column(
                                   children: [
                                     InkWell(
@@ -107,16 +94,9 @@ class DeviceAndLeakageDetection extends GetView<HomeController> {
                                                       width: 45,
                                                     ),
                                                   ),
-                                                  if (controller.appServices
-                                                              .flowStatus[
-                                                          controller
-                                                              .allDevicesModel
-                                                              .ioTDevices[i]
-                                                              .name] !=
-                                                      'normal')
+                                                  if (controller.appServices.flowStatus[controller.allDevicesModel!.ioTDevices![i].name] != 'normal')
                                                     Align(
-                                                      alignment:
-                                                          Alignment.topRight,
+                                                      alignment: Alignment.topRight,
                                                       child: Image.asset(
                                                         'assets/danger.png',
                                                         width: 25,
@@ -124,49 +104,25 @@ class DeviceAndLeakageDetection extends GetView<HomeController> {
                                                     ),
                                                   CircleAvatar(
                                                     radius: 10,
-                                                    backgroundColor: controller
-                                                                    .appServices
-                                                                    .startRead[
-                                                                controller
-                                                                    .allDevicesModel
-                                                                    .ioTDevices[
-                                                                        i]
-                                                                    .name] ==
-                                                            1
-                                                        ? Colors.green
-                                                        : Colors.red,
+                                                    backgroundColor:
+                                                        controller.appServices.startRead[controller.allDevicesModel!.ioTDevices![i].name] == 1
+                                                            ? Colors.green
+                                                            : Colors.red,
                                                   )
                                                 ],
                                               ),
                                             ),
-                                            Text(controller.allDevicesModel
-                                                .ioTDevices[i].name),
+                                            Text(controller.allDevicesModel!.ioTDevices![i].name!),
                                           ],
                                         ),
                                       ),
                                     ),
                                     Switch(
-                                      value: controller.appServices.startRead[
-                                                  controller.allDevicesModel
-                                                      .ioTDevices[i].name] ==
-                                              1
-                                          ? true
-                                          : false,
+                                      value: controller.appServices.startRead[controller.allDevicesModel!.ioTDevices![i].name] == 1 ? true : false,
                                       onChanged: (val) {
-                                        controller.appServices.startRead[
-                                                    controller.allDevicesModel
-                                                        .ioTDevices[i].name] ==
-                                                1
-                                            ? controller.changePowerStatus(
-                                                i,
-                                                controller.allDevicesModel
-                                                    .ioTDevices[i].token,
-                                                0)
-                                            : controller.changePowerStatus(
-                                                i,
-                                                controller.allDevicesModel
-                                                    .ioTDevices[i].token,
-                                                1);
+                                        controller.appServices.startRead[controller.allDevicesModel!.ioTDevices![i].name] == 1
+                                            ? controller.changePowerStatus(i, controller.allDevicesModel!.ioTDevices![i].token!, 0)
+                                            : controller.changePowerStatus(i, controller.allDevicesModel!.ioTDevices![i].token!, 1);
                                       },
                                     )
                                   ],

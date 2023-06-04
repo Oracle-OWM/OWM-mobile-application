@@ -8,13 +8,13 @@ import 'login/view/edit.dart';
 import 'login/view/edit_password.dart';
 
 class SettingPageUI extends StatefulWidget {
-  const SettingPageUI({Key key}) : super(key: key);
+  const SettingPageUI({Key? key}) : super(key: key);
 
   @override
-  _SettingPageUIState createState() => _SettingPageUIState();
+  SettingPageUIState createState() => SettingPageUIState();
 }
 
-class _SettingPageUIState extends State<SettingPageUI> {
+class SettingPageUIState extends State<SettingPageUI> {
   bool valNotify2 = false;
   bool valNotify3 = false;
   final appServices = Get.find<AppServices>();
@@ -40,7 +40,7 @@ class _SettingPageUIState extends State<SettingPageUI> {
   showLanguageDialog(context, int type) {
     final List titles = ['ar'.tr, 'english'.tr];
     final appServices = Get.find<AppServices>();
-    final translationServices = Get.find<TranslationService>();
+    // final translationServices = Get.find<TranslationService>();
     showDialog(
       context: context,
       builder: (context) => StatefulBuilder(builder: (context, c) {
@@ -59,7 +59,7 @@ class _SettingPageUIState extends State<SettingPageUI> {
                   padding: const EdgeInsets.all(12.0),
                   child: Text(
                     'lang'.tr,
-                    style: Get.textTheme.headline6.copyWith(color: (appServices.isDark.value) ? Colors.white : Colors.black),
+                    style: Get.textTheme.titleLarge!.copyWith(color: (appServices.isDark.value) ? Colors.white : Colors.black),
                   ),
                 ),
                 Column(
@@ -77,7 +77,7 @@ class _SettingPageUIState extends State<SettingPageUI> {
                         activeColor: const Color.fromRGBO(34, 177, 76, 1),
                         title: Text(
                           titles[index],
-                          style: Get.textTheme.bodyText1.copyWith(color: Colors.grey),
+                          style: Get.textTheme.bodyLarge!.copyWith(color: Colors.grey),
                         ),
                         value: lang,
                         onChanged: (val) {
@@ -163,7 +163,7 @@ class _SettingPageUIState extends State<SettingPageUI> {
                 buildAccountOption(context, 'edit username'.tr, () {
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
-                      builder: (contest) => EditProfileUI(),
+                      builder: (contest) => const EditProfileUI(),
                     ),
                   );
                 }),
@@ -203,7 +203,7 @@ Padding buildNotificationOption(String title, bool value, Function onChangeMetho
   );
 }
 
-GestureDetector buildAccountOption(BuildContext context, String title, Function onTapp) {
+GestureDetector buildAccountOption(BuildContext context, String title, GestureTapCallback? onTapp) {
   return GestureDetector(
     onTap: onTapp,
     child: Padding(

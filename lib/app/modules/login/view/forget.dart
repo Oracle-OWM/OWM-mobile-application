@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:osm_v2/app/modules/login/controller/forget_controller.dart';
-import 'logIn.dart';
+import 'package:osm_v2/app/modules/login/view/login.dart';
 
 class Forget extends GetView<ForgetController> {
-  const Forget({Key key}) : super(key: key);
+  const Forget({Key? key}) : super(key: key);
 
 
 
@@ -75,7 +75,7 @@ class Forget extends GetView<ForgetController> {
             onPressed: () {
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
-                  builder: (contest) => Login(),
+                  builder: (contest) =>  const Login(),
                 ),
               );
             })

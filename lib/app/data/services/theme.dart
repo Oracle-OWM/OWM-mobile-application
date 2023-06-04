@@ -22,7 +22,7 @@ class UiTheme {
     appBarTheme: commonTheme.appBarTheme.copyWith(
       backgroundColor: const Color(0xFF21212F),
       iconTheme: const IconThemeData(color: Colors.white),
-      titleTextStyle: commonTheme.appBarTheme.titleTextStyle.copyWith(
+      titleTextStyle: commonTheme.appBarTheme.titleTextStyle!.copyWith(
         color: Colors.white,
       ),
     ),
@@ -65,19 +65,18 @@ class UiTheme {
     ),
   );
 
-  static GetSnackBar successSnackBar(
-      {String title = 'Success', @required String message}) {
+  static GetSnackBar successSnackBar({String title = 'Success', required String message}) {
     Get.log("[$title] $message");
     return GetSnackBar(
       titleText: Text(
         title.tr,
-        style: Get.textTheme.headline6.merge(
+        style: Get.textTheme.titleLarge!.merge(
           const TextStyle(color: Colors.white),
         ),
       ),
       messageText: Text(
         message,
-        style: Get.textTheme.caption.merge(
+        style: Get.textTheme.bodySmall!.merge(
           const TextStyle(color: Colors.white),
         ),
       ),
@@ -96,19 +95,18 @@ class UiTheme {
     );
   }
 
-  static GetSnackBar errorSnackBar(
-      {String title = 'Error', @required String message}) {
+  static GetSnackBar errorSnackBar({String title = 'Error', required String message}) {
     Get.log("[$title] $message", isError: true);
     return GetSnackBar(
       titleText: Text(
         title.tr,
-        style: Get.textTheme.headline6.merge(
+        style: Get.textTheme.titleLarge!.merge(
           const TextStyle(color: Colors.white),
         ),
       ),
       messageText: Text(
         message,
-        style: Get.textTheme.caption.merge(
+        style: Get.textTheme.bodySmall!.merge(
           const TextStyle(color: Colors.white),
         ),
       ),
@@ -131,7 +129,7 @@ class UiTheme {
       GetSnackBar(
         messageText: Text(
           message,
-          style: Get.textTheme.caption.merge(
+          style: Get.textTheme.bodySmall!.merge(
             const TextStyle(color: Colors.white),
           ),
         ),
@@ -156,7 +154,7 @@ class UiTheme {
       GetSnackBar(
         messageText: Text(
           message,
-          style: Get.textTheme.caption.merge(
+          style: Get.textTheme.bodySmall!.merge(
             const TextStyle(color: Colors.white),
           ),
         ),
@@ -180,8 +178,7 @@ class UiTheme {
     final appServices = Get.find<AppServices>();
     Get.dialog(
       Dialog(
-        backgroundColor:
-        (appServices.isDark.value) ? Get.theme.cardColor : Colors.white,
+        backgroundColor: (appServices.isDark.value) ? Get.theme.cardColor : Colors.white,
         insetAnimationCurve: Curves.bounceInOut,
         insetPadding: const EdgeInsets.symmetric(horizontal: 40, vertical: 40),
         shape: RoundedRectangleBorder(
@@ -195,7 +192,7 @@ class UiTheme {
             children: [
               Text(
                 'Loading'.tr,
-                style: Get.textTheme.bodyText1.copyWith(
+                style: Get.textTheme.bodyLarge!.copyWith(
                   color: Get.theme.primaryColor,
                 ),
               ),

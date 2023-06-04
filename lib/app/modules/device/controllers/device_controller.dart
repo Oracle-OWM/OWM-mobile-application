@@ -20,15 +20,15 @@ class DeviceController extends GetxController {
   ];
   final AppServices appServices = Get.find<AppServices>();
   IoTDevices deviceModel = Get.arguments['device'];
-  ChangePowerStatusModel changePowerStatusModel;
+  ChangePowerStatusModel? changePowerStatusModel;
 
   @override
   void onInit() {
-    for (int j = 0; j < deviceModel.readings.length; j++) {
-      appServices.litersSeries.add(deviceModel.readings[j].litersConsumed);
-      appServices.litersDays.add(deviceModel.readings[j].createdAt);
-      appServices.flowSeries.add(deviceModel.readings[j].flowRate);
-      appServices.flowDays.add(deviceModel.readings[j].createdAt);
+    for (int j = 0; j < deviceModel.readings!.length; j++) {
+      appServices.litersSeries.add(deviceModel.readings![j].litersConsumed!);
+      appServices.litersDays.add(deviceModel.readings![j].createdAt!);
+      appServices.flowSeries.add(deviceModel.readings![j].flowRate!);
+      appServices.flowDays.add(deviceModel.readings![j].createdAt!);
     }
 
     super.onInit();
@@ -54,15 +54,13 @@ class DeviceController extends GetxController {
       },
     ).then((value) {
       changePowerStatusModel = ChangePowerStatusModel.fromJson(value.data);
-      if (changePowerStatusModel.status == 200) {
-        appServices.startRead[deviceModel.name] = state;
-        UiTheme.successGetBar(changePowerStatusModel.message);
+      if (changePowerStatusModel!.status == 200) {
+        appServices.startRead[deviceModel.name!] = state;
+        UiTheme.successGetBar(changePowerStatusModel!.message!);
       } else {
         UiTheme.errorGetBar('Error changing the state of the device');
       }
-    }).catchError((onError) {
-      print(onError);
-    });
+    }).catchError((onError) {});
   }
 
   LineChartData loadDataLiters() {

@@ -1,8 +1,8 @@
 class LoginModel {
-  int status;
-  String errorNum;
-  String message;
-  User user;
+  int? status;
+  String? errorNum;
+  String? message;
+  User? user;
 
   LoginModel({this.status, this.errorNum, this.message, this.user});
 
@@ -19,21 +19,21 @@ class LoginModel {
     data['errorNum'] = errorNum;
     data['message'] = message;
     if (user != null) {
-      data['user'] = user.toJson();
+      data['user'] = user!.toJson();
     }
     return data;
   }
 }
 
 class User {
-  int id;
-  String username;
-  String firstName;
-  String lastName;
-  String email;
-  String phone;
-  String image;
-  TokenData tokenData;
+  int? id;
+  String? username;
+  String? firstName;
+  String? lastName;
+  String? email;
+  String? phone;
+  String? image;
+  TokenData? tokenData;
 
   User(
       {this.id,
@@ -68,16 +68,16 @@ class User {
     data['phone'] = phone;
     data['image'] = image;
     if (tokenData != null) {
-      data['token_data'] = tokenData.toJson();
+      data['token_data'] = tokenData!.toJson();
     }
     return data;
   }
 }
 
 class TokenData {
-  String accessToken;
-  String tokenType;
-  int expiresIn;
+  String? accessToken;
+  String? tokenType;
+  int? expiresIn;
 
   TokenData({this.accessToken, this.tokenType, this.expiresIn});
 

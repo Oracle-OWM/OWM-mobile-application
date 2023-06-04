@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:get/get.dart';
 import 'package:osm_v2/app/modules/home/controllers/home_controller.dart';
 import 'package:osm_v2/app/modules/home/widgets/profile_image.dart';
@@ -9,7 +7,7 @@ import 'package:osm_v2/app/modules/home/widgets/profile_image.dart';
 import 'cover_image.dart';
 
 class TopPart extends GetView<HomeController> {
-  const TopPart({Key key}) : super(key: key);
+  const TopPart({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

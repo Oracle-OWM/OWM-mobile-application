@@ -21,15 +21,15 @@ class UserDataModel {
     this.address,
   });
 
-  int id;
-  int meterId;
-  String name;
-  String email;
-  String password;
+  int? id;
+  int? meterId;
+  String? name;
+  String? email;
+  String? password;
   dynamic confirmPassword;
-  String state;
-  String phone;
-  String address;
+  String? state;
+  String? phone;
+  String? address;
 
   factory UserDataModel.fromJson(Map<String, dynamic> json) => UserDataModel(
         id: json["id"],

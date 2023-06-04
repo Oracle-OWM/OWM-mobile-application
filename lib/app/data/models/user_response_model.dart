@@ -19,13 +19,13 @@ class UserDataResponseModel {
     this.address,
   });
 
-  int id;
-  String name;
-  String email;
-  String password;
-  String state;
-  String phone;
-  String address;
+  int? id;
+  String? name;
+  String? email;
+  String? password;
+  String? state;
+  String? phone;
+  String? address;
 
   factory UserDataResponseModel.fromJson(Map<String, dynamic> json) => UserDataResponseModel(
         id: json["id"],

@@ -52,9 +52,7 @@ class TranslationService extends GetxService {
 
   getLocale() async {
     String locale = await SharedPrefsHelper.getLanguage();
-    if (locale != null) {
-      Get.updateLocale(Locale(locale));
-    }
+    Get.updateLocale(Locale(locale));
   }
 }
 

@@ -1,7 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPrefsHelper {
-  static SharedPreferences prefs;
+  static SharedPreferences? prefs;
 
 /*----------------------------------------------------------------------------*/
 /*----------------------------  Initialize Prefs  ----------------------------*/
@@ -20,13 +20,13 @@ class SharedPrefsHelper {
 
   static Future saveTheme(bool themeId) async {
     await initPrefs();
-    prefs.setBool('theme', themeId);
+    prefs!.setBool('theme', themeId);
   }
 
   static Future<bool> getTheme() async {
     await initPrefs();
-    bool themeIdSaved = prefs.getBool('theme');
-    return themeIdSaved;
+    bool? themeIdSaved = prefs!.getBool('theme');
+    return themeIdSaved!;
   }
 
 /*----------------------------------------------------------------------------*/
@@ -34,46 +34,46 @@ class SharedPrefsHelper {
 /*----------------------------------------------------------------------------*/
   static storeLanguage(String language) async {
     await initPrefs();
-    await prefs.setString("lang", language);
+    await prefs!.setString("lang", language);
   }
 
-  static Future<String> getLanguage() async {
+  static Future<String> getLanguage()  async {
     await initPrefs();
-    return prefs.getString("lang");
+    return Future.value(prefs!.getString("lang"));
   }
 
   static removeLanguage() async {
     await initPrefs();
-    prefs.remove("lang");
+    prefs!.remove("lang");
   }
 
   static storeisLoggedin(bool log) async {
     await initPrefs();
-    await prefs.setBool("Log", log);
+    await prefs!.setBool("Log", log);
   }
 
   static Future<bool> getisLoggedin() async {
     await initPrefs();
-    return prefs.getBool("Log");
+    return Future.value(prefs!.getBool("Log"));
   }
 
   static removeisLoggedin() async {
     await initPrefs();
-    prefs.remove("Log");
+    prefs!.remove("Log");
   }
 
   static storePic(String path) async {
     await initPrefs();
-    await prefs.setString("path", path);
+    await prefs!.setString("path", path);
   }
 
   static Future<String> getPic() async {
     await initPrefs();
-    return prefs.getString("path");
+    return Future.value(prefs!.getString("path"));
   }
 
   static removePic() async {
     await initPrefs();
-    prefs.remove("path");
+    prefs!.remove("path");
   }
 }
