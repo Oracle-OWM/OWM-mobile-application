@@ -28,7 +28,7 @@ class DeviceAndLeakageDetection extends GetView<HomeController> {
                 height: 10,
               ),
               Text(
-                controller.loginData.user!.firstName!,
+                controller.appServices.loginData!.user!.firstName!,
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,

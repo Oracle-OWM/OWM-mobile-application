@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:osm_v2/app/data/models/login_model.dart';
 
 import 'shared_prefs.dart';
 
@@ -14,16 +15,17 @@ class AppServices extends GetxService {
   RxString accessToken = ''.obs;
   RxMap<String, dynamic> startRead = <String, dynamic>{}.obs;
   RxMap<String, dynamic> flowStatus = <String, dynamic>{}.obs;
+  LoginModel? loginData;
 
   RxList<int> flowSeries = <int>[].obs;
   RxList<String> flowDays = <String>[].obs;
-  @override
-  onInit() {
-    super.onInit();
-    getisLoggedinFromPrefs();
-    getThemeFromPrefs();
-    getprofileImage();
-  }
+  // @override
+  // onInit() {
+  //   super.onInit();
+  // getisLoggedinFromPrefs();
+  // getThemeFromPrefs();
+  // getprofileImage();
+  // }
   /*--------------------------------------------------------------------------*/
   /*---------------------------  Save Functions  -----------------------------*/
   /*--------------------------------------------------------------------------*/

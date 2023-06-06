@@ -1,25 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:osm_v2/app/core/constants/service_functions.dart';
 import 'package:osm_v2/app/routes/app_pages.dart';
 import 'app/data/services/app_services.dart';
-import 'app/data/services/shared_helper.dart';
 import 'app/data/services/theme.dart';
 import 'app/data/services/translation_service.dart';
 import 'app/data/services/translations.dart';
 
-Future<void> initServices() async {
-  Get.log('starting services ...');
-
-  await Get.putAsync<AppServices>(() async => AppServices());
-  await SharedHelper.init();
-  // await DioHelper.init();
-  await Get.putAsync<TranslationService>(() async => TranslationService());
-  Get.log('All Services Started ...');
-}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initServices();
+  await ServicesFunctions.initServices();
   runApp(MyApp());
 }
 

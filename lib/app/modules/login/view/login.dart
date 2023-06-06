@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:osm_v2/app/data/services/dio_helper.dart';
+import 'package:osm_v2/app/core/constants/colors.dart';
+import 'package:osm_v2/app/core/constants/extensions.dart';
+import 'package:osm_v2/app/core/constants/images.dart';
+import 'package:osm_v2/app/core/constants/padding.dart';
+import 'package:osm_v2/app/core/constants/sizes.dart';
+import 'package:osm_v2/app/core/constants/strings.dart';
 import 'package:osm_v2/app/modules/login/controller/login_controller.dart';
-
-import 'forget.dart';
+import 'package:osm_v2/app/routes/app_pages.dart';
 
 class Login extends GetView<LoginController> {
   const Login({Key? key}) : super(key: key);
@@ -17,9 +21,9 @@ class Login extends GetView<LoginController> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                'assets/logo.png',
-                width: 230,
-                height: 230,
+                ImagesManager.appLogo,
+                width: SizeManager.applogoWidth,
+                height: SizeManager.applogoHeight,
               ),
               Center(
                 child: Form(
@@ -27,20 +31,20 @@ class Login extends GetView<LoginController> {
                   child: Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(top: 10, right: 20, left: 20),
+                        padding: const EdgeInsets.only(top: PaddingManager.p10, right: PaddingManager.p20, left: PaddingManager.p20),
                         child: TextFormField(
                           style: TextStyle(
-                            color: controller.appServices.isDark.value ? Colors.white : Colors.black,
+                            color: controller.appServices.isDark.value ? ColorsManager.white : ColorsManager.black,
                           ),
                           controller: controller.email,
                           keyboardType: TextInputType.name,
                           decoration: InputDecoration(
-                            labelText: "User".tr,
-                            hintText: "user validate empty".tr,
+                            labelText: StringsManager.userLoginText,
+                            hintText: StringsManager.userLoginHint,
                             border: const OutlineInputBorder(),
                             prefixIcon: const Icon(
                               Icons.person,
-                              color: Color.fromRGBO(34, 177, 76, 1),
+                              color: ColorsManager.userIconColor,
                             ),
                           ),
                           validator: (String? value) {
@@ -55,7 +59,7 @@ class Login extends GetView<LoginController> {
                           },
                         ),
                       ),
-                      const SizedBox(height: 10),
+                      10.height,
                       Obx(
                         () => Padding(
                           padding: const EdgeInsets.only(right: 20, left: 20),
@@ -94,39 +98,11 @@ class Login extends GetView<LoginController> {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 20, left: 20),
-                        child: TextFormField(
-                          style: TextStyle(
-                            color: controller.appServices.isDark.value ? Colors.white : Colors.black,
-                          ),
-                          controller: controller.ip,
-                          keyboardType: TextInputType.text,
-                          decoration: InputDecoration(
-                            labelText: 'IP'.tr,
-                            hintText: "Enter Server's IP".tr,
-                            border: const OutlineInputBorder(),
-                            prefixIcon: const Icon(Icons.electrical_services_rounded, color: Color.fromRGBO(34, 177, 76, 1)),
-                          ),
-                          validator: (String? value) {
-                            if (value!.isEmpty) {
-                              return "please Enter IP".tr;
-                            } else if (value.length < 6) {
-                              return "6 digit".tr;
-                            } else {
-                              return null;
-                            }
-                          },
-                          onSaved: (String? value) {
-                            controller.serverIP = value!;
-                          },
-                        ),
-                      ),
                     ],
                   ),
                 ),
               ),
-              const SizedBox(height: 30),
+              30.height,
               MaterialButton(
                 padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
                 shape: const StadiumBorder(),
@@ -145,8 +121,6 @@ class Login extends GetView<LoginController> {
                 onPressed: () async {
                   if (controller.formKey.currentState!.validate()) {
                     controller.formKey.currentState!.save();
-                    // print('object');
-                    DioHelper.init(path: controller.serverIP);
                     controller.login(
                       username: controller.mail,
                       password: controller.passwd,
@@ -154,14 +128,16 @@ class Login extends GetView<LoginController> {
                   }
                 },
               ),
-              const SizedBox(height: 7),
+              7.height,
               TextButton(
-                child: Text("Forgot Password?".tr,
-                    style: TextStyle(
-                      color: controller.appServices.isDark.value ? Colors.white : Colors.black,
-                      fontSize: 17,
-                    )),
-                onPressed: () => Get.offAll(const Forget()),
+                child: Text(
+                  "Forgot Password?".tr,
+                  style: TextStyle(
+                    color: controller.appServices.isDark.value ? Colors.white : Colors.black,
+                    fontSize: 17,
+                  ),
+                ),
+                onPressed: () => Get.toNamed(Routes.forgetPasswordView),
               )
             ],
           ),

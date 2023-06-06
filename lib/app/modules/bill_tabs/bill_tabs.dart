@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:osm_v2/app/modules/home/view/home_view.dart';
+import 'package:osm_v2/app/modules/payment/view/payment_view.dart';
 import '../../data/services/app_services.dart';
 
 import 'package:get/get.dart';
 
-import '../pay.dart';
 import '../show_prev.dart';
 
 class BillTabs extends StatelessWidget {
@@ -39,7 +39,7 @@ class BillTabs extends StatelessWidget {
         ),
         body: const TabBarView(
           children: [
-            Pay(),
+            PaymentView(),
             ShowPrev(),
           ],
         ),

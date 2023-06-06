@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:osm_v2/app/data/models/all_devices_model.dart';
 import 'package:osm_v2/app/data/models/device_model.dart';
-import 'package:osm_v2/app/data/models/login_model.dart';
 import 'package:osm_v2/app/data/services/dio_helper.dart';
 import 'package:osm_v2/app/data/services/end_points.dart';
 import 'package:osm_v2/app/data/services/theme.dart';
@@ -18,7 +17,6 @@ class HomeController extends GetxController {
   final appServices = Get.find<AppServices>();
   final double coverHeight = 280;
   final double profileHeight = 144;
-  LoginModel loginData = Get.arguments['data'];
   DeviceModel? deviceModel;
   AllDevicesModel? allDevicesModel;
   RxBool loading = false.obs;
@@ -55,7 +53,7 @@ class HomeController extends GetxController {
     dataReturned.value = false;
     await DioHelper.getData(
       url: EndPoints.getAssociateUser,
-      token: loginData.user!.tokenData!.accessToken,
+      token: appServices.loginData!.user!.tokenData!.accessToken,
     ).then((value) {
       allDevicesModel = AllDevicesModel.fromJson(value.data);
       if (allDevicesModel!.status == 200) {

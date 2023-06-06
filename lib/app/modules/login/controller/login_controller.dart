@@ -31,30 +31,33 @@ class LoginController extends GetxController {
       // UiTheme.successGetBar(loginModel.message);
       if (loginModel!.status == 200) {
         appServices.accessToken.value = loginModel!.user!.tokenData!.accessToken!;
+        appServices.loginData = loginModel;
         Get.offAllNamed(Routes.home, arguments: {'data': loginModel});
       } else {
-        Get.dialog(Dialog(
-          backgroundColor: (appServices.isDark.value) ? Colors.grey.shade700 : Colors.white,
-          insetPadding: const EdgeInsets.all(20),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "invalid".tr,
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: appServices.isDark.value ? Colors.white : Colors.black,
+        Get.dialog(
+          Dialog(
+            backgroundColor: (appServices.isDark.value) ? Colors.grey.shade700 : Colors.white,
+            insetPadding: const EdgeInsets.all(20),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "invalid".tr,
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: appServices.isDark.value ? Colors.white : Colors.black,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ));
+        );
       }
     }).catchError((onError) {
       if (kDebugMode) {

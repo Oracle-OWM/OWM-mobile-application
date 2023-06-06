@@ -4,8 +4,7 @@ import 'package:get/get.dart';
 import 'package:osm_v2/app/data/services/app_services.dart';
 import 'package:osm_v2/app/modules/home/view/home_view.dart';
 import '../data/services/translation_service.dart';
-import 'login/view/edit.dart';
-import 'login/view/edit_password.dart';
+
 
 class SettingPageUI extends StatefulWidget {
   const SettingPageUI({Key? key}) : super(key: key);
@@ -161,19 +160,19 @@ class SettingPageUIState extends State<SettingPageUI> {
                 const Divider(height: 20, thickness: 1),
                 const SizedBox(height: 10),
                 buildAccountOption(context, 'edit username'.tr, () {
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (contest) => const EditProfileUI(),
-                    ),
-                  );
+                  // Navigator.of(context).pushReplacement(
+                  //   MaterialPageRoute(
+                  //     builder: (contest) => const EditProfileUI(),
+                  //   ),
+                  // );
                 }),
                 const SizedBox(height: 30),
                 buildAccountOption(context, 'edit pass'.tr, () {
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (contest) => const EditPasswordView(),
-                    ),
-                  );
+                  // Navigator.of(context).pushReplacement(
+                  //   MaterialPageRoute(
+                  //     builder: (contest) => const EditPasswordView(),
+                  //   ),
+                  // );
                 }),
               ],
             )));

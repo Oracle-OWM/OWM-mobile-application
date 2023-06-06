@@ -6,4 +6,6 @@ abstract class Routes {
   static const String home = '/home';
   static const String deviceView = '/device-view';
   static const String deviceAndLeakageDetection = '/device-And-Leakage-Detection';
+  static const String paymentView = '/payment-view';
+  static const String forgetPasswordView = '/forget-password-view';
 }
