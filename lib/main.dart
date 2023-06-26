@@ -7,7 +7,6 @@ import 'app/data/services/theme.dart';
 import 'app/data/services/translation_service.dart';
 import 'app/data/services/translations.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await ServicesFunctions.initServices();
@@ -38,7 +37,7 @@ class MyApp extends StatelessWidget {
         title: 'OWM',
         theme: UiTheme.light,
         darkTheme: UiTheme.dark,
-        initialRoute: Routes.splash,
+        initialRoute: Routes.login,
         getPages: AppPages.routes,
         defaultTransition: Transition.zoom,
       ),

@@ -35,7 +35,8 @@ class About extends StatelessWidget {
             padding: EdgeInsets.all(8.0),
             child: Card(
               clipBehavior: Clip.antiAliasWithSaveLayer,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(15))),
               child: Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Column(
@@ -54,10 +55,13 @@ class About extends StatelessWidget {
               ),
             ),
           ),
-          everyone("assets/Noor.jpg", "Noor El Deen Magdy", "Software Engineer"),
-          everyone("assets/Rawan.png", "Rawan Mahmoud", "Pharmaceutical Analyst"),
+          everyone(
+              "assets/Noor.jpg", "Noor El Deen Magdy", "Software Engineer"),
+          everyone(
+              "assets/Rawan.png", "Rawan Mahmoud", "Pharmaceutical Analyst"),
           everyone("assets/Asmaa.png", "Asmaa Latif", "Embedded Systems"),
-          everyone("assets/Moutaz.png", "Moutaz Bellah Hosni", "Business Analyst"),
+          everyone(
+              "assets/Moutaz.png", "Moutaz Bellah Hosni", "Business Analyst"),
         ],
       ),
     );
@@ -68,7 +72,8 @@ class About extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Card(
         clipBehavior: Clip.antiAliasWithSaveLayer,
-        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(15))),
         child: Row(
           children: [
             Padding(
@@ -90,7 +95,8 @@ class About extends StatelessWidget {
                 Text(
                   name,
                   textAlign: TextAlign.left,
-                  style: const TextStyle(fontSize: 18, color: Color.fromRGBO(0, 154, 202, 1)),
+                  style: const TextStyle(
+                      fontSize: 18, color: Color.fromRGBO(0, 154, 202, 1)),
                 ),
                 const SizedBox(height: 8),
                 Text(
@@ -98,7 +104,8 @@ class About extends StatelessWidget {
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontSize: 14,
-                    color: appServices.isDark.value ? Colors.white : Colors.black,
+                    color:
+                        appServices.isDark.value ? Colors.white : Colors.black,
                   ),
                 ),
               ],

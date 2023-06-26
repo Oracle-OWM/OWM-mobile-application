@@ -22,7 +22,8 @@ class HomeView extends GetView<HomeController> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CircularProgressIndicator(),
-                        Text('Trying to get the Device data please wait, if this takes long check your connection'),
+                        Text(
+                            'Trying to get the Device data please wait, if this takes long check your connection'),
                       ],
                     ),
                   )

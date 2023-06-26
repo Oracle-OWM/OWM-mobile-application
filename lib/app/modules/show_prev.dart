@@ -3,12 +3,9 @@ import 'package:osm_v2/app/data/services/translation_service.dart';
 import 'package:osm_v2/app/modules/previous.dart';
 import '../data/models/previous_model.dart';
 import '../data/services/app_services.dart';
-import '../data/services/network_helper.dart';
 
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-
-import '../data/services/shared_helper.dart';
 
 class ShowPrev extends StatefulWidget {
   const ShowPrev({Key? key}) : super(key: key);
@@ -18,26 +15,26 @@ class ShowPrev extends StatefulWidget {
 }
 
 class _ShowPrevState extends State<ShowPrev> {
-  final NetworkHelper _networkHelper = NetworkHelper();
-  void getData() async {
-    setState(() {
-      loading = true;
-    });
-    var url = "https://rooot.azurewebsites.net/payment/get/by/date?userId=${SharedHelper.getId()}&date=$start";
-    var response = await _networkHelper.get(url);
-    if (response.statusCode == 200) {
-      List<PreviousModel> tempdata = previousModelFromJson(response.body);
+  // final NetworkHelper _networkHelper = NetworkHelper();
+  // void getData() async {
+  //   setState(() {
+  //     loading = true;
+  //   });
+  //   var url = "https://rooot.azurewebsites.net/payment/get/by/date?userId=${SharedHelper.getId()}&date=$start";
+  //   var response = await _networkHelper.get(url);
+  //   if (response.statusCode == 200) {
+  //     List<PreviousModel> tempdata = previousModelFromJson(response.body);
 
-      setState(() {
-        loading = false;
-        previousModel = tempdata;
-      });
-    } else {
-      setState(() {
-        loading = false;
-      });
-    }
-  }
+  //     setState(() {
+  //       loading = false;
+  //       previousModel = tempdata;
+  //     });
+  //   } else {
+  //     setState(() {
+  //       loading = false;
+  //     });
+  //   }
+  // }
 
   List<PreviousModel> previousModel = [];
   final translationServices = Get.find<TranslationService>();
@@ -77,7 +74,9 @@ class _ShowPrevState extends State<ShowPrev> {
                       ).then((date) {
                         setState(() {
                           _startTime = date;
-                          start = DateFormat('yyyy-MM-dd').format(_startTime!).toString();
+                          start = DateFormat('yyyy-MM-dd')
+                              .format(_startTime!)
+                              .toString();
                         });
                       });
                     },
@@ -87,7 +86,8 @@ class _ShowPrevState extends State<ShowPrev> {
                 Text(
                   _startTime == null ? 'nothing'.tr : (start!),
                   style: TextStyle(
-                    color: appServices.isDark.value ? Colors.white : Colors.black,
+                    color:
+                        appServices.isDark.value ? Colors.white : Colors.black,
                     fontSize: 16,
                   ),
                 ),
@@ -99,7 +99,8 @@ class _ShowPrevState extends State<ShowPrev> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 MaterialButton(
-                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
                   shape: const StadiumBorder(),
                   color: const Color.fromRGBO(0, 154, 202, 1),
                   child: Text(
