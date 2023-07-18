@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:osm_v2/app/core/constants/service_functions.dart';
 import 'package:osm_v2/app/routes/app_pages.dart';
+
 import 'app/data/services/app_services.dart';
 import 'app/data/services/theme.dart';
 import 'app/data/services/translation_service.dart';
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
         initialRoute: Routes.splash,
         getPages: AppPages.routes,
         defaultTransition: Transition.zoom,
+
       ),
     );
   }
