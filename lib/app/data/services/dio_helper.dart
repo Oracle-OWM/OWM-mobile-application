@@ -6,7 +6,7 @@ class DioHelper {
   static init({path})  {
     dio = Dio(
       BaseOptions(
-        baseUrl: 'http://$path/api/auth/user/',
+        baseUrl: path,
         receiveDataWhenStatusError: false,
       ),
     );

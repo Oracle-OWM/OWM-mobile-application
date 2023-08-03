@@ -8,4 +8,8 @@ abstract class Routes {
   static const String deviceAndLeakageDetection = '/device-And-Leakage-Detection';
   static const String paymentView = '/payment-view';
   static const String forgetPasswordView = '/forget-password-view';
+  static const String questions = '/questions';
+  static const String contacts = '/contacts';
+  static const String aboutUs = '/aboutUs';
+  static const String settings = '/settings';
 }

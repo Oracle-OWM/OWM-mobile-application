@@ -14,7 +14,8 @@ class PageCard extends GetView<HomeController> {
       padding: const EdgeInsets.all(8.0),
       child: Card(
         clipBehavior: Clip.antiAliasWithSaveLayer,
-        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(15))),
         child: SizedBox(
           height: 180,
           child: Column(
@@ -27,7 +28,7 @@ class PageCard extends GetView<HomeController> {
                     image: AssetImage(
                       img!,
                     ),
-                    fit: BoxFit.cover,
+                    fit: BoxFit.fitHeight,
                   ),
                 ),
                 child: ListTile(
@@ -38,9 +39,12 @@ class PageCard extends GetView<HomeController> {
                 onTap: onTapp,
                 title: Text(tit!,
                     style: TextStyle(
-                      color: controller.appServices.isDark.value ? Colors.white : Colors.black,
+                      color: controller.appServices.isDark.value
+                          ? Colors.white
+                          : Colors.black,
                     )),
-                trailing: const Icon(Icons.keyboard_arrow_right_outlined, color: Color.fromRGBO(0, 154, 202, 1)),
+                trailing: const Icon(Icons.keyboard_arrow_right_outlined,
+                    color: Color.fromRGBO(0, 154, 202, 1)),
               ),
             ],
           ),

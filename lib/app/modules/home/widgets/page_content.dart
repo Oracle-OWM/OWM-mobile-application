@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
-
+import 'package:osm_v2/app/core/constants/strings.dart';
 import 'package:osm_v2/app/modules/home/controllers/home_controller.dart';
 import 'package:osm_v2/app/routes/app_pages.dart';
-
-import '../../about_us/about_us.dart';
-import '../../contact.dart';
-import '../../question.dart';
-import '../../setting_page.dart';
 import 'card.dart';
 
 class PageContent extends GetView<HomeController> {
@@ -27,13 +22,16 @@ class PageContent extends GetView<HomeController> {
             style: TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.bold,
-              color: controller.appServices.isDark.value ? Colors.white : Colors.black,
+              color: controller.appServices.isDark.value
+                  ? Colors.white
+                  : Colors.black,
             ),
           ),
           InkWell(
             onTap: () async {
               // controller.readNewMessage();
-              String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode('red', 'cancel', false, ScanMode.QR);
+              String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+                  'red', 'cancel', false, ScanMode.QR);
               if (barcodeScanRes != '-1') {
                 controller.postDevice(barcodeScanRes);
               }
@@ -46,19 +44,17 @@ class PageContent extends GetView<HomeController> {
           const SizedBox(height: 16),
           const Divider(),
           PageCard(
-            img: "assets/pay.jpg",
+            img: StringsManager.pay,
             tit: "Consumption".tr,
-            onTapp: () {
-              Get.toNamed(
-                Routes.deviceView,
-                arguments: {
-                  'device': controller.allDevicesModel!.ioTDevices![0],
-                },
-              );
-            },
+            onTapp: () => Get.toNamed(
+              Routes.deviceView,
+              arguments: {
+                'device': controller.allDevicesModel!.ioTDevices![0],
+              },
+            ),
           ),
           PageCard(
-            img: "assets/leakk.jpg",
+            img: StringsManager.leak,
             tit: "Device and Leakage Detection".tr,
             onTapp: () {
               controller.appServices.changeisLoggedin(false);
@@ -66,50 +62,30 @@ class PageContent extends GetView<HomeController> {
             },
           ),
           PageCard(
-            img: "assets/faq.jpg",
+            img: StringsManager.faq,
             tit: "FAQ".tr,
-            onTapp: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (contest) => Questions(),
-                ),
-              );
-            },
+            onTapp: () => Get.toNamed(Routes.questions),
           ),
           PageCard(
-            img: "assets/contact.jpg",
+            img: StringsManager.contact,
             tit: "Contact".tr,
             onTapp: () {
               controller.appServices.changeisLoggedin(false);
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (contest) => Contact(),
-                ),
-              );
+              Get.toNamed(Routes.contacts);
             },
           ),
           PageCard(
-            img: "assets/about.jpg",
+            img: StringsManager.about,
             tit: "About us".tr,
             onTapp: () {
               controller.appServices.changeisLoggedin(false);
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (contest) => About(),
-                ),
-              );
+              Get.toNamed(Routes.aboutUs);
             },
           ),
           PageCard(
-            img: 'assets/setting.jpg',
+            img: StringsManager.settings,
             tit: "Settings".tr,
-            onTapp: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (contest) => const SettingPageUI(),
-                ),
-              );
-            },
+            onTapp: () => Get.toNamed(Routes.settings),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -124,15 +100,21 @@ class PageContent extends GetView<HomeController> {
                 height: 50,
                 width: double.infinity,
                 child: ListTile(
-                  onTap: () {
-                    Get.offAllNamed(Routes.login);
-                  },
-                  leading: const Icon(Icons.logout_outlined, color: Color.fromRGBO(0, 154, 202, 1)),
-                  title: Text("Logout".tr,
-                      style: TextStyle(
-                        color: controller.appServices.isDark.value ? Colors.white : Colors.black,
-                      )),
-                  trailing: const Icon(Icons.keyboard_arrow_right_outlined, color: Color.fromRGBO(0, 154, 202, 1)),
+                  onTap: () => Get.offAllNamed(Routes.login),
+                  leading: const Icon(
+                    Icons.logout_outlined,
+                    color: Color.fromRGBO(0, 154, 202, 1),
+                  ),
+                  title: Text(
+                    "Logout".tr,
+                    style: TextStyle(
+                      color: controller.appServices.isDark.value
+                          ? Colors.white
+                          : Colors.black,
+                    ),
+                  ),
+                  trailing: const Icon(Icons.keyboard_arrow_right_outlined,
+                      color: Color.fromRGBO(0, 154, 202, 1)),
                 ),
               ),
             ),

@@ -31,10 +31,15 @@ class Login extends GetView<LoginController> {
                   child: Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(top: PaddingManager.p10, right: PaddingManager.p20, left: PaddingManager.p20),
+                        padding: const EdgeInsets.only(
+                            top: PaddingManager.p10,
+                            right: PaddingManager.p20,
+                            left: PaddingManager.p20),
                         child: TextFormField(
                           style: TextStyle(
-                            color: controller.appServices.isDark.value ? ColorsManager.white : ColorsManager.black,
+                            color: controller.appServices.isDark.value
+                                ? ColorsManager.white
+                                : ColorsManager.black,
                           ),
                           controller: controller.email,
                           keyboardType: TextInputType.name,
@@ -65,7 +70,9 @@ class Login extends GetView<LoginController> {
                           padding: const EdgeInsets.only(right: 20, left: 20),
                           child: TextFormField(
                             style: TextStyle(
-                              color: controller.appServices.isDark.value ? Colors.white : Colors.black,
+                              color: controller.appServices.isDark.value
+                                  ? Colors.white
+                                  : Colors.black,
                             ),
                             obscureText: controller.check.value,
                             controller: controller.pass,
@@ -74,12 +81,15 @@ class Login extends GetView<LoginController> {
                               labelText: 'Password'.tr,
                               hintText: "pass validate empty".tr,
                               border: const OutlineInputBorder(),
-                              prefixIcon: const Icon(Icons.lock, color: Color.fromRGBO(34, 177, 76, 1)),
+                              prefixIcon: const Icon(Icons.lock,
+                                  color: Color.fromRGBO(34, 177, 76, 1)),
                               suffixIcon: IconButton(
-                                  icon: const Icon(Icons.remove_red_eye, color: Color.fromRGBO(34, 177, 76, 1)),
+                                  icon: const Icon(Icons.remove_red_eye,
+                                      color: Color.fromRGBO(34, 177, 76, 1)),
                                   onPressed: () {
                                     // print(controller.check);
-                                    controller.check.value = !controller.check.value;
+                                    controller.check.value =
+                                        !controller.check.value;
                                   }),
                             ),
                             validator: (String? value) {
@@ -91,20 +101,20 @@ class Login extends GetView<LoginController> {
                                 return null;
                               }
                             },
-                            onSaved: (String? value) {
-                              controller.passwd = value!;
-                            },
+                            onSaved: (String? value) =>
+                                controller.passwd = value!,
                           ),
                         ),
                       ),
-                      const SizedBox(height: 10),
+                      10.height,
                     ],
                   ),
                 ),
               ),
               30.height,
               MaterialButton(
-                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
                 shape: const StadiumBorder(),
                 color: const Color.fromRGBO(0, 154, 202, 1),
                 child: controller.load
@@ -133,7 +143,9 @@ class Login extends GetView<LoginController> {
                 child: Text(
                   "Forgot Password?".tr,
                   style: TextStyle(
-                    color: controller.appServices.isDark.value ? Colors.white : Colors.black,
+                    color: controller.appServices.isDark.value
+                        ? Colors.white
+                        : Colors.black,
                     fontSize: 17,
                   ),
                 ),

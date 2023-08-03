@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:osm_v2/app/modules/home/controllers/home_controller.dart';
 import 'package:osm_v2/app/modules/home/widgets/page_content.dart';
@@ -16,14 +15,16 @@ class HomeView extends GetView<HomeController> {
           padding: EdgeInsets.zero,
           children: [
             const TopPart(),
-            !controller.dataReturned.value
+            controller.dataReturned.value
                 ? const Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CircularProgressIndicator(),
-                        Text(
-                            'Trying to get the Device data please wait, if this takes long check your connection'),
+                        Center(
+                          child: Text(
+                              'Trying to get the Device data please wait, if this takes long check your connection'),
+                        ),
                       ],
                     ),
                   )

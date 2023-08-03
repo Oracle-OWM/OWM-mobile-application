@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:osm_v2/app/data/services/theme.dart';
 import 'package:osm_v2/app/routes/app_pages.dart';
 
 import '../../../data/models/login_model.dart';
@@ -28,7 +29,7 @@ class LoginController extends GetxController {
       data: {'identifier': username, 'password': password},
     ).then((value) async {
       loginModel = LoginModel.fromJson(value.data);
-      // UiTheme.successGetBar(loginModel.message);
+      UiTheme.successGetBar(loginModel!.message!);
       if (loginModel!.status == 200) {
         appServices.accessToken.value =
             loginModel!.user!.tokenData!.accessToken!;

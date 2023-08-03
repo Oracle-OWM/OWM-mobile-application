@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
         title: 'OWM',
         theme: UiTheme.light,
         darkTheme: UiTheme.dark,
-        initialRoute: Routes.splash,
+        initialRoute: Routes.login,
         getPages: AppPages.routes,
         defaultTransition: Transition.zoom,
 
