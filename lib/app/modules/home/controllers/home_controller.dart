@@ -27,9 +27,9 @@ class HomeController extends GetxController {
   WebSocketChannel? channel;
   @override
   void onInit() {
-    // openSocket();
+    openSocket();
     getAllDevices();
-    // readNewMessage();
+    readNewMessage();
     super.onInit();
   }
 

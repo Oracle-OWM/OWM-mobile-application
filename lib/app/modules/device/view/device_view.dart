@@ -79,7 +79,7 @@ class DeviceView extends GetView<DeviceController> {
                                   child: Row(
                                     children: [
                                       controller.startDate.value.subtitle(),
-                                      ' - '.subtitle(),
+                                      ' to '.subtitle(),
                                       controller.endDate.value.subtitle(),
                                     ],
                                   ),
@@ -144,7 +144,7 @@ class DeviceView extends GetView<DeviceController> {
                                   child: Row(
                                     children: [
                                       controller.startDate.value.subtitle(),
-                                      ' - '.subtitle(),
+                                      ' to '.subtitle(),
                                       controller.endDate.value.subtitle(),
                                     ],
                                   ),
