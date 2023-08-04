@@ -60,6 +60,13 @@ class AppServices extends GetxService {
   }
 
   /*--------------------------------------------------------------------------*/
-  /*--------------------------  user info  Functions  ----------------------------*/
+  /*--------------------  Consumption Clear  Function  -----------------------*/
   /*--------------------------------------------------------------------------*/
+
+  void clearConsumptionLists() {
+    litersSeries.value = [];
+    litersDays.value = [];
+    flowDays.value = [];
+    flowSeries.value = [];
+  }
 }

@@ -15,7 +15,7 @@ class HomeView extends GetView<HomeController> {
           padding: EdgeInsets.zero,
           children: [
             const TopPart(),
-            controller.dataReturned.value
+            !controller.dataReturned.value
                 ? const Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,

@@ -15,11 +15,13 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_barcode_scanner: ^2.0.0
+  flutter_svg_provider: ^1.0.4
   get: ^4.6.5
   image_picker: ^1.0.1
   intl: ^0.18.1
   percent_indicator: ^4.2.3
   shared_preferences: ^2.0.13
+  syncfusion_flutter_datepicker: ^22.2.7
   url_launcher: ^6.1.11
   web_socket_channel: ^2.4.0
 

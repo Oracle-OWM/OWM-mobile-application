@@ -1,7 +1,8 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
+import 'package:osm_v2/app/core/constants/extensions.dart';
+import 'package:osm_v2/app/core/constants/strings.dart';
 import 'package:osm_v2/app/modules/device/controllers/device_controller.dart';
 
 class DeviceView extends GetView<DeviceController> {
@@ -15,13 +16,13 @@ class DeviceView extends GetView<DeviceController> {
         child: Scaffold(
           appBar: AppBar(
             title: Text(controller.deviceModel.name!),
-            bottom: const TabBar(
+            bottom: TabBar(
               tabs: [
                 Tab(
                   child: Text(
                     'Liters Consumed',
                     style: TextStyle(
-                      color: Colors.black,
+                      color: controller.appServices.isDark.value ? Colors.white : Colors.black,
                     ),
                   ),
                 ),
@@ -29,7 +30,7 @@ class DeviceView extends GetView<DeviceController> {
                   child: Text(
                     'Flow Rate',
                     style: TextStyle(
-                      color: Colors.black,
+                      color: controller.appServices.isDark.value ? Colors.white : Colors.black,
                     ),
                   ),
                 ),
@@ -38,29 +39,17 @@ class DeviceView extends GetView<DeviceController> {
             actions: [
               InkWell(
                 onTap: () {
-                  controller.appServices
-                              .startRead[controller.deviceModel.name] ==
-                          1
-                      ? controller.changePowerStatus(
-                          controller.deviceModel.token!, 0)
-                      : controller.changePowerStatus(
-                          controller.deviceModel.token!, 1);
+                  controller.appServices.startRead[controller.deviceModel.name] == 1
+                      ? controller.changePowerStatus(controller.deviceModel.token!, 0)
+                      : controller.changePowerStatus(controller.deviceModel.token!, 1);
                 },
                 child: Icon(
-                  controller.appServices
-                              .startRead[controller.deviceModel.name] ==
-                          0
-                      ? Icons.pause
-                      : Icons.play_arrow,
+                  controller.appServices.startRead[controller.deviceModel.name] == 0 ? Icons.pause : Icons.play_arrow,
                   size: 30,
                 ),
               ),
               Icon(
-                controller.appServices
-                            .flowStatus[controller.deviceModel.name] ==
-                        'normal'
-                    ? Icons.device_hub
-                    : Icons.error_outline,
+                controller.appServices.flowStatus[controller.deviceModel.name] == 'normal' ? Icons.device_hub : Icons.error_outline,
                 size: 30,
               ),
             ],
@@ -73,30 +62,60 @@ class DeviceView extends GetView<DeviceController> {
                   child: Center(
                     child: SizedBox(
                       width: Get.width,
-                      child: Stack(
+                      child: Column(
                         children: <Widget>[
-                          AspectRatio(
-                            aspectRatio: 1.50,
-                            child: DecoratedBox(
-                              decoration: const BoxDecoration(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(18),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              'Choose Date'.title(),
+                              InkWell(
+                                onTap: () => controller.openDateDialog(),
+                                child: Container(
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(width: 2, color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(40),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      controller.startDate.value.subtitle(),
+                                      ' - '.subtitle(),
+                                      controller.endDate.value.subtitle(),
+                                    ],
+                                  ),
                                 ),
-                                color: Color(0xff232d37),
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                  right: 18,
-                                  left: 12,
-                                  top: 24,
-                                  bottom: 32,
-                                ),
-                                child: LineChart(
-                                  controller.loadDataLiters(),
-                                ),
+                              InkWell(
+                                onTap: () => controller.openDateDialog(),
+                                child: 'date'.icon(),
                               ),
-                            ),
+                            ],
                           ),
+                          80.height,
+                          controller.emptyConsumption.value == StringsManager.emptyConsumptionErrorText
+                              ? controller.emptyConsumption.value.title()
+                              : AspectRatio(
+                                  aspectRatio: 1.50,
+                                  child: DecoratedBox(
+                                    decoration: const BoxDecoration(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(18),
+                                      ),
+                                      color: Color(0xff232d37),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                        right: 18,
+                                        left: 12,
+                                        top: 24,
+                                        bottom: 32,
+                                      ),
+                                      child: LineChart(
+                                        controller.loadDataLiters(),
+                                      ),
+                                    ),
+                                  ),
+                                ),
                         ],
                       ),
                     ),
@@ -108,30 +127,60 @@ class DeviceView extends GetView<DeviceController> {
                   child: Center(
                     child: SizedBox(
                       width: Get.width,
-                      child: Stack(
+                      child: Column(
                         children: <Widget>[
-                          AspectRatio(
-                            aspectRatio: 1.50,
-                            child: DecoratedBox(
-                              decoration: const BoxDecoration(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(18),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              'Choose Date'.title(),
+                              InkWell(
+                                onTap: () => controller.openDateDialog(),
+                                child: Container(
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(width: 2, color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(40),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      controller.startDate.value.subtitle(),
+                                      ' - '.subtitle(),
+                                      controller.endDate.value.subtitle(),
+                                    ],
+                                  ),
                                 ),
-                                color: Color(0xff232d37),
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                  right: 18,
-                                  left: 12,
-                                  top: 24,
-                                  bottom: 32,
-                                ),
-                                child: LineChart(
-                                  controller.loadDataFlow(),
-                                ),
+                              InkWell(
+                                onTap: () => controller.openDateDialog(),
+                                child: 'date'.icon(),
                               ),
-                            ),
+                            ],
                           ),
+                          80.height,
+                          controller.emptyConsumption.value == StringsManager.emptyConsumptionErrorText
+                              ? controller.emptyConsumption.value.title()
+                              : AspectRatio(
+                                  aspectRatio: 1.50,
+                                  child: DecoratedBox(
+                                    decoration: const BoxDecoration(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(18),
+                                      ),
+                                      color: Color(0xff232d37),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                        right: 18,
+                                        left: 12,
+                                        top: 24,
+                                        bottom: 32,
+                                      ),
+                                      child: LineChart(
+                                        controller.loadDataFlow(),
+                                      ),
+                                    ),
+                                  ),
+                                ),
                         ],
                       ),
                     ),

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:get/get.dart';
+import 'package:osm_v2/app/core/constants/strings.dart';
 
 extension CustomBoxDecoration on Widget {
-  Widget decorate({Color? color, double? radius, double? width, double? height, double? padding, required BuildContext context}) {
+  Widget decorate({Color? color, double? radius, double? width, double? height, double? padding}) {
     return Container(
       width: width,
       height: height,
@@ -25,32 +27,24 @@ extension CustomBoxDecoration on Widget {
 }
 
 extension CustomInputDecoration on InputDecoration {
-  static InputDecoration decorate(
-      {required String hintText,
-      IconData? prefixIcon,
-      IconData? suffixIcon,
-      VoidCallback? onSuffixTap,
-      double padding = 18,
-      required BuildContext context}) {
+  static InputDecoration decorate({required String hintText, IconData? prefixIcon, IconData? suffixIcon, VoidCallback? onSuffixTap, double padding = 18}) {
     return InputDecoration(
       hintText: hintText,
       hintStyle: Get.theme.textTheme.bodySmall!.copyWith(
-            color: Get.theme.primaryColor.withOpacity(0.4),
-            fontSize: 14,
-          ),
+        color: Get.theme.primaryColor.withOpacity(0.4),
+        fontSize: 14,
+      ),
       filled: true,
       fillColor: Colors.grey.shade100,
       prefixIcon: prefixIcon != null ? Icon(prefixIcon, color: Get.theme.primaryColor) : const SizedBox(),
-      prefixIconConstraints:
-          prefixIcon != null ? const BoxConstraints.expand(width: 55, height: 55) : const BoxConstraints.expand(width: 10, height: 10),
+      prefixIconConstraints: prefixIcon != null ? const BoxConstraints.expand(width: 55, height: 55) : const BoxConstraints.expand(width: 10, height: 10),
       floatingLabelBehavior: FloatingLabelBehavior.never,
       contentPadding: EdgeInsets.all(padding),
       suffixIconColor: Get.theme.colorScheme.secondary,
       border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide.none),
       focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide.none),
       enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide.none),
-      errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: Get.theme.colorScheme.secondary, width: 1)),
+      errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: Get.theme.colorScheme.secondary, width: 1)),
       suffixIcon: (suffixIcon == null)
           ? null
           : IconButton(
@@ -62,101 +56,101 @@ extension CustomInputDecoration on InputDecoration {
   }
 }
 
-// extension CustomIconProvider on String {
-//   Widget icon({Color? color, double? size}) => ImageIcon(
-//         Svg(Constants.iconsPath + '$this.svg'),
-//         color: color ?? Get.theme.colorScheme.secondary,
-//         size: size ?? 24,
-//       );
-// }
+extension CustomIconProvider on String {
+  Widget icon({Color? color, double? size}) => ImageIcon(
+        Svg('${StringsManager.iconsPath}$this.svg'),
+        color: color ?? Get.theme.colorScheme.secondary,
+        size: size ?? 24,
+      );
+}
 
 extension CustomTextStyles on String {
-  Text getH1(context) => Text(
+  Text getH1() => Text(
         this,
         style: Get.theme.textTheme.displayMedium!.merge(
-              TextStyle(
-                color: Get.theme.primaryColor,
-              ),
-            ),
+          TextStyle(
+            color: Get.theme.primaryColor,
+          ),
+        ),
         softWrap: true,
         textAlign: TextAlign.center,
       );
 
-  Text getH2(context) => Text(
+  Text getH2() => Text(
         this,
         style: Get.theme.textTheme.headlineSmall!.merge(
-              TextStyle(
-                color: Get.theme.primaryColor,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+          TextStyle(
+            color: Get.theme.primaryColor,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       );
 
-  Text title({Color? color, required BuildContext context}) => Text(
+  Text title({Color? color}) => Text(
         this,
         style: Get.theme.textTheme.titleLarge!.merge(
-              TextStyle(
-                color: color ?? Get.theme.primaryColor,
-                fontWeight: FontWeight.bold,
-                fontFamily: 'Poppin',
-              ),
-            ),
+          TextStyle(
+            color: color ?? Get.theme.primaryColor,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'Poppin',
+          ),
+        ),
       );
 
-  Text subtitle({Color? color, FontWeight? weight, double? size, required BuildContext context}) => Text(
+  Text subtitle({Color? color, FontWeight? weight, double? size}) => Text(
         this,
         style: Get.theme.textTheme.titleMedium!.merge(
-              TextStyle(
-                color: color ?? Get.theme.primaryColor,
-                // fontFamily: Get.locale == const Locale('en') ? 'Poppin' : 'Almarai',
-                fontWeight: weight ?? FontWeight.normal,
-                fontSize: size ?? 15,
-              ),
-            ),
+          TextStyle(
+            color: color ?? Get.theme.primaryColor,
+            // fontFamily: Get.locale == const Locale('en') ? 'Poppin' : 'Almarai',
+            fontWeight: weight ?? FontWeight.normal,
+            fontSize: size ?? 15,
+          ),
+        ),
       );
 
-  Text body({Color? color, bool center = false, FontWeight weight = FontWeight.normal, required BuildContext context}) => Text(
+  Text body({Color? color, bool center = false, FontWeight weight = FontWeight.normal}) => Text(
         this,
         style: Get.theme.textTheme.bodyLarge!.merge(
-              TextStyle(
-                color: color ?? Colors.grey,
-                // fontFamily: Get.locale == const Locale('en') ? 'Poppin' : 'Almarai',
-                height: 1.5,
-                fontWeight: weight,
-              ),
-            ),
+          TextStyle(
+            color: color ?? Colors.grey,
+            // fontFamily: Get.locale == const Locale('en') ? 'Poppin' : 'Almarai',
+            height: 1.5,
+            fontWeight: weight,
+          ),
+        ),
         textAlign: center ? TextAlign.center : TextAlign.start,
       );
 
-  Text getCaption(context) => Text(
+  Text caption({required}) => Text(
         this,
         style: Get.theme.textTheme.bodySmall!.merge(
-              TextStyle(
-                color: Colors.grey.shade600,
-                // fontFamily: Get.locale == const Locale('en') ? 'Poppin' : 'Almarai',
-              ),
-            ),
+          TextStyle(
+            color: Colors.grey.shade600,
+            // fontFamily: Get.locale == const Locale('en') ? 'Poppin' : 'Almarai',
+          ),
+        ),
       );
 
-  Text getOverline(context) => Text(
+  Text getOverline() => Text(
         this,
         style: Get.theme.textTheme.labelSmall!.merge(
-              TextStyle(
-                color: Get.theme.colorScheme.onPrimary,
-                // fontFamily: Get.locale == const Locale('en') ? 'Poppin' : 'Almarai',
-              ),
-            ),
+          TextStyle(
+            color: Get.theme.colorScheme.onPrimary,
+            // fontFamily: Get.locale == const Locale('en') ? 'Poppin' : 'Almarai',
+          ),
+        ),
       );
 
-  Text button({Color? color, required BuildContext context}) => Text(
+  Text button({Color? color}) => Text(
         this,
         style: Get.theme.textTheme.labelLarge!.merge(
-              TextStyle(
-                color: color ?? Get.theme.primaryColor,
-                fontWeight: FontWeight.bold,
-                // fontFamily: Get.theme..locale == const Locale('en') ? 'Poppin' : 'Almarai',
-              ),
-            ),
+          TextStyle(
+            color: color ?? Get.theme.primaryColor,
+            fontWeight: FontWeight.bold,
+            // fontFamily: Get.theme..locale == const Locale('en') ? 'Poppin' : 'Almarai',
+          ),
+        ),
       );
 }
 
