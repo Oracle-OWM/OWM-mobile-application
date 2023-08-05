@@ -18,11 +18,11 @@ class TranslationService extends GetxService {
     'en_US',
   ];
 
-  @override
-  onInit() {
-    super.onInit();
-    getLocale();
-  }
+  // @override
+  // onInit() {
+  //   super.onInit();
+  //   // getLocale();
+  // }
 
   Future<TranslationService> init() async {
     for (var lang in languages) {
