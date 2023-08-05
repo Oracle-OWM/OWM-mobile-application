@@ -52,7 +52,7 @@ class HomeController extends GetxController {
     loading.value = true;
     dataReturned.value = false;
     await DioHelper.getData(
-      url: EndPoints.getAssociateUser,
+      url: '${EndPoints.getAssociateUser}/${appServices.loginData!.user!.id!}',
       token: appServices.loginData!.user!.tokenData!.accessToken,
     ).then((value) {
       allDevicesModel = AllDevicesModel.fromJson(value.data);

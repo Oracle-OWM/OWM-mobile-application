@@ -29,6 +29,8 @@ class DeviceController extends GetxController {
   @override
   void onInit() {
     litersListInit();
+    initFlowRateBarsData();
+    initLitersBarsData();
     super.onInit();
   }
 
@@ -123,7 +125,7 @@ class DeviceController extends GetxController {
         ),
         bottomTitles: AxisTitles(
           sideTitles: SideTitles(
-            showTitles: true,
+            showTitles: appServices.litersDays.length > 10 ? false : true,
             reservedSize: 50,
             interval: 1,
             getTitlesWidget: bottomTitleWidgets,
@@ -174,6 +176,130 @@ class DeviceController extends GetxController {
       ],
     );
   }
+
+/*------------------------------------  Bar Charts  ---------------------------------------------*/
+//-----------------------------------------------------------------------------------------------//
+//-----------------------------------------------------------------------------------------------//
+  loadFlowRateBars() {
+    return BarChart(
+      BarChartData(
+        //! list.reduce(max) is to get the maximum element in the list
+        maxY: appServices.flowSeries.reduce(max).toDouble() / 100,
+        barTouchData: BarTouchData(
+          touchTooltipData: BarTouchTooltipData(
+            tooltipBgColor: Colors.grey,
+            getTooltipItem: (a, b, c, d) => null,
+          ),
+        ),
+        titlesData: FlTitlesData(
+          show: true,
+          rightTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
+          topTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
+          bottomTitles: AxisTitles(
+            sideTitles: SideTitles(
+              showTitles: true,
+              getTitlesWidget: bottomTitleWidgets,
+              reservedSize: 42,
+            ),
+          ),
+          leftTitles: AxisTitles(
+            sideTitles: SideTitles(
+              showTitles: true,
+              reservedSize: 40,
+              interval: 10,
+              getTitlesWidget: leftTitleWidgets,
+            ),
+          ),
+        ),
+        borderData: FlBorderData(
+          show: false,
+        ),
+        barGroups: flowRateBarGroupData,
+        gridData: const FlGridData(show: false),
+      ),
+    );
+  }
+
+  loadLitersBars() {
+    return BarChart(
+      BarChartData(
+        //! list.reduce(max) is to get the maximum element in the list
+        maxY: appServices.litersSeries.reduce(max).toDouble() / 100,
+        barTouchData: BarTouchData(
+          touchTooltipData: BarTouchTooltipData(
+            tooltipBgColor: Colors.grey,
+            getTooltipItem: (a, b, c, d) => null,
+          ),
+        ),
+        titlesData: FlTitlesData(
+          show: true,
+          rightTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
+          topTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
+          bottomTitles: AxisTitles(
+            sideTitles: SideTitles(
+              showTitles: true,
+              getTitlesWidget: bottomTitleWidgets,
+              reservedSize: 42,
+            ),
+          ),
+          leftTitles: AxisTitles(
+            sideTitles: SideTitles(
+              showTitles: true,
+              reservedSize: 40,
+              interval: 10,
+              getTitlesWidget: leftTitleWidgets,
+            ),
+          ),
+        ),
+        borderData: FlBorderData(
+          show: false,
+        ),
+        barGroups: litersBarGroupData,
+        gridData: const FlGridData(show: false),
+      ),
+    );
+  }
+
+  List<BarChartGroupData> flowRateBarGroupData = [];
+  List<BarChartGroupData> litersBarGroupData = [];
+  double barWidth = 10;
+
+  initFlowRateBarsData() {
+    for (int i = 0; i < appServices.flowSeries.length; i++) {
+      flowRateBarGroupData.add(makeGroupData(i, appServices.flowSeries[i].toDouble() / 100));
+    }
+  }
+
+  initLitersBarsData() {
+    for (int i = 0; i < appServices.litersSeries.length; i++) {
+      litersBarGroupData.add(makeGroupData(i, appServices.litersSeries[i].toDouble() / 100));
+    }
+  }
+
+  BarChartGroupData makeGroupData(int x, double y1) {
+    return BarChartGroupData(
+      barsSpace: 4,
+      x: x,
+      barRods: [
+        BarChartRodData(
+          toY: y1,
+          width: barWidth,
+        ),
+      ],
+    );
+  }
+
+//-----------------------------------------------------------------------------------------------//
+//-----------------------------------------------------------------------------------------------//
+//-----------------------------------------------------------------------------------------------//
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
@@ -248,7 +374,7 @@ class DeviceController extends GetxController {
         ),
         bottomTitles: AxisTitles(
           sideTitles: SideTitles(
-            showTitles: true,
+            showTitles: appServices.litersDays.length > 10 ? false : true,
             reservedSize: 50,
             interval: 1,
             getTitlesWidget: bottomTitleWidgets,
@@ -320,21 +446,42 @@ class DeviceController extends GetxController {
                 onSelectionChanged: _onSelectionChanged,
                 selectionMode: DateRangePickerSelectionMode.range,
               ),
-              InkWell(
-                onTap: () {
-                  isCustom.value = true;
-                  litersListInit();
-                  Get.back();
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(40),
-                    color: Colors.grey,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  InkWell(
+                    onTap: () {
+                      isCustom.value = true;
+                      litersListInit();
+                      Get.back();
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(40),
+                        color: Colors.grey,
+                      ),
+                      child: 'Done'.title(),
+                    ),
                   ),
-                  child: 'Done'.title(),
-                ),
-              )
+                  20.width,
+                  InkWell(
+                    onTap: () {
+                      isCustom.value = false;
+                      litersListInit();
+                      Get.back();
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(40),
+                        color: Colors.grey,
+                      ),
+                      child: 'Clear Filter'.title(),
+                    ),
+                  )
+                ],
+              ),
             ],
           ),
         ),

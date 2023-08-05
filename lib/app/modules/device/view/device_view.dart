@@ -110,9 +110,11 @@ class DeviceView extends GetView<DeviceController> {
                                         top: 24,
                                         bottom: 32,
                                       ),
-                                      child: LineChart(
-                                        controller.loadDataLiters(),
-                                      ),
+                                      child: controller.isCustom.value
+                                          ? controller.loadLitersBars()
+                                          : LineChart(
+                                              controller.loadDataLiters(),
+                                            ),
                                     ),
                                   ),
                                 ),
@@ -175,9 +177,11 @@ class DeviceView extends GetView<DeviceController> {
                                         top: 24,
                                         bottom: 32,
                                       ),
-                                      child: LineChart(
-                                        controller.loadDataFlow(),
-                                      ),
+                                      child: controller.isCustom.value
+                                          ? controller.loadFlowRateBars()
+                                          : LineChart(
+                                              controller.loadDataFlow(),
+                                            ),
                                     ),
                                   ),
                                 ),

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:osm_v2/app/core/constants/strings.dart';
 import 'package:osm_v2/app/modules/home/controllers/home_controller.dart';
 import 'package:osm_v2/app/routes/app_pages.dart';
+
 import 'card.dart';
 
 class PageContent extends GetView<HomeController> {
@@ -22,16 +23,12 @@ class PageContent extends GetView<HomeController> {
             style: TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.bold,
-              color: controller.appServices.isDark.value
-                  ? Colors.white
-                  : Colors.black,
+              color: controller.appServices.isDark.value ? Colors.white : Colors.black,
             ),
           ),
           InkWell(
             onTap: () async {
-              // controller.readNewMessage();
-              String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-                  'red', 'cancel', false, ScanMode.QR);
+              String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode('red', 'cancel', false, ScanMode.QR);
               if (barcodeScanRes != '-1') {
                 controller.postDevice(barcodeScanRes);
               }
@@ -44,7 +41,7 @@ class PageContent extends GetView<HomeController> {
           const SizedBox(height: 16),
           const Divider(),
           PageCard(
-            img: StringsManager.pay,
+            img: StringsManager.consumption,
             tit: "Consumption".tr,
             onTapp: () => Get.toNamed(
               Routes.deviceView,
@@ -60,6 +57,11 @@ class PageContent extends GetView<HomeController> {
               controller.appServices.changeisLoggedin(false);
               Get.toNamed(Routes.deviceAndLeakageDetection);
             },
+          ),
+          PageCard(
+            img: StringsManager.pay,
+            tit: "Payment Process".tr,
+            onTapp: () => Get.toNamed(Routes.paymentView),
           ),
           PageCard(
             img: StringsManager.faq,
@@ -108,13 +110,10 @@ class PageContent extends GetView<HomeController> {
                   title: Text(
                     "Logout".tr,
                     style: TextStyle(
-                      color: controller.appServices.isDark.value
-                          ? Colors.white
-                          : Colors.black,
+                      color: controller.appServices.isDark.value ? Colors.white : Colors.black,
                     ),
                   ),
-                  trailing: const Icon(Icons.keyboard_arrow_right_outlined,
-                      color: Color.fromRGBO(0, 154, 202, 1)),
+                  trailing: const Icon(Icons.keyboard_arrow_right_outlined, color: Color.fromRGBO(0, 154, 202, 1)),
                 ),
               ),
             ),
