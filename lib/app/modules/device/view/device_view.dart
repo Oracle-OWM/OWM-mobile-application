@@ -15,7 +15,7 @@ class DeviceView extends GetView<DeviceController> {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
-            title: Text(controller.deviceModel.name!),
+            title: Text(controller.deviceModelName!),
             bottom: TabBar(
               tabs: [
                 Tab(
@@ -39,17 +39,17 @@ class DeviceView extends GetView<DeviceController> {
             actions: [
               InkWell(
                 onTap: () {
-                  controller.appServices.startRead[controller.deviceModel.name] == 1
-                      ? controller.changePowerStatus(controller.deviceModel.token!, 0)
-                      : controller.changePowerStatus(controller.deviceModel.token!, 1);
+                  controller.appServices.startRead[controller.deviceModelName] == 1
+                      ? controller.changePowerStatus(controller.deviceModelToken!, 0)
+                      : controller.changePowerStatus(controller.deviceModelToken!, 1);
                 },
                 child: Icon(
-                  controller.appServices.startRead[controller.deviceModel.name] == 0 ? Icons.pause : Icons.play_arrow,
+                  controller.appServices.startRead[controller.deviceModelName] == 0 ? Icons.pause : Icons.play_arrow,
                   size: 30,
                 ),
               ),
               Icon(
-                controller.appServices.flowStatus[controller.deviceModel.name] == 'normal' ? Icons.device_hub : Icons.error_outline,
+                controller.appServices.flowStatus[controller.deviceModelName] == 'normal' ? Icons.device_hub : Icons.error_outline,
                 size: 30,
               ),
             ],
@@ -69,7 +69,7 @@ class DeviceView extends GetView<DeviceController> {
                             children: [
                               'Choose Date'.title(),
                               InkWell(
-                                onTap: () => controller.openDateDialog(),
+                                onTap: () => controller.appServices.openDateDialog(isDeviceLeakage: true, litersListInit: controller.litersListInit),
                                 child: Container(
                                   padding: const EdgeInsets.all(10),
                                   decoration: BoxDecoration(
@@ -78,15 +78,15 @@ class DeviceView extends GetView<DeviceController> {
                                   ),
                                   child: Row(
                                     children: [
-                                      controller.startDate.value.subtitle(),
+                                      controller.appServices.startDate.value.subtitle(),
                                       ' to '.subtitle(),
-                                      controller.endDate.value.subtitle(),
+                                      controller.appServices.endDate.value.subtitle(),
                                     ],
                                   ),
                                 ),
                               ),
                               InkWell(
-                                onTap: () => controller.openDateDialog(),
+                                onTap: () => controller.appServices.openDateDialog(isDeviceLeakage: true, litersListInit: controller.litersListInit),
                                 child: 'date'.icon(),
                               ),
                             ],
@@ -110,10 +110,10 @@ class DeviceView extends GetView<DeviceController> {
                                         top: 24,
                                         bottom: 32,
                                       ),
-                                      child: controller.isCustom.value
+                                      child: controller.appServices.isCustom.value
                                           ? controller.loadLitersBars()
                                           : LineChart(
-                                              controller.loadDataLiters(),
+                                              controller.loadLineChartDataLiters(),
                                             ),
                                     ),
                                   ),
@@ -136,7 +136,7 @@ class DeviceView extends GetView<DeviceController> {
                             children: [
                               'Choose Date'.title(),
                               InkWell(
-                                onTap: () => controller.openDateDialog(),
+                                onTap: () => controller.appServices.openDateDialog(isDeviceLeakage: true, litersListInit: controller.litersListInit),
                                 child: Container(
                                   padding: const EdgeInsets.all(10),
                                   decoration: BoxDecoration(
@@ -145,15 +145,15 @@ class DeviceView extends GetView<DeviceController> {
                                   ),
                                   child: Row(
                                     children: [
-                                      controller.startDate.value.subtitle(),
+                                      controller.appServices.startDate.value.subtitle(),
                                       ' to '.subtitle(),
-                                      controller.endDate.value.subtitle(),
+                                      controller.appServices.endDate.value.subtitle(),
                                     ],
                                   ),
                                 ),
                               ),
                               InkWell(
-                                onTap: () => controller.openDateDialog(),
+                                onTap: () => controller.appServices.openDateDialog(isDeviceLeakage: true, litersListInit: controller.litersListInit),
                                 child: 'date'.icon(),
                               ),
                             ],
@@ -177,10 +177,10 @@ class DeviceView extends GetView<DeviceController> {
                                         top: 24,
                                         bottom: 32,
                                       ),
-                                      child: controller.isCustom.value
+                                      child: controller.appServices.isCustom.value
                                           ? controller.loadFlowRateBars()
                                           : LineChart(
-                                              controller.loadDataFlow(),
+                                              controller.loadLineChartDataFlow(),
                                             ),
                                     ),
                                   ),

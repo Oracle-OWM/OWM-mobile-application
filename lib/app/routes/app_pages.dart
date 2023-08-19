@@ -1,6 +1,7 @@
 import 'package:get/get.dart' show GetPage;
 import 'package:osm_v2/app/modules/about_us/binding/about_us_binding.dart';
 import 'package:osm_v2/app/modules/about_us/view/about_us.dart';
+import 'package:osm_v2/app/modules/payment/view/bill_tabs.dart';
 import 'package:osm_v2/app/modules/contacts/binding/contacts_binding.dart';
 import 'package:osm_v2/app/modules/contacts/view/contact.dart';
 import 'package:osm_v2/app/modules/device/bindings/device_binding.dart';
@@ -17,7 +18,7 @@ import 'package:osm_v2/app/modules/settings/view/setting_page.dart';
 import 'package:osm_v2/app/modules/splash/bindings/splash_binding.dart';
 import 'package:osm_v2/app/modules/splash/view/splash.dart';
 
-import '../modules/device_leakage_detection/device_leakage_detection.dart';
+import '../modules/device/view/device_leakage_detection.dart';
 import '../modules/login/bindings/login_bindings.dart';
 import '../modules/login/view/login.dart';
 
@@ -79,6 +80,11 @@ class AppPages {
       name: Routes.settings,
       page: () => const SettingsView(),
       binding: SettingsBinding(),
+    ),
+    GetPage(
+      name: Routes.billTabs,
+      page: () => const BillTabs(),
+      binding: PaymentBinding(),
     ),
   ];
 }

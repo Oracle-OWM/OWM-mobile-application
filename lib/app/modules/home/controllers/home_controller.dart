@@ -27,9 +27,10 @@ class HomeController extends GetxController {
   WebSocketChannel? channel;
   @override
   void onInit() {
-    openSocket();
+    // todo reactivate webSocket after backend works
+    // openSocket();
     getAllDevices();
-    readNewMessage();
+    // readNewMessage();
     super.onInit();
   }
 

@@ -7,6 +7,7 @@ class StringsManager {
   static String resetPasswordText = "Reset".tr;
   static String iconsPath = "assets/".tr;
   static const emptyConsumptionErrorText = 'No Consumption Data can be found for the selected days';
+  static const emptyCostErrorText = 'No Cost Data can be found for the selected days';
   static const baseUrl = 'http://www.owmmeter.com/public/index.php/api/auth/user/';
   static const pay = 'assets/pay.png';
   static const consumption = 'assets/consumption.png';

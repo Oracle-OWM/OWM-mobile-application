@@ -6,7 +6,7 @@ import 'package:osm_v2/app/core/constants/extensions.dart';
 import 'package:osm_v2/app/modules/home/controllers/home_controller.dart';
 import 'package:osm_v2/app/routes/app_pages.dart';
 
-import '../home/widgets/top_part.dart';
+import '../../home/widgets/top_part.dart';
 
 class DeviceAndLeakageDetection extends GetView<HomeController> {
   const DeviceAndLeakageDetection({Key? key}) : super(key: key);

@@ -12,4 +12,5 @@ abstract class Routes {
   static const String contacts = '/contacts';
   static const String aboutUs = '/aboutUs';
   static const String settings = '/settings';
+  static const String billTabs = '/bill-Tabs';
 }

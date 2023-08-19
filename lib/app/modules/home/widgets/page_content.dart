@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
+import 'package:osm_v2/app/core/constants/extensions.dart';
 import 'package:osm_v2/app/core/constants/strings.dart';
 import 'package:osm_v2/app/modules/home/controllers/home_controller.dart';
 import 'package:osm_v2/app/routes/app_pages.dart';
@@ -15,9 +16,7 @@ class PageContent extends GetView<HomeController> {
     return Obx(
       () => Column(
         children: [
-          const SizedBox(
-            height: 10,
-          ),
+          10.height,
           Text(
             controller.appServices.loginData!.user!.firstName!,
             style: TextStyle(
@@ -38,7 +37,7 @@ class PageContent extends GetView<HomeController> {
               child: Icon(Icons.qr_code),
             ),
           ),
-          const SizedBox(height: 16),
+          16.height,
           const Divider(),
           PageCard(
             img: StringsManager.consumption,
@@ -61,7 +60,7 @@ class PageContent extends GetView<HomeController> {
           PageCard(
             img: StringsManager.pay,
             tit: "Payment Process".tr,
-            onTapp: () => Get.toNamed(Routes.paymentView),
+            onTapp: () => Get.toNamed(Routes.billTabs),
           ),
           PageCard(
             img: StringsManager.faq,
