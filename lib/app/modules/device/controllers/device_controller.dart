@@ -66,6 +66,8 @@ class DeviceController extends GetxController {
 
   void listsInit() {
     if (!appServices.isCustom.value) {
+      appServices.clearConsumptionLists();
+
       emptyConsumption.value = '';
       for (int j = 0; j < _deviceModel.readings!.length; j++) {
         appServices.litersSeries.add(_deviceModel.readings![j].litersConsumed!);
@@ -126,7 +128,7 @@ class DeviceController extends GetxController {
           ),
           bottomTitles: AxisTitles(
             sideTitles: SideTitles(
-              showTitles: true,
+              showTitles: appServices.litersDays.length > 10 ? false : true,
               getTitlesWidget: appServices.bottomTitleWidgets,
               reservedSize: 42,
             ),
@@ -160,7 +162,7 @@ class DeviceController extends GetxController {
           ),
           bottomTitles: AxisTitles(
             sideTitles: SideTitles(
-              showTitles: true,
+              showTitles: appServices.litersDays.length > 10 ? false : true,
               getTitlesWidget: appServices.bottomTitleWidgets,
               reservedSize: 42,
             ),
