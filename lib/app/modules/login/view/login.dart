@@ -135,7 +135,7 @@ class Login extends GetView<LoginController> {
                     fontSize: 17,
                   ),
                 ),
-                onPressed: () => Get.toNamed(Routes.forgetPasswordView),
+                onPressed: () async => Get.toNamed(Routes.forgetPasswordView),
               )
             ],
           ),

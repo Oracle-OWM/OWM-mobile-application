@@ -1,12 +1,11 @@
-import 'dart:convert';
-
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:osm_v2/app/core/constants/mqtt_channels.dart';
 import 'package:osm_v2/app/data/models/all_devices_model.dart';
 import 'package:osm_v2/app/data/models/device_model.dart';
 import 'package:osm_v2/app/data/services/dio_helper.dart';
 import 'package:osm_v2/app/data/services/end_points.dart';
 import 'package:osm_v2/app/data/services/theme.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../../../data/models/change_power_status_model.dart';
 import '../../../data/services/app_services.dart';
@@ -22,18 +21,19 @@ class HomeController extends GetxController {
   RxBool loading = false.obs;
   RxBool dataReturned = false.obs;
 
-  final wsUrl = Uri.parse('ws://192.168.1.17:6001/app/livepost_key?protocol=7&client=js&version=7.5.0&flash=false');
-  String deviceChannel = '{"event":"pusher:subscribe", "data":{"auth":"","channel":"dashboard-IoTDevice-details-channel"}}';
-  WebSocketChannel? channel;
+  // final wsUrl = Uri.parse('ws://192.168.1.17:6001/app/livepost_key?protocol=7&client=js&version=7.5.0&flash=false');
+  // String deviceChannel = '{"event":"pusher:subscribe", "data":{"auth":"","channel":"dashboard-IoTDevice-details-channel"}}';
+  // WebSocketChannel? channel;
+
   @override
   void onInit() {
     //! removed socket code
     // openSocket();
     // readNewMessage();
 
-    appServices.mqttClientInit();
-
     // todo add mqtt calls for subscribed topics with the backend
+    appServices.mqttSubscribeAndListen(MqttChannels.flowStatusMQTTChannel);
+    appServices.mqttSubscribeAndListen(MqttChannels.readingsMQTTChannel);
 
     getAllDevices();
     super.onInit();
@@ -42,6 +42,7 @@ class HomeController extends GetxController {
   void postDevice(String deviceID) {
     DioHelper.postData(url: EndPoints.postAssociateUser, data: {
       'token': deviceID,
+      'user_id': appServices.loginData!.user!.id,
     }).then((value) {
       deviceModel = DeviceModel.fromJson(value.data);
       if (deviceModel!.status == 200) {
@@ -51,7 +52,9 @@ class HomeController extends GetxController {
       } else {
         UiTheme.errorGetBar('Error associating Device');
       }
-    }).catchError((onError) {});
+    }).catchError((onError) {
+      debugPrint(onError);
+    });
   }
 
   Future<void> getAllDevices() async {
@@ -80,42 +83,42 @@ class HomeController extends GetxController {
   //------------------------------------ WebSocketImpl -----------------------------------------------//
   //--------------------------------------------------------------------------------------------------//
 
-  openSocket() async {
-    channel = WebSocketChannel.connect(wsUrl);
-    channel!.sink.add(deviceChannel);
-  }
+  // openSocket() async {
+  //   channel = WebSocketChannel.connect(wsUrl);
+  //   channel!.sink.add(deviceChannel);
+  // }
 
-  readNewMessage() {
-    channel!.stream.listen(
-      (message) {
-        Map s = jsonDecode(message);
-        if (s.containsKey('data')) {
-          Map x = jsonDecode(s['data']);
-          if (x['message'] != null) {
-            List reversedReading = List.from(x['message']['readings'].reversed);
+  // readNewMessage() {
+  //   channel!.stream.listen(
+  //     (message) {
+  //       Map s = jsonDecode(message);
+  //       if (s.containsKey('data')) {
+  //         Map x = jsonDecode(s['data']);
+  //         if (x['message'] != null) {
+  //           List reversedReading = List.from(x['message']['readings'].reversed);
 
-            if (x['title'] == 'dashboard_ToTDevice_readings') {
-              appServices.litersSeries.add(reversedReading[0]['liters_consumed']);
-              appServices.litersDays.add(reversedReading[0]['created_at']);
-              appServices.flowSeries.add(reversedReading[0]['flow_rate']);
-              appServices.flowDays.add(reversedReading[0]['created_at']);
-            }
+  //           if (x['title'] == 'dashboard_ToTDevice_readings') {
+  //             appServices.litersSeries.add(reversedReading[0]['liters_consumed']);
+  //             appServices.litersDays.add(reversedReading[0]['created_at']);
+  //             appServices.flowSeries.add(reversedReading[0]['flow_rate']);
+  //             appServices.flowDays.add(reversedReading[0]['created_at']);
+  //           }
 
-            if (x['title'] == 'dashboard_ToTDevice_power_status') {
-              appServices.startRead[x['message']['name']] = x['message']['start_read'];
-            }
+  //           if (x['title'] == 'dashboard_ToTDevice_power_status') {
+  //             appServices.startRead[x['message']['name']] = x['message']['start_read'];
+  //           }
 
-            if (x['title'] == 'dashboard_ToTDevice_flow_status') {
-              appServices.flowStatus[x['message']['name']] = x['message']['flow_status'];
-            }
-            // appServices.flowStatus[x['message']['name']] = x['message']['flow_status'];
+  //           if (x['title'] == 'dashboard_ToTDevice_flow_status') {
+  //             appServices.flowStatus[x['message']['name']] = x['message']['flow_status'];
+  //           }
+  //           // appServices.flowStatus[x['message']['name']] = x['message']['flow_status'];
 
-            // print(message);
-          }
-        }
-      },
-    );
-  }
+  //           // print(message);
+  //         }
+  //       }
+  //     },
+  //   );
+  // }
 
   ChangePowerStatusModel? changePowerStatusModel;
   void changePowerStatus(int index, String deviceID, int state) {
@@ -137,5 +140,4 @@ class HomeController extends GetxController {
       }
     }).catchError((onError) {});
   }
-
 }

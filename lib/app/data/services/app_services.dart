@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:osm_v2/app/core/constants/extensions.dart';
+import 'package:osm_v2/app/core/constants/mqtt_channels.dart';
 import 'package:osm_v2/app/data/models/login_model.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
@@ -29,13 +30,14 @@ class AppServices extends GetxService {
 
   RxList<int> flowSeries = <int>[].obs;
   RxList<String> flowDays = <String>[].obs;
-  // @override
-  // onInit() {
-  //   super.onInit();
-  // getisLoggedinFromPrefs();
-  // getThemeFromPrefs();
-  // getprofileImage();
-  // }
+  @override
+  onInit() {
+    super.onInit();
+    // getisLoggedinFromPrefs();
+    // getThemeFromPrefs();
+    // getprofileImage();
+    mqttClientInit();
+  }
   /*--------------------------------------------------------------------------*/
   /*---------------------------  Save Functions  -----------------------------*/
   /*--------------------------------------------------------------------------*/
@@ -264,27 +266,28 @@ class AppServices extends GetxService {
       await mqttClient.connect();
     } on NoConnectionException catch (e) {
       // Raised by the mqttClient when connection fails.
-      print('EXAMPLE::mqttClient exception - $e');
+      debugPrint('EXAMPLE::mqttClient exception - $e');
       mqttClient.disconnect();
     } on SocketException catch (e) {
       // Raised by the socket layer
-      print('EXAMPLE::socket exception - $e');
+      debugPrint('EXAMPLE::socket exception - $e');
       mqttClient.disconnect();
     }
 
     /// Check we are connected
     if (mqttClient.connectionStatus!.state == MqttConnectionState.connected) {
-      print('EXAMPLE::Mosquitto mqttClient connected');
+      debugPrint('EXAMPLE::Mosquitto mqttClient connected');
     } else {
       /// Use status here rather than state if you also want the broker return code.
-      print('EXAMPLE::ERROR Mosquitto mqttClient connection failed - disconnecting, status is ${mqttClient.connectionStatus}');
+      debugPrint('EXAMPLE::ERROR Mosquitto mqttClient connection failed - disconnecting, status is ${mqttClient.connectionStatus}');
       mqttClient.disconnect();
     }
   }
 
-  Map? recivedDecodedMsgFromMqtt;
-  void mqttSubscribeAndListen(String topic) {
-    print('EXAMPLE::Subscribing to the /test topic');
+  Map<String, dynamic> recivedDecodedMsgFromMqtt = {};
+
+  Future<void> mqttSubscribeAndListen(String topic) async {
+    debugPrint('EXAMPLE::Subscribing to the $topic topic');
     mqttClient.subscribe(topic, MqttQos.atMostOnce);
 
     /// The client has a change notifier object(see the Observable class) which we then listen to to get
@@ -293,13 +296,17 @@ class AppServices extends GetxService {
       final recievedMess = receievedMsgPayload![0].payload as MqttPublishMessage;
       final publishedPayloadMsg = MqttPublishPayload.bytesToStringAsString(recievedMess.payload.message);
 
-      /// The above may seem a little convoluted for users only interested in the
-      /// payload, some users however may be interested in the received publish message,
-      /// lets not constrain ourselves yet until the package has been in the wild
-      /// for a while.
-      /// The payload is a byte buffer, this will be specific to the topic
-      print('EXAMPLE::Change notification:: topic is <${receievedMsgPayload[0].topic}>, payload is <-- $publishedPayloadMsg -->');
-      recivedDecodedMsgFromMqtt = json.decode(publishedPayloadMsg);
+      // debugPrint('EXAMPLE::Change notification:: topic is <${receievedMsgPayload[0].topic}>, payload is <-- $publishedPayloadMsg -->');
+      recivedDecodedMsgFromMqtt[receievedMsgPayload[0].topic] = json.decode(publishedPayloadMsg);
+      // debugPrint('${recivedDecodedMsgFromMqtt[MqttChannels.readingsMQTTChannel]}');
+
+      if (receievedMsgPayload[0].topic == MqttChannels.readingsMQTTChannel) {
+        List reversedReading = List.from(recivedDecodedMsgFromMqtt[receievedMsgPayload[0].topic]['reading_history'].reversed);
+        litersSeries.add(reversedReading[0]['liters_consumed']);
+        litersDays.add(reversedReading[0]['created_at']);
+        flowSeries.add(reversedReading[0]['flow_rate']);
+        flowDays.add(reversedReading[0]['created_at']);
+      }
     });
   }
 
@@ -312,50 +319,50 @@ class AppServices extends GetxService {
     builder.addString(jsonString);
 
     /// Subscribe to it
-    print('EXAMPLE::Subscribing to the Dart/Mqtt_client/testtopic topic');
+    debugPrint('EXAMPLE::Subscribing to the $topic topic');
     mqttClient.subscribe(topic, MqttQos.exactlyOnce);
 
     /// Publish it
-    print('EXAMPLE::Publishing our topic');
+    debugPrint('EXAMPLE::Publishing our topic');
     mqttClient.publishMessage(topic, MqttQos.exactlyOnce, builder.payload!);
 
     /// Ok, we will now sleep a while, in this gap you will see ping request/response
     /// messages being exchanged by the keep alive mechanism.
-    print('EXAMPLE::Sleeping....');
-    await MqttUtilities.asyncSleep(60);
+    // debugPrint('EXAMPLE::Sleeping....');
+    // await MqttUtilities.asyncSleep(60);
 
-    unSubscribedFromMqtt(topic);
+    // unSubscribeFromMqtt(topic);
   }
 
-  Future<void> unSubscribedFromMqtt(String topic) async {
+  Future<void> unSubscribeFromMqtt(String topic) async {
     /// Finally, unsubscribe and exit gracefully
-    print('EXAMPLE::Unsubscribing');
+    debugPrint('EXAMPLE::Unsubscribing');
     mqttClient.unsubscribe(topic);
 
     /// Wait for the unsubscribe message from the broker if you wish.
     await MqttUtilities.asyncSleep(2);
-    print('EXAMPLE::Disconnecting');
+    debugPrint('EXAMPLE::Disconnecting');
     mqttClient.disconnect();
-    print('EXAMPLE::Exiting normally');
+    debugPrint('EXAMPLE::Exiting normally');
   }
 
   /// The subscribed callback
   void onSubscribed(String topic) {
-    print('EXAMPLE::Subscription confirmed for topic $topic');
+    debugPrint('EXAMPLE::Subscription confirmed for topic $topic');
   }
 
   /// The unsolicited disconnect callback
   void onDisconnected() {
-    print('EXAMPLE::OnDisconnected client callback - Client disconnection');
+    debugPrint('EXAMPLE::OnDisconnected client callback - Client disconnection');
     if (mqttClient.connectionStatus!.disconnectionOrigin == MqttDisconnectionOrigin.solicited) {
-      print('EXAMPLE::OnDisconnected callback is solicited, this is correct');
+      debugPrint('EXAMPLE::OnDisconnected callback is solicited, this is correct');
     } else {
-      print('EXAMPLE::OnDisconnected callback is unsolicited or none, this is incorrect - exiting');
+      debugPrint('EXAMPLE::OnDisconnected callback is unsolicited or none, this is incorrect - exiting');
     }
   }
 
   /// The successful connect callback
   void onConnected() {
-    print('EXAMPLE::OnConnected client callback - Client connection was successful');
+    debugPrint('EXAMPLE::OnConnected client callback - Client connection was successful');
   }
 }

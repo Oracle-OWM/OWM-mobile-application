@@ -47,7 +47,7 @@ class DeviceController extends GetxController {
   void changePowerStatus(String deviceID, int state) {
     DioHelper.postData(
       url: EndPoints.changePowerStatus,
-      token: appServices.accessToken.value,
+      token: appServices.loginData!.user!.tokenData!.accessToken,
       data: {
         'token': deviceID,
         'start_read': state,
