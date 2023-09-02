@@ -24,6 +24,7 @@ dependencies:
   syncfusion_flutter_datepicker: ^22.2.7
   url_launcher: ^6.1.11
   web_socket_channel: ^2.4.0
+  mqtt_client: ^10.0.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0

@@ -27,10 +27,15 @@ class HomeController extends GetxController {
   WebSocketChannel? channel;
   @override
   void onInit() {
-    // todo reactivate webSocket after backend works
+    //! removed socket code
     // openSocket();
-    getAllDevices();
     // readNewMessage();
+
+    appServices.mqttClientInit();
+
+    // todo add mqtt calls for subscribed topics with the backend
+
+    getAllDevices();
     super.onInit();
   }
 
@@ -70,6 +75,10 @@ class HomeController extends GetxController {
     }).catchError((error) {});
     loading.value = false;
   }
+
+  //--------------------------------------------------------------------------------------------------//
+  //------------------------------------ WebSocketImpl -----------------------------------------------//
+  //--------------------------------------------------------------------------------------------------//
 
   openSocket() async {
     channel = WebSocketChannel.connect(wsUrl);
@@ -128,4 +137,5 @@ class HomeController extends GetxController {
       }
     }).catchError((onError) {});
   }
+
 }

@@ -29,7 +29,7 @@ class DeviceController extends GetxController {
 
   @override
   void onInit() {
-    litersListInit();
+    listsInit();
     _initFlowRateBarsData();
     _initLitersBarsData();
     super.onInit();
@@ -64,7 +64,7 @@ class DeviceController extends GetxController {
     }).catchError((onError) {});
   }
 
-  void litersListInit() {
+  void listsInit() {
     if (!appServices.isCustom.value) {
       emptyConsumption.value = '';
       for (int j = 0; j < _deviceModel.readings!.length; j++) {

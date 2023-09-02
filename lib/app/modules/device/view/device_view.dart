@@ -69,7 +69,7 @@ class DeviceView extends GetView<DeviceController> {
                             children: [
                               'Choose Date'.title(),
                               InkWell(
-                                onTap: () => controller.appServices.openDateDialog(isDeviceLeakage: true, litersListInit: controller.litersListInit),
+                                onTap: () => controller.appServices.openDateDialog(isDeviceLeakage: true, listsInitFunction: controller.listsInit),
                                 child: Container(
                                   padding: const EdgeInsets.all(10),
                                   decoration: BoxDecoration(
@@ -86,7 +86,7 @@ class DeviceView extends GetView<DeviceController> {
                                 ),
                               ),
                               InkWell(
-                                onTap: () => controller.appServices.openDateDialog(isDeviceLeakage: true, litersListInit: controller.litersListInit),
+                                onTap: () => controller.appServices.openDateDialog(isDeviceLeakage: true, listsInitFunction: controller.listsInit),
                                 child: 'date'.icon(),
                               ),
                             ],
@@ -136,7 +136,7 @@ class DeviceView extends GetView<DeviceController> {
                             children: [
                               'Choose Date'.title(),
                               InkWell(
-                                onTap: () => controller.appServices.openDateDialog(isDeviceLeakage: true, litersListInit: controller.litersListInit),
+                                onTap: () => controller.appServices.openDateDialog(isDeviceLeakage: true, listsInitFunction: controller.listsInit),
                                 child: Container(
                                   padding: const EdgeInsets.all(10),
                                   decoration: BoxDecoration(
@@ -153,7 +153,7 @@ class DeviceView extends GetView<DeviceController> {
                                 ),
                               ),
                               InkWell(
-                                onTap: () => controller.appServices.openDateDialog(isDeviceLeakage: true, litersListInit: controller.litersListInit),
+                                onTap: () => controller.appServices.openDateDialog(isDeviceLeakage: true, listsInitFunction: controller.listsInit),
                                 child: 'date'.icon(),
                               ),
                             ],
