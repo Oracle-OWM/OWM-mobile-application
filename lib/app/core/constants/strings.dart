@@ -7,8 +7,10 @@ class StringsManager {
   static String resetPasswordText = "Reset".tr;
   static String iconsPath = "assets/".tr;
   static const emptyConsumptionErrorText = 'No Consumption Data can be found for the selected days';
+  static const emptyReadingsErrorText = 'No Readings Data can be found, please make sure that a device has been probably set';
   static const emptyCostErrorText = 'No Cost Data can be found for the selected days';
   static const baseUrl = 'http://195.179.193.132/index.php/api/auth/user/';
+  static const normalReading = 'Normal';
   static const pay = 'assets/pay.png';
   static const consumption = 'assets/consumption.png';
   static const settings = 'assets/settings.png';
@@ -28,6 +30,5 @@ class StringsManager {
   static const rawanJob = 'Pharmaceutical Analyst';
   static const asmaaJob = 'Embedded Systems';
   static const moutazJob = 'Business Analyst';
-
 }
 // 

@@ -49,7 +49,7 @@ class DeviceView extends GetView<DeviceController> {
                 ),
               ),
               Icon(
-                controller.appServices.flowStatus[controller.deviceModelName] == 'normal' ? Icons.device_hub : Icons.error_outline,
+                controller.appServices.flowStatus[controller.deviceModelToken] == StringsManager.normalReading ? Icons.device_hub : Icons.error_outline,
                 size: 30,
               ),
             ],
@@ -57,140 +57,144 @@ class DeviceView extends GetView<DeviceController> {
           body: TabBarView(
             physics: const BouncingScrollPhysics(),
             children: [
-              Center(
-                child: SingleChildScrollView(
-                  child: Center(
-                    child: SizedBox(
-                      width: Get.width,
-                      child: Column(
-                        children: <Widget>[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              'Choose Date'.title(),
-                              InkWell(
-                                onTap: () => controller.appServices.openDateDialog(isDeviceLeakage: true, listsInitFunction: controller.listsInit),
-                                child: Container(
-                                  padding: const EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(width: 2, color: Colors.grey),
-                                    borderRadius: BorderRadius.circular(40),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      controller.appServices.startDate.value.subtitle(),
-                                      ' to '.subtitle(),
-                                      controller.appServices.endDate.value.subtitle(),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () => controller.appServices.openDateDialog(isDeviceLeakage: true, listsInitFunction: controller.listsInit),
-                                child: 'date'.icon(),
-                              ),
-                            ],
-                          ),
-                          80.height,
-                          controller.emptyConsumption.value == StringsManager.emptyConsumptionErrorText
-                              ? controller.emptyConsumption.value.title()
-                              : AspectRatio(
-                                  aspectRatio: 1.50,
-                                  child: DecoratedBox(
-                                    decoration: const BoxDecoration(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(18),
+              controller.appServices.litersSeries.isEmpty
+                  ? Center(child: StringsManager.emptyReadingsErrorText.title(center: true))
+                  : Center(
+                      child: SingleChildScrollView(
+                        child: Center(
+                          child: SizedBox(
+                            width: Get.width,
+                            child: Column(
+                              children: <Widget>[
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: [
+                                    'Choose Date'.title(),
+                                    InkWell(
+                                      onTap: () => controller.appServices.openDateDialog(isDeviceLeakage: true, listsInitFunction: controller.listsInit),
+                                      child: Container(
+                                        padding: const EdgeInsets.all(10),
+                                        decoration: BoxDecoration(
+                                          border: Border.all(width: 2, color: Colors.grey),
+                                          borderRadius: BorderRadius.circular(40),
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            controller.appServices.startDate.value.subtitle(),
+                                            ' to '.subtitle(),
+                                            controller.appServices.endDate.value.subtitle(),
+                                          ],
+                                        ),
                                       ),
-                                      color: Color(0xff232d37),
                                     ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                        right: 18,
-                                        left: 12,
-                                        top: 24,
-                                        bottom: 32,
-                                      ),
-                                      child: controller.appServices.isCustom.value
-                                          ? controller.loadLitersBars()
-                                          : LineChart(
-                                              controller.loadLineChartDataLiters(),
+                                    InkWell(
+                                      onTap: () => controller.appServices.openDateDialog(isDeviceLeakage: true, listsInitFunction: controller.listsInit),
+                                      child: 'date'.icon(),
+                                    ),
+                                  ],
+                                ),
+                                80.height,
+                                controller.emptyConsumption.value == StringsManager.emptyConsumptionErrorText
+                                    ? controller.emptyConsumption.value.title()
+                                    : AspectRatio(
+                                        aspectRatio: 1.50,
+                                        child: DecoratedBox(
+                                          decoration: const BoxDecoration(
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(18),
                                             ),
-                                    ),
-                                  ),
-                                ),
-                        ],
+                                            color: Color(0xff232d37),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                              right: 18,
+                                              left: 12,
+                                              top: 24,
+                                              bottom: 32,
+                                            ),
+                                            child: controller.appServices.isCustom.value
+                                                ? controller.loadLitersBars()
+                                                : LineChart(
+                                                    controller.loadLineChartDataLiters(),
+                                                  ),
+                                          ),
+                                        ),
+                                      ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              ),
-              Center(
-                child: SingleChildScrollView(
-                  child: Center(
-                    child: SizedBox(
-                      width: Get.width,
-                      child: Column(
-                        children: <Widget>[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              'Choose Date'.title(),
-                              InkWell(
-                                onTap: () => controller.appServices.openDateDialog(isDeviceLeakage: true, listsInitFunction: controller.listsInit),
-                                child: Container(
-                                  padding: const EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(width: 2, color: Colors.grey),
-                                    borderRadius: BorderRadius.circular(40),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      controller.appServices.startDate.value.subtitle(),
-                                      ' to '.subtitle(),
-                                      controller.appServices.endDate.value.subtitle(),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () => controller.appServices.openDateDialog(isDeviceLeakage: true, listsInitFunction: controller.listsInit),
-                                child: 'date'.icon(),
-                              ),
-                            ],
-                          ),
-                          80.height,
-                          controller.emptyConsumption.value == StringsManager.emptyConsumptionErrorText
-                              ? controller.emptyConsumption.value.title()
-                              : AspectRatio(
-                                  aspectRatio: 1.50,
-                                  child: DecoratedBox(
-                                    decoration: const BoxDecoration(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(18),
+              controller.appServices.litersSeries.isEmpty
+                  ? Center(child: StringsManager.emptyReadingsErrorText.title(center: true))
+                  : Center(
+                      child: SingleChildScrollView(
+                        child: Center(
+                          child: SizedBox(
+                            width: Get.width,
+                            child: Column(
+                              children: <Widget>[
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: [
+                                    'Choose Date'.title(),
+                                    InkWell(
+                                      onTap: () => controller.appServices.openDateDialog(isDeviceLeakage: true, listsInitFunction: controller.listsInit),
+                                      child: Container(
+                                        padding: const EdgeInsets.all(10),
+                                        decoration: BoxDecoration(
+                                          border: Border.all(width: 2, color: Colors.grey),
+                                          borderRadius: BorderRadius.circular(40),
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            controller.appServices.startDate.value.subtitle(),
+                                            ' to '.subtitle(),
+                                            controller.appServices.endDate.value.subtitle(),
+                                          ],
+                                        ),
                                       ),
-                                      color: Color(0xff232d37),
                                     ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                        right: 18,
-                                        left: 12,
-                                        top: 24,
-                                        bottom: 32,
-                                      ),
-                                      child: controller.appServices.isCustom.value
-                                          ? controller.loadFlowRateBars()
-                                          : LineChart(
-                                              controller.loadLineChartDataFlow(),
+                                    InkWell(
+                                      onTap: () => controller.appServices.openDateDialog(isDeviceLeakage: true, listsInitFunction: controller.listsInit),
+                                      child: 'date'.icon(),
+                                    ),
+                                  ],
+                                ),
+                                80.height,
+                                controller.emptyConsumption.value == StringsManager.emptyConsumptionErrorText
+                                    ? controller.emptyConsumption.value.title()
+                                    : AspectRatio(
+                                        aspectRatio: 1.50,
+                                        child: DecoratedBox(
+                                          decoration: const BoxDecoration(
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(18),
                                             ),
-                                    ),
-                                  ),
-                                ),
-                        ],
+                                            color: Color(0xff232d37),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                              right: 18,
+                                              left: 12,
+                                              top: 24,
+                                              bottom: 32,
+                                            ),
+                                            child: controller.appServices.isCustom.value
+                                                ? controller.loadFlowRateBars()
+                                                : LineChart(
+                                                    controller.loadLineChartDataFlow(),
+                                                  ),
+                                          ),
+                                        ),
+                                      ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              ),
             ],
           ),
         ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:osm_v2/app/core/constants/extensions.dart';
 
 import '../../data/services/app_services.dart';
 
@@ -186,19 +187,20 @@ class UiTheme {
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 25),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                'Loading'.tr,
-                style: Get.textTheme.bodyLarge!.copyWith(
-                  color: Get.theme.primaryColor,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  'Loading'.title(),
+                  10.width,
+                  CircularProgressIndicator(color: Get.theme.colorScheme.secondary),
+                ],
               ),
-              const SizedBox(width: 5),
-              // SpinKitCircle(),vx
-              CircularProgressIndicator(color: Get.theme.colorScheme.secondary),
+              20.height,
+              'This might take a while, please wait'.caption(),
             ],
           ),
         ),

@@ -42,12 +42,7 @@ class PageContent extends GetView<HomeController> {
           PageCard(
             img: StringsManager.consumption,
             tit: "Consumption".tr,
-            onTapp: () => Get.toNamed(
-              Routes.deviceView,
-              arguments: {
-                'device': controller.allDevicesModel!.ioTDevices![0],
-              },
-            ),
+            onTapp: () => controller.appServices.openDeviceChoiceDialog(),
           ),
           PageCard(
             img: StringsManager.leak,

@@ -1,0 +1,41 @@
+
+  //--------------------------------------------------------------------------------------------------//
+  //------------------------------------ WebSocketImpl -----------------------------------------------//
+  //--------------------------------------------------------------------------------------------------//
+
+  // openSocket() async {
+  //   channel = WebSocketChannel.connect(wsUrl);
+  //   channel!.sink.add(deviceChannel);
+  // }
+
+  // readNewMessage() {
+  //   channel!.stream.listen(
+  //     (message) {
+  //       Map s = jsonDecode(message);
+  //       if (s.containsKey('data')) {
+  //         Map x = jsonDecode(s['data']);
+  //         if (x['message'] != null) {
+  //           List reversedReading = List.from(x['message']['readings'].reversed);
+
+  //           if (x['title'] == 'dashboard_ToTDevice_readings') {
+  //             appServices.litersSeries.add(reversedReading[0]['liters_consumed']);
+  //             appServices.litersDays.add(reversedReading[0]['created_at']);
+  //             appServices.flowSeries.add(reversedReading[0]['flow_rate']);
+  //             appServices.flowDays.add(reversedReading[0]['created_at']);
+  //           }
+
+  //           if (x['title'] == 'dashboard_ToTDevice_power_status') {
+  //             appServices.startRead[x['message']['name']] = x['message']['start_read'];
+  //           }
+
+  //           if (x['title'] == 'dashboard_ToTDevice_flow_status') {
+  //             appServices.flowStatus[x['message']['name']] = x['message']['flow_status'];
+  //           }
+  //           // appServices.flowStatus[x['message']['name']] = x['message']['flow_status'];
+
+  //           // print(message);
+  //         }
+  //       }
+  //     },
+  //   );
+  // }

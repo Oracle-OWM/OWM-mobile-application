@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:osm_v2/app/core/constants/strings.dart';
 import 'package:osm_v2/app/data/models/all_devices_model.dart';
 import 'package:osm_v2/app/data/services/app_services.dart';
+import 'package:osm_v2/app/data/services/mqtt_service.dart';
 
 import '../../../data/models/change_power_status_model.dart';
 import '../../../data/services/dio_helper.dart';
@@ -18,6 +19,7 @@ class DeviceController extends GetxController {
     const Color(0xff02d39a),
   ];
   final AppServices appServices = Get.find<AppServices>();
+  final MQTTService mqttService = Get.find<MQTTService>();
   final IoTDevices _deviceModel = Get.arguments['device'];
   ChangePowerStatusModel? _changePowerStatusModel;
   RxString emptyConsumption = ''.obs;
@@ -37,14 +39,13 @@ class DeviceController extends GetxController {
 
   @override
   void onClose() {
-    appServices.flowDays.clear();
-    appServices.flowSeries.clear();
-    appServices.litersDays.clear();
-    appServices.litersSeries.clear();
+    appServices.clearConsumptionLists();
     super.onClose();
   }
 
   void changePowerStatus(String deviceID, int state) {
+    UiTheme.loadingDialog();
+
     DioHelper.postData(
       url: EndPoints.changePowerStatus,
       token: appServices.loginData!.user!.tokenData!.accessToken,
@@ -57,8 +58,10 @@ class DeviceController extends GetxController {
       _changePowerStatusModel = ChangePowerStatusModel.fromJson(value.data);
       if (_changePowerStatusModel!.status == 200) {
         appServices.startRead[_deviceModel.name!] = state;
+        Get.back();
         UiTheme.successGetBar(_changePowerStatusModel!.message!);
       } else {
+        Get.back();
         UiTheme.errorGetBar('Error changing the state of the device');
       }
     }).catchError((onError) {});
@@ -247,7 +250,6 @@ class DeviceController extends GetxController {
                 (appServices.flowSeries[i.toInt()] / 10),
               ),
           ],
-          isCurved: true,
           gradient: LinearGradient(
             colors: _gradientColors,
           ),
@@ -327,9 +329,11 @@ class DeviceController extends GetxController {
                 (appServices.litersSeries[i.toInt()] / 100),
               ),
           ],
-          isCurved: true,
           gradient: LinearGradient(
             colors: _gradientColors,
+          ),
+          dotData: const FlDotData(
+            show: false,
           ),
           barWidth: 5,
           isStrokeCapRound: true,

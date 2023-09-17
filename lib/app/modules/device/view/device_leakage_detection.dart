@@ -74,14 +74,14 @@ class DeviceAndLeakageDetection extends GetView<HomeController> {
                             mainAxisSpacing: 20,
                             crossAxisCount: 4,
                             children: [
-                              for (int i = 0; i < controller.allDevicesModel!.ioTDevices!.length; i++)
+                              for (int deviceIndex = 0; deviceIndex < controller.allDevicesModel!.ioTDevices!.length; deviceIndex++)
                                 Column(
                                   children: [
                                     InkWell(
                                       onTap: () => Get.toNamed(
                                         Routes.deviceView,
                                         arguments: {
-                                          'device': controller.allDevicesModel!.ioTDevices![i],
+                                          'device': controller.allDevicesModel!.ioTDevices![deviceIndex],
                                         },
                                       ),
                                       child: SizedBox(
@@ -100,7 +100,7 @@ class DeviceAndLeakageDetection extends GetView<HomeController> {
                                                       width: 45,
                                                     ),
                                                   ),
-                                                  if (controller.appServices.flowStatus[controller.allDevicesModel!.ioTDevices![i].name] != 'normal')
+                                                  if (controller.appServices.flowStatus[controller.allDevicesModel!.ioTDevices![deviceIndex].token] != 'normal')
                                                     Align(
                                                       alignment: Alignment.topRight,
                                                       child: Image.asset(
@@ -110,22 +110,22 @@ class DeviceAndLeakageDetection extends GetView<HomeController> {
                                                     ),
                                                   CircleAvatar(
                                                     radius: 10,
-                                                    backgroundColor: controller.appServices.startRead[controller.allDevicesModel!.ioTDevices![i].name] == 1 ? Colors.green : Colors.red,
+                                                    backgroundColor: controller.appServices.startRead[controller.allDevicesModel!.ioTDevices![deviceIndex].name] == 1 ? Colors.green : Colors.red,
                                                   )
                                                 ],
                                               ),
                                             ),
-                                            Text(controller.allDevicesModel!.ioTDevices![i].name!),
+                                            Text(controller.allDevicesModel!.ioTDevices![deviceIndex].name!),
                                           ],
                                         ),
                                       ),
                                     ),
                                     Switch(
-                                      value: controller.appServices.startRead[controller.allDevicesModel!.ioTDevices![i].name] == 1 ? true : false,
+                                      value: controller.appServices.startRead[controller.allDevicesModel!.ioTDevices![deviceIndex].name] == 1 ? true : false,
                                       onChanged: (val) {
-                                        controller.appServices.startRead[controller.allDevicesModel!.ioTDevices![i].name] == 1
-                                            ? controller.changePowerStatus(i, controller.allDevicesModel!.ioTDevices![i].token!, 0)
-                                            : controller.changePowerStatus(i, controller.allDevicesModel!.ioTDevices![i].token!, 1);
+                                        controller.appServices.startRead[controller.allDevicesModel!.ioTDevices![deviceIndex].name] == 1
+                                            ? controller.changePowerStatus(deviceIndex, controller.allDevicesModel!.ioTDevices![deviceIndex].token!, 0)
+                                            : controller.changePowerStatus(deviceIndex, controller.allDevicesModel!.ioTDevices![deviceIndex].token!, 1);
                                       },
                                     )
                                   ],
