@@ -86,15 +86,11 @@ extension CustomTextStyles on String {
         ),
       );
 
-  Text title({Color? color, bool center = false}) => Text(
+  Text title({Color? color, bool center = false, double? fontSize}) => Text(
         this,
         textAlign: center ? TextAlign.center : TextAlign.start,
         style: Get.theme.textTheme.titleLarge!.merge(
-          TextStyle(
-            color: color ?? Get.theme.primaryColor,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'Poppin',
-          ),
+          TextStyle(color: color ?? Get.theme.primaryColor, fontWeight: FontWeight.bold, fontFamily: 'Poppin', fontSize: fontSize ?? 25),
         ),
       );
 

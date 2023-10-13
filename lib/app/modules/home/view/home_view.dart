@@ -11,25 +11,27 @@ class HomeView extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Obx(
       () => Scaffold(
-        body: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            const TopPart(),
-            !controller.dataReturned.value
-                ? const Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CircularProgressIndicator(),
-                        Center(
-                          child: Text(
-                              'Trying to get the Device data please wait, if this takes long check your connection'),
-                        ),
-                      ],
-                    ),
-                  )
-                : const PageContent(),
-          ],
+        body: RefreshIndicator(
+          onRefresh: () => controller.getAllDevices(),
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              const TopPart(),
+              !controller.dataReturned.value
+                  ? const Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircularProgressIndicator(),
+                          Center(
+                            child: Text('Trying to get the Device data please wait, if this takes long check your connection'),
+                          ),
+                        ],
+                      ),
+                    )
+                  : const PageContent(),
+            ],
+          ),
         ),
       ),
     );

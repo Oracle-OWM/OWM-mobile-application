@@ -69,8 +69,8 @@ class IoTDevice {
 class Readings {
   int? id;
   int? deviceId;
-  int? litersConsumed;
-  int? flowRate;
+  double? litersConsumed;
+  double? flowRate;
   String? createdAt;
   String? updatedAt;
 

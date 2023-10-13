@@ -1,6 +1,8 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
+
 import 'package:get/get.dart';
 import 'package:osm_v2/app/core/constants/mqtt_channels.dart';
+import 'package:osm_v2/app/core/constants/strings.dart';
 import 'package:osm_v2/app/data/models/all_devices_model.dart';
 import 'package:osm_v2/app/data/models/device_model.dart';
 import 'package:osm_v2/app/data/services/dio_helper.dart';
@@ -8,7 +10,6 @@ import 'package:osm_v2/app/data/services/end_points.dart';
 import 'package:osm_v2/app/data/services/mqtt_service.dart';
 import 'package:osm_v2/app/data/services/theme.dart';
 
-import '../../../data/models/change_power_status_model.dart';
 import '../../../data/services/app_services.dart';
 
 class HomeController extends GetxController {
@@ -28,19 +29,17 @@ class HomeController extends GetxController {
 
   @override
   void onInit() {
-    //! removed socket code
-    // openSocket();
-    // readNewMessage();
-
     // todo add mqtt calls for subscribed topics with the backend
     mqttService.mqttSubscribeAndListen(MqttChannels.flowStatusMQTTChannel);
     mqttService.mqttSubscribeAndListen(MqttChannels.readingsMQTTChannel);
+    mqttService.mqttSubscribeAndListen(MqttChannels.valveStatusMQTTChannel);
 
     getAllDevices();
     super.onInit();
   }
 
   void postDevice(String deviceID) {
+    Get.log('entered device id');
     DioHelper.postData(url: EndPoints.postAssociateUser, data: {
       'token': deviceID,
       'user_id': appServices.loginData!.user!.id,
@@ -51,10 +50,10 @@ class HomeController extends GetxController {
         Get.back();
         UiTheme.successGetBar(deviceModel!.message!);
       } else {
-        UiTheme.errorGetBar('Error associating Device');
+        UiTheme.errorGetBar(deviceModel!.message!);
       }
     }).catchError((onError) {
-      debugPrint(onError);
+      UiTheme.errorGetBar(onError);
     });
   }
 
@@ -71,37 +70,32 @@ class HomeController extends GetxController {
         for (int i = 0; i < allDevicesModel!.ioTDevices!.length; i++) {
           appServices.startRead[allDevicesModel!.ioTDevices![i].name!] = allDevicesModel!.ioTDevices![i].startRead;
           appServices.flowStatus[allDevicesModel!.ioTDevices![i].token!] = allDevicesModel!.ioTDevices![i].flowStatus;
+          appServices.delayToChangePowerStatus[allDevicesModel!.ioTDevices![i].name!] = false;
         }
         UiTheme.successGetBar(allDevicesModel!.message!);
         dataReturned.value = true;
       } else {
         UiTheme.errorGetBar(allDevicesModel!.message!);
       }
-    }).catchError((error) {});
+    }).catchError((error) {
+      UiTheme.errorGetBar(error);
+    });
     loading.value = false;
   }
 
-  ChangePowerStatusModel? changePowerStatusModel;
+  // delay var and timer set to 5min to activate the switch again
+
   void changePowerStatus(int index, String deviceID, int state) {
-    UiTheme.loadingDialog();
-    DioHelper.postData(
-      url: EndPoints.changePowerStatus,
-      token: appServices.accessToken.value,
-      data: {
-        'token': deviceID,
-        'start_read': state,
-        '_method': 'PUT',
-      },
-    ).then((value) {
-      changePowerStatusModel = ChangePowerStatusModel.fromJson(value.data);
-      if (changePowerStatusModel!.status == 200) {
-        appServices.startRead[allDevicesModel!.ioTDevices![index].name!] = state;
-        Get.back();
-        UiTheme.successGetBar(changePowerStatusModel!.message!);
-      } else {
-        Get.back();
-        UiTheme.errorGetBar('Error changing the state of the device');
-      }
-    }).catchError((onError) {});
+    // UiTheme.loadingDialog();
+    mqttService.mqttPublishMsg(MqttChannels.valveStatusMQTTChannel, {
+      'token': deviceID,
+      MqttChannels.valveStatusMQTTChannel: state,
+    });
+    appServices.startRead[allDevicesModel!.ioTDevices![index].name!] = state;
+    UiTheme.successGetBar('Valve Status Changed');
+    appServices.delayToChangePowerStatus[allDevicesModel!.ioTDevices![index].name!] = true;
+    appServices.reactivateSwitch(allDevicesModel!.ioTDevices![index].name!);
+    UiTheme.warningGetBar(StringsManager.valveDelayWarningText);
   }
+
 }

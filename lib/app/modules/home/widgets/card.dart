@@ -50,6 +50,7 @@ class PageCard extends GetView<HomeController> {
           ),
         ),
       ),
+    
     );
   }
 }

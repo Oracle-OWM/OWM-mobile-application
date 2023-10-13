@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:fl_chart/fl_chart.dart';
@@ -18,15 +19,16 @@ class AppServices extends GetxService {
   RxBool isDark = false.obs;
   RxBool isLoggedin = false.obs;
   RxString profileImage = "".obs;
-  RxList<int> litersSeries = <int>[].obs;
+  RxList<double> litersSeries = <double>[].obs;
   RxList<String> litersDays = <String>[].obs;
   RxString accessToken = ''.obs;
   RxMap<String, dynamic> startRead = <String, dynamic>{}.obs;
   RxMap<String, dynamic> flowStatus = <String, dynamic>{}.obs;
+  RxMap<String, bool> delayToChangePowerStatus = <String, bool>{}.obs;
   LoginModel? loginData;
   AllDevicesModel? allDevicesModel;
   RxInt deviceIndex = (-1).obs;
-  RxList<int> flowSeries = <int>[].obs;
+  RxList<double> flowSeries = <double>[].obs;
   RxList<String> flowDays = <String>[].obs;
 
   // @override
@@ -230,51 +232,56 @@ class AppServices extends GetxService {
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 25),
           child: SizedBox(
-            height: Get.height * 0.35,
+            height: Get.height * 0.25,
             child: GridView.count(
               physics: const BouncingScrollPhysics(),
               crossAxisCount: allDevicesModel!.ioTDevices!.length ~/ 2,
+              childAspectRatio: 0.7,
               children: [
                 for (int deviceIndex = 0; deviceIndex < allDevicesModel!.ioTDevices!.length; deviceIndex++)
-                  InkWell(
-                    onTap: () => Get.toNamed(
-                      Routes.deviceView,
-                      arguments: {
-                        'device': allDevicesModel!.ioTDevices![deviceIndex],
-                      },
-                    ),
-                    child: SizedBox(
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            width: Get.width * 0.2,
-                            height: Get.height * 0.07,
-                            child: Stack(
-                              children: [
-                                CircleAvatar(
-                                  radius: 55,
-                                  child: Image.asset(
-                                    'assets/tap.png',
-                                    width: 45,
-                                  ),
-                                ),
-                                if (flowStatus[allDevicesModel!.ioTDevices![deviceIndex].token] != 'normal')
-                                  Align(
-                                    alignment: Alignment.topRight,
+                  SizedBox(
+                    width: Get.width * 0.2,
+                    height: Get.height * 0.07,
+                    child: InkWell(
+                      onTap: () => Get.toNamed(
+                        Routes.deviceView,
+                        arguments: {
+                          'device': allDevicesModel!.ioTDevices![deviceIndex],
+                        },
+                      ),
+                      child: SizedBox(
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              width: Get.width * 0.2,
+                              height: Get.height * 0.07,
+                              child: Stack(
+                                children: [
+                                  CircleAvatar(
+                                    radius: 55,
                                     child: Image.asset(
-                                      'assets/danger.png',
-                                      width: 25,
+                                      'assets/tap.png',
+                                      width: 45,
                                     ),
                                   ),
-                                CircleAvatar(
-                                  radius: 10,
-                                  backgroundColor: startRead[allDevicesModel!.ioTDevices![deviceIndex].name] == 1 ? Colors.green : Colors.red,
-                                )
-                              ],
+                                  if (flowStatus[allDevicesModel!.ioTDevices![deviceIndex].token] != 'normal')
+                                    Align(
+                                      alignment: Alignment.topRight,
+                                      child: Image.asset(
+                                        'assets/danger.png',
+                                        width: 25,
+                                      ),
+                                    ),
+                                  CircleAvatar(
+                                    radius: 10,
+                                    backgroundColor: startRead[allDevicesModel!.ioTDevices![deviceIndex].name] == 1 ? Colors.green : Colors.red,
+                                  )
+                                ],
+                              ),
                             ),
-                          ),
-                          allDevicesModel!.ioTDevices![deviceIndex].name!.subtitle(),
-                        ],
+                            allDevicesModel!.ioTDevices![deviceIndex].name!.caption(),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -286,4 +293,6 @@ class AppServices extends GetxService {
       transitionCurve: Curves.easeInOutBack,
     );
   }
+
+  void reactivateSwitch(String deviceName) => Timer(const Duration(seconds: 20), () => delayToChangePowerStatus[deviceName] = false);
 }

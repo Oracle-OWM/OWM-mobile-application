@@ -175,6 +175,31 @@ class UiTheme {
     );
   }
 
+  static void warningGetBar(String message) {
+    Get.showSnackbar(
+      GetSnackBar(
+        messageText: Text(
+          message,
+          style: Get.textTheme.bodySmall!.merge(
+            const TextStyle(color: Colors.white),
+          ),
+        ),
+        snackPosition: SnackPosition.TOP,
+        margin: const EdgeInsets.all(20),
+        backgroundColor: Colors.yellow.shade700,
+        icon: const Icon(
+          Icons.warning,
+          size: 32,
+          color: Colors.white,
+        ),
+        overlayBlur: 2.5,
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+        borderRadius: 15,
+        duration: const Duration(seconds: 3),
+      ),
+    );
+  }
+
   static void loadingDialog() {
     final appServices = Get.find<AppServices>();
     Get.dialog(

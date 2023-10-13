@@ -3,14 +3,12 @@ import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:osm_v2/app/core/constants/mqtt_channels.dart';
 import 'package:osm_v2/app/core/constants/strings.dart';
 import 'package:osm_v2/app/data/models/all_devices_model.dart';
 import 'package:osm_v2/app/data/services/app_services.dart';
 import 'package:osm_v2/app/data/services/mqtt_service.dart';
 
-import '../../../data/models/change_power_status_model.dart';
-import '../../../data/services/dio_helper.dart';
-import '../../../data/services/end_points.dart';
 import '../../../data/services/theme.dart';
 
 class DeviceController extends GetxController {
@@ -21,7 +19,7 @@ class DeviceController extends GetxController {
   final AppServices appServices = Get.find<AppServices>();
   final MQTTService mqttService = Get.find<MQTTService>();
   final IoTDevices _deviceModel = Get.arguments['device'];
-  ChangePowerStatusModel? _changePowerStatusModel;
+  // ChangePowerStatusModel? _changePowerStatusModel;
   RxString emptyConsumption = ''.obs;
   final List<BarChartGroupData> _flowRateBarGroupData = [];
   final List<BarChartGroupData> _litersBarGroupData = [];
@@ -44,27 +42,17 @@ class DeviceController extends GetxController {
   }
 
   void changePowerStatus(String deviceID, int state) {
-    UiTheme.loadingDialog();
+    mqttService.mqttPublishMsg(MqttChannels.valveStatusMQTTChannel, {
+      'token': deviceID,
+      MqttChannels.valveStatusMQTTChannel: state,
+    });
+    appServices.startRead[deviceModelName!] = state;
+    appServices.delayToChangePowerStatus[deviceModelName!] = true;
 
-    DioHelper.postData(
-      url: EndPoints.changePowerStatus,
-      token: appServices.loginData!.user!.tokenData!.accessToken,
-      data: {
-        'token': deviceID,
-        'start_read': state,
-        '_method': 'PUT',
-      },
-    ).then((value) {
-      _changePowerStatusModel = ChangePowerStatusModel.fromJson(value.data);
-      if (_changePowerStatusModel!.status == 200) {
-        appServices.startRead[_deviceModel.name!] = state;
-        Get.back();
-        UiTheme.successGetBar(_changePowerStatusModel!.message!);
-      } else {
-        Get.back();
-        UiTheme.errorGetBar('Error changing the state of the device');
-      }
-    }).catchError((onError) {});
+    appServices.reactivateSwitch(deviceModelName!);
+
+    UiTheme.successGetBar('Valve Status Changed');
+    UiTheme.warningGetBar(StringsManager.valveDelayWarningText);
   }
 
   void listsInit() {

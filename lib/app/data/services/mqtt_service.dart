@@ -101,9 +101,11 @@ class MQTTService extends GetxService {
         appServices.flowDays.add(reversedReading[0]['created_at']);
       } else if (receievedMsgPayload[0].topic == MqttChannels.flowStatusMQTTChannel) {
         //todo implement when the new msg response is clear
-        print(recivedDecodedMsgFromMqtt[MqttChannels.flowStatusMQTTChannel]);
-        print(recivedDecodedMsgFromMqtt);
+        // print(recivedDecodedMsgFromMqtt[MqttChannels.flowStatusMQTTChannel]);
+        // print(recivedDecodedMsgFromMqtt);
         appServices.flowStatus[recivedDecodedMsgFromMqtt[MqttChannels.flowStatusMQTTChannel]['token']] = recivedDecodedMsgFromMqtt[MqttChannels.flowStatusMQTTChannel]['flow_status'];
+      } else if (receievedMsgPayload[0].topic == MqttChannels.valveStatusMQTTChannel) {
+        //todo add change valve-status
       }
     });
   }

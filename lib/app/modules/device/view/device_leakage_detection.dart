@@ -13,129 +13,125 @@ class DeviceAndLeakageDetection extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => Scaffold(
-        appBar: AppBar(
-          backgroundColor: const Color.fromRGBO(0, 154, 202, 1),
-          title: Text(
-            "Device And Leakage Detection".tr,
-            style: const TextStyle(
-              fontSize: 22,
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color.fromRGBO(0, 154, 202, 1),
+        title: Text(
+          "Device And Leakage Detection".tr,
+          style: const TextStyle(
+            fontSize: 22,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
           ),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              const TopPart(),
-              const SizedBox(
-                height: 10,
-              ),
-              Text(
-                controller.appServices.loginData!.user!.firstName!,
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: controller.appServices.isDark.value ? Colors.white : Colors.black,
+      ),
+      body: CustomScrollView(
+        physics: const BouncingScrollPhysics(),
+        slivers: [
+          SliverToBoxAdapter(
+            child: Column(
+              children: [
+                const TopPart(),
+                10.height,
+                Center(child: controller.appServices.loginData!.user!.firstName!.title(fontSize: 28)),
+                InkWell(
+                  onTap: () async {
+                    String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode('red', 'cancel', false, ScanMode.QR);
+                    if (barcodeScanRes != '-1') {
+                      controller.postDevice(barcodeScanRes);
+                    }
+                  },
+                  child: const CircleAvatar(
+                    radius: 30,
+                    child: Icon(Icons.qr_code),
+                  ),
                 ),
-              ),
-              InkWell(
-                onTap: () async {
-                  String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode('red', 'cancel', false, ScanMode.QR);
-                  if (barcodeScanRes != '-1') {
-                    controller.postDevice(barcodeScanRes);
-                  }
-                },
-                child: const CircleAvatar(
-                  radius: 30,
-                  child: Icon(Icons.qr_code),
-                ),
-              ),
-              16.height,
-              const Divider(),
-              controller.loading.value && controller.allDevicesModel == null
-                  ? const CircularProgressIndicator.adaptive()
-                  : controller.allDevicesModel!.ioTDevices!.isEmpty
-                      ? const Center(
-                          child: Text(
-                            'Couldn\'t find any device connected to your account please make sure to scan the QR code first',
-                          ),
-                        )
-                      : SizedBox(
-                          width: Get.width,
-                          height: Get.height / 4,
-                          child: GridView.count(
-                            primary: false,
-                            padding: const EdgeInsets.all(30),
-                            crossAxisSpacing: 1,
-                            childAspectRatio: 0.6,
-                            mainAxisSpacing: 20,
-                            crossAxisCount: 4,
+                16.height,
+                const Divider(),
+              ],
+            ),
+          ),
+          controller.loading.value && controller.allDevicesModel == null
+              ? const SliverToBoxAdapter(child: Center(child: CircularProgressIndicator.adaptive()))
+              : controller.allDevicesModel!.ioTDevices!.isEmpty
+                  ? const SliverToBoxAdapter(
+                      child: Center(
+                        child: Text(
+                          'Couldn\'t find any device connected to your account please make sure to scan the QR code first',
+                        ),
+                      ),
+                    )
+                  : SliverGrid(
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 4,
+                        mainAxisSpacing: 5,
+                        crossAxisSpacing: 5,
+                        childAspectRatio: 0.5,
+                      ),
+                      delegate: SliverChildBuilderDelegate(
+                        childCount: controller.allDevicesModel!.ioTDevices!.length,
+                        (context, deviceIndex) => Obx(
+                          () => Column(
                             children: [
-                              for (int deviceIndex = 0; deviceIndex < controller.allDevicesModel!.ioTDevices!.length; deviceIndex++)
-                                Column(
-                                  children: [
-                                    InkWell(
-                                      onTap: () => Get.toNamed(
-                                        Routes.deviceView,
-                                        arguments: {
-                                          'device': controller.allDevicesModel!.ioTDevices![deviceIndex],
-                                        },
-                                      ),
-                                      child: SizedBox(
-                                        height: Get.height * 0.1,
-                                        child: Column(
+                              InkWell(
+                                onTap: () => Get.toNamed(
+                                  Routes.deviceView,
+                                  arguments: {
+                                    'device': controller.allDevicesModel!.ioTDevices![deviceIndex],
+                                  },
+                                ),
+                                child: SizedBox(
+                                  height: Get.height * 0.105,
+                                  child: Column(
+                                    children: [
+                                      SizedBox(
+                                        width: Get.width * 0.4,
+                                        height: Get.height * 0.07,
+                                        child: Stack(
                                           children: [
-                                            SizedBox(
-                                              width: Get.width * 0.4,
-                                              height: Get.height * 0.07,
-                                              child: Stack(
-                                                children: [
-                                                  CircleAvatar(
-                                                    radius: 55,
-                                                    child: Image.asset(
-                                                      'assets/tap.png',
-                                                      width: 45,
-                                                    ),
-                                                  ),
-                                                  if (controller.appServices.flowStatus[controller.allDevicesModel!.ioTDevices![deviceIndex].token] != 'normal')
-                                                    Align(
-                                                      alignment: Alignment.topRight,
-                                                      child: Image.asset(
-                                                        'assets/danger.png',
-                                                        width: 25,
-                                                      ),
-                                                    ),
-                                                  CircleAvatar(
-                                                    radius: 10,
-                                                    backgroundColor: controller.appServices.startRead[controller.allDevicesModel!.ioTDevices![deviceIndex].name] == 1 ? Colors.green : Colors.red,
-                                                  )
-                                                ],
+                                            CircleAvatar(
+                                              radius: 55,
+                                              child: Image.asset(
+                                                'assets/tap.png',
+                                                width: 45,
                                               ),
                                             ),
-                                            Text(controller.allDevicesModel!.ioTDevices![deviceIndex].name!),
+                                            if (controller.appServices.flowStatus[controller.allDevicesModel!.ioTDevices![deviceIndex].token] != 'normal')
+                                              Align(
+                                                alignment: Alignment.topRight,
+                                                child: Image.asset(
+                                                  'assets/danger.png',
+                                                  width: 25,
+                                                ),
+                                              ),
+                                            CircleAvatar(
+                                              radius: 10,
+                                              backgroundColor: controller.appServices.startRead[controller.allDevicesModel!.ioTDevices![deviceIndex].name] == 1 ? Colors.green : Colors.red,
+                                            )
                                           ],
                                         ),
                                       ),
-                                    ),
-                                    Switch(
-                                      value: controller.appServices.startRead[controller.allDevicesModel!.ioTDevices![deviceIndex].name] == 1 ? true : false,
-                                      onChanged: (val) {
-                                        controller.appServices.startRead[controller.allDevicesModel!.ioTDevices![deviceIndex].name] == 1
-                                            ? controller.changePowerStatus(deviceIndex, controller.allDevicesModel!.ioTDevices![deviceIndex].token!, 0)
-                                            : controller.changePowerStatus(deviceIndex, controller.allDevicesModel!.ioTDevices![deviceIndex].token!, 1);
-                                      },
-                                    )
-                                  ],
+                                      controller.allDevicesModel!.ioTDevices![deviceIndex].name!.caption(),
+                                    ],
+                                  ),
                                 ),
+                              ),
+                              controller.appServices.delayToChangePowerStatus[controller.allDevicesModel!.ioTDevices![deviceIndex].name!]!
+                                  ? const CircularProgressIndicator.adaptive()
+                                  : Switch(
+                                      value: controller.appServices.startRead[controller.allDevicesModel!.ioTDevices![deviceIndex].name] == 1 ? true : false,
+                                      onChanged: (val) => controller.appServices.delayToChangePowerStatus[controller.allDevicesModel!.ioTDevices![deviceIndex].name!]!
+                                          ? null
+                                          : controller.appServices.startRead[controller.allDevicesModel!.ioTDevices![deviceIndex].name] == 1
+                                              ? controller.changePowerStatus(deviceIndex, controller.allDevicesModel!.ioTDevices![deviceIndex].token!, 0)
+                                              : controller.changePowerStatus(deviceIndex, controller.allDevicesModel!.ioTDevices![deviceIndex].token!, 1),
+                                    ),
                             ],
                           ),
                         ),
-            ],
-          ),
-        ),
+                      ),
+                    ),
+        ],
       ),
     );
   }

@@ -6,7 +6,7 @@ class SharedPrefsHelper {
 /*----------------------------------------------------------------------------*/
 /*----------------------------  Initialize Prefs  ----------------------------*/
 /*----------------------------------------------------------------------------*/
-  static initPrefs() async {
+  static  initPrefs() async {
     prefs ??= await SharedPreferences.getInstance();
   }
 
