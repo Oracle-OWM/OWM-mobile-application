@@ -64,9 +64,7 @@ class Login extends GetView<LoginController> {
                         () => Padding(
                           padding: const EdgeInsets.only(right: 20, left: 20),
                           child: TextFormField(
-                            style: TextStyle(
-                              color: controller.appServices.isDark.value ? Colors.white : Colors.black,
-                            ),
+                            style: TextStyle(color: controller.appServices.isDark.value ? Colors.white : Colors.black),
                             obscureText: controller.check.value,
                             controller: controller.pass,
                             keyboardType: TextInputType.visiblePassword,
@@ -76,11 +74,9 @@ class Login extends GetView<LoginController> {
                               border: const OutlineInputBorder(),
                               prefixIcon: const Icon(Icons.lock, color: Color.fromRGBO(34, 177, 76, 1)),
                               suffixIcon: IconButton(
-                                  icon: const Icon(Icons.remove_red_eye, color: Color.fromRGBO(34, 177, 76, 1)),
-                                  onPressed: () {
-                                    // print(controller.check);
-                                    controller.check.value = !controller.check.value;
-                                  }),
+                                icon: const Icon(Icons.remove_red_eye, color: Color.fromRGBO(34, 177, 76, 1)),
+                                onPressed: () => controller.check.value = !controller.check.value,
+                              ),
                             ),
                             validator: (String? value) {
                               if (value!.isEmpty) {
@@ -106,15 +102,10 @@ class Login extends GetView<LoginController> {
                 shape: const StadiumBorder(),
                 color: const Color.fromRGBO(0, 154, 202, 1),
                 child: controller.load
-                    ? const CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                      )
+                    ? const CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.white))
                     : Text(
                         'Login'.tr,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          color: Colors.white,
-                        ),
+                        style: const TextStyle(fontSize: 18, color: Colors.white),
                       ),
                 onPressed: () async {
                   if (controller.formKey.currentState!.validate()) {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
 import 'package:osm_v2/app/core/constants/extensions.dart';
+import 'package:osm_v2/app/core/constants/strings.dart';
 // import 'package:http/http.dart' as http;
 import 'package:osm_v2/app/modules/home/controllers/home_controller.dart';
 import 'package:osm_v2/app/routes/app_pages.dart';
@@ -81,7 +82,7 @@ class DeviceAndLeakageDetection extends GetView<HomeController> {
                                   },
                                 ),
                                 child: SizedBox(
-                                  height: Get.height * 0.105,
+                                  height: Get.height * 0.11,
                                   child: Column(
                                     children: [
                                       SizedBox(
@@ -92,7 +93,7 @@ class DeviceAndLeakageDetection extends GetView<HomeController> {
                                             CircleAvatar(
                                               radius: 55,
                                               child: Image.asset(
-                                                'assets/tap.png',
+                                                StringsManager.tabImg,
                                                 width: 45,
                                               ),
                                             ),
@@ -100,13 +101,14 @@ class DeviceAndLeakageDetection extends GetView<HomeController> {
                                               Align(
                                                 alignment: Alignment.topRight,
                                                 child: Image.asset(
-                                                  'assets/danger.png',
+                                                  StringsManager.dangerImg,
                                                   width: 25,
                                                 ),
                                               ),
                                             CircleAvatar(
                                               radius: 10,
-                                              backgroundColor: controller.appServices.startRead[controller.allDevicesModel!.ioTDevices![deviceIndex].name] == 1 ? Colors.green : Colors.red,
+                                              backgroundColor:
+                                                  controller.appServices.startRead[controller.allDevicesModel!.ioTDevices![deviceIndex].name] == 1 ? Colors.green : Colors.red,
                                             )
                                           ],
                                         ),
@@ -119,12 +121,11 @@ class DeviceAndLeakageDetection extends GetView<HomeController> {
                               controller.appServices.delayToChangePowerStatus[controller.allDevicesModel!.ioTDevices![deviceIndex].name!]!
                                   ? const CircularProgressIndicator.adaptive()
                                   : Switch(
+                                      inactiveTrackColor: Colors.grey,
                                       value: controller.appServices.startRead[controller.allDevicesModel!.ioTDevices![deviceIndex].name] == 1 ? true : false,
-                                      onChanged: (val) => controller.appServices.delayToChangePowerStatus[controller.allDevicesModel!.ioTDevices![deviceIndex].name!]!
-                                          ? null
-                                          : controller.appServices.startRead[controller.allDevicesModel!.ioTDevices![deviceIndex].name] == 1
-                                              ? controller.changePowerStatus(deviceIndex, controller.allDevicesModel!.ioTDevices![deviceIndex].token!, 0)
-                                              : controller.changePowerStatus(deviceIndex, controller.allDevicesModel!.ioTDevices![deviceIndex].token!, 1),
+                                      onChanged: (val) => controller.appServices.startRead[controller.allDevicesModel!.ioTDevices![deviceIndex].name] == 1
+                                          ? controller.changePowerStatus(deviceIndex, controller.allDevicesModel!.ioTDevices![deviceIndex].token!, 0)
+                                          : controller.changePowerStatus(deviceIndex, controller.allDevicesModel!.ioTDevices![deviceIndex].token!, 1),
                                     ),
                             ],
                           ),

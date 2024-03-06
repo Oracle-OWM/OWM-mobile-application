@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
 import 'package:osm_v2/app/core/constants/mqtt_channels.dart';
 import 'package:osm_v2/app/core/constants/strings.dart';
@@ -9,11 +10,11 @@ import 'package:osm_v2/app/data/services/dio_helper.dart';
 import 'package:osm_v2/app/data/services/end_points.dart';
 import 'package:osm_v2/app/data/services/mqtt_service.dart';
 import 'package:osm_v2/app/data/services/theme.dart';
+import 'package:osm_v2/app/modules/home/widgets/card.dart';
 
 import '../../../data/services/app_services.dart';
 
 class HomeController extends GetxController {
-  // final translationServices = Get.find<TranslationService>();
   final appServices = Get.find<AppServices>();
   final mqttService = Get.find<MQTTService>();
   final double coverHeight = 280;
@@ -22,6 +23,7 @@ class HomeController extends GetxController {
   AllDevicesModel? allDevicesModel;
   RxBool loading = false.obs;
   RxBool dataReturned = false.obs;
+  List<PageCard> cards = [];
 
   // final wsUrl = Uri.parse('ws://192.168.1.17:6001/app/livepost_key?protocol=7&client=js&version=7.5.0&flash=false');
   // String deviceChannel = '{"event":"pusher:subscribe", "data":{"auth":"","channel":"dashboard-IoTDevice-details-channel"}}';
@@ -29,7 +31,6 @@ class HomeController extends GetxController {
 
   @override
   void onInit() {
-    // todo add mqtt calls for subscribed topics with the backend
     mqttService.mqttSubscribeAndListen(MqttChannels.flowStatusMQTTChannel);
     mqttService.mqttSubscribeAndListen(MqttChannels.readingsMQTTChannel);
     mqttService.mqttSubscribeAndListen(MqttChannels.valveStatusMQTTChannel);
@@ -84,13 +85,15 @@ class HomeController extends GetxController {
   }
 
   // delay var and timer set to 5min to activate the switch again
-
   void changePowerStatus(int index, String deviceID, int state) {
     // UiTheme.loadingDialog();
-    mqttService.mqttPublishMsg(MqttChannels.valveStatusMQTTChannel, {
-      'token': deviceID,
-      MqttChannels.valveStatusMQTTChannel: state,
-    });
+    mqttService.mqttPublishMsg(
+      MqttChannels.valveStatusMQTTChannel,
+      {
+        'token': deviceID,
+        MqttChannels.valveStatusMQTTChannel: state,
+      },
+    );
     appServices.startRead[allDevicesModel!.ioTDevices![index].name!] = state;
     UiTheme.successGetBar('Valve Status Changed');
     appServices.delayToChangePowerStatus[allDevicesModel!.ioTDevices![index].name!] = true;
@@ -98,4 +101,23 @@ class HomeController extends GetxController {
     UiTheme.warningGetBar(StringsManager.valveDelayWarningText);
   }
 
+  Future<void> scanBarCode() async {
+    String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode('red', 'cancel', false, ScanMode.QR);
+    if (barcodeScanRes != '-1') {
+      postDevice(barcodeScanRes);
+    }
+  }
+
+  cardsInit() {
+    cards = [
+      PageCard(
+        img: StringsManager.about,
+        tit: "About us".tr,
+        // onTapp: () {
+        //   appServices.changeisLoggedin(false);
+        //   Get.toNamed(Routes.aboutUs);
+        // },
+      ),
+    ];
+  }
 }

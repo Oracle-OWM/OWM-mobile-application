@@ -225,17 +225,14 @@ class AppServices extends GetxService {
         elevation: 10,
         backgroundColor: (isDark.value) ? Get.theme.cardColor : Colors.white,
         insetAnimationCurve: Curves.bounceInOut,
-        insetPadding: const EdgeInsets.symmetric(horizontal: 40, vertical: 40),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 25),
+          padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 10),
           child: SizedBox(
-            height: Get.height * 0.25,
+            height: Get.height * 0.3,
             child: GridView.count(
               physics: const BouncingScrollPhysics(),
-              crossAxisCount: allDevicesModel!.ioTDevices!.length ~/ 2,
+              crossAxisCount: 3,
               childAspectRatio: 0.7,
               children: [
                 for (int deviceIndex = 0; deviceIndex < allDevicesModel!.ioTDevices!.length; deviceIndex++)

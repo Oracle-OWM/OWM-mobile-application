@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
 import 'package:osm_v2/app/core/constants/extensions.dart';
-import 'package:osm_v2/app/core/constants/strings.dart';
+import 'package:osm_v2/app/core/constants/page_cards_data.dart';
 import 'package:osm_v2/app/modules/home/controllers/home_controller.dart';
 import 'package:osm_v2/app/routes/app_pages.dart';
 
@@ -26,12 +25,7 @@ class PageContent extends GetView<HomeController> {
             ),
           ),
           InkWell(
-            onTap: () async {
-              String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode('red', 'cancel', false, ScanMode.QR);
-              if (barcodeScanRes != '-1') {
-                controller.postDevice(barcodeScanRes);
-              }
-            },
+            onTap: controller.scanBarCode,
             child: const CircleAvatar(
               radius: 30,
               child: Icon(Icons.qr_code),
@@ -39,50 +33,12 @@ class PageContent extends GetView<HomeController> {
           ),
           16.height,
           const Divider(),
-          PageCard(
-            img: StringsManager.consumption,
-            tit: "Consumption".tr,
-            onTapp: () => controller.appServices.openDeviceChoiceDialog(),
-          ),
-          PageCard(
-            img: StringsManager.leak,
-            tit: "Device and Leakage Detection".tr,
-            onTapp: () {
-              controller.appServices.changeisLoggedin(false);
-              Get.toNamed(Routes.deviceAndLeakageDetection);
-            },
-          ),
-          PageCard(
-            img: StringsManager.pay,
-            tit: "Payment Process".tr,
-            onTapp: () => Get.toNamed(Routes.billTabs),
-          ),
-          PageCard(
-            img: StringsManager.faq,
-            tit: "FAQ".tr,
-            onTapp: () => Get.toNamed(Routes.questions),
-          ),
-          PageCard(
-            img: StringsManager.contact,
-            tit: "Contact".tr,
-            onTapp: () {
-              controller.appServices.changeisLoggedin(false);
-              Get.toNamed(Routes.contacts);
-            },
-          ),
-          PageCard(
-            img: StringsManager.about,
-            tit: "About us".tr,
-            onTapp: () {
-              controller.appServices.changeisLoggedin(false);
-              Get.toNamed(Routes.aboutUs);
-            },
-          ),
-          PageCard(
-            img: StringsManager.settings,
-            tit: "Settings".tr,
-            onTapp: () => Get.toNamed(Routes.settings),
-          ),
+          for (int i = 0; i < PageCardData.map.length; i++)
+            PageCard(
+              img: PageCardData.map[i]['image'],
+              tit: PageCardData.map[i]['title'],
+              onTapp: () => PageCardData.map[i]['onTapp'].call(controller.appServices),
+            ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Card(
