@@ -217,9 +217,9 @@ class DeviceController extends GetxController {
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
-            interval: 100,
+            interval: 1,
             getTitlesWidget: appServices.leftTitleWidgets,
-            reservedSize: 55,
+            reservedSize: 40,
           ),
         ),
       ),
@@ -230,14 +230,14 @@ class DeviceController extends GetxController {
       minX: 0,
       maxX: appServices.litersDays.length.toDouble(),
       minY: 0,
-      maxY: (appServices.flowSeries.reduce(max) / 10).ceil().toDouble(),
+      maxY: (appServices.flowSeries.reduce(max) * 100).ceil().toDouble(),
       lineBarsData: [
         LineChartBarData(
           spots: [
             for (double i = 0; i < appServices.flowSeries.length; i++)
               FlSpot(
                 i,
-                (appServices.flowSeries[i.toInt()] / 10),
+                (appServices.flowSeries[i.toInt()] * 100),
               ),
           ],
           gradient: LinearGradient(
@@ -300,7 +300,7 @@ class DeviceController extends GetxController {
             showTitles: true,
             interval: 10,
             getTitlesWidget: appServices.leftTitleWidgets,
-            reservedSize: 42,
+            reservedSize: 40,
           ),
         ),
       ),
@@ -309,14 +309,14 @@ class DeviceController extends GetxController {
         border: Border.all(color: const Color(0xff37434d)),
       ),
       maxX: appServices.litersDays.length.toDouble(),
-      maxY: (appServices.litersSeries.reduce(max) / 100).ceil().toDouble(),
+      maxY: (appServices.litersSeries.reduce(max) * 100).ceil().toDouble(),
       lineBarsData: [
         LineChartBarData(
           spots: [
             for (double i = 0; i < appServices.litersSeries.length; i++)
               FlSpot(
                 i,
-                (appServices.litersSeries[i.toInt()] / 100),
+                (appServices.litersSeries[i.toInt()] * 100).ceil().toDouble(),
               ),
           ],
           gradient: LinearGradient(
