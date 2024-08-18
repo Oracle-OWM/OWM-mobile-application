@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import 'package:osm_v2/app/core/constants/strings.dart';
 import 'package:osm_v2/app/data/services/app_services.dart';
 import 'package:osm_v2/app/data/services/dio_helper.dart';
-import 'package:osm_v2/app/data/services/mqtt_service.dart';
 import 'package:osm_v2/app/data/services/shared_helper.dart';
 import 'package:osm_v2/app/data/services/translation_service.dart';
 
