@@ -5,7 +5,7 @@ class StringsManager {
   static String userLoginHint = "User validate empty".tr;
   static String forgetPasswordText = "Forget Password".tr;
   static String resetPasswordText = "Reset".tr;
-  static String iconsPath = "assets/".tr;
+  static String iconsPath = "assets/";
   static const emptyConsumptionErrorText = 'No Consumption Data can be found for the selected days';
   static const emptyReadingsErrorText = 'No Readings Data can be found, please make sure that a device has been probably set';
   static const emptyCostErrorText = 'No Cost Data can be found for the selected days';
@@ -32,5 +32,7 @@ class StringsManager {
   static const rawanJob = 'Pharmaceutical Analyst';
   static const asmaaJob = 'Embedded Systems';
   static const moutazJob = 'Business Analyst';
+  static const tabImg = 'assets/tap.png';
+  static const dangerImg = 'assets/danger.png';
 }
 // 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
 import 'package:osm_v2/app/core/constants/extensions.dart';
+import 'package:osm_v2/app/core/constants/strings.dart';
 // import 'package:http/http.dart' as http;
 import 'package:osm_v2/app/modules/home/controllers/home_controller.dart';
 import 'package:osm_v2/app/routes/app_pages.dart';
@@ -92,7 +93,7 @@ class DeviceAndLeakageDetection extends GetView<HomeController> {
                                             CircleAvatar(
                                               radius: 55,
                                               child: Image.asset(
-                                                'assets/tap.png',
+                                                StringsManager.tabImg,
                                                 width: 45,
                                               ),
                                             ),
@@ -100,7 +101,7 @@ class DeviceAndLeakageDetection extends GetView<HomeController> {
                                               Align(
                                                 alignment: Alignment.topRight,
                                                 child: Image.asset(
-                                                  'assets/danger.png',
+                                                  StringsManager.dangerImg,
                                                   width: 25,
                                                 ),
                                               ),

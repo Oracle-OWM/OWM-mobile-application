@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:osm_v2/app/core/constants/extensions.dart';
 import 'package:osm_v2/app/core/constants/strings.dart';
 import 'package:osm_v2/app/data/models/all_devices_model.dart';
 import 'package:osm_v2/app/data/models/change_power_status_model.dart';
@@ -33,6 +34,7 @@ class DeviceController extends GetxController {
     listsInit();
     _initFlowRateBarsData();
     _initLitersBarsData();
+    _loadTabsWidgets();
     super.onInit();
   }
 
@@ -66,7 +68,7 @@ class DeviceController extends GetxController {
     ).then((value) {
       _changePowerStatusModel = ChangePowerStatusModel.fromJson(value.data);
       if (_changePowerStatusModel!.status == '200') {
-        print(_changePowerStatusModel!.message);
+        // print(_changePowerStatusModel!.message);
         // UiTheme.successGetBar(_changePowerStatusModel!.message);
         appServices.startRead[deviceModelToken!] = state;
         UiTheme.successGetBar('Valve Status Changed');
@@ -77,7 +79,7 @@ class DeviceController extends GetxController {
         UiTheme.errorGetBar(_changePowerStatusModel!.message!);
       }
     }).catchError((onError) {
-      print(onError);
+      // print(onError);
       UiTheme.errorGetBar(onError.toString());
     });
   }
@@ -360,6 +362,153 @@ class DeviceController extends GetxController {
           ),
         ),
       ],
+    );
+  }
+
+//---------------------------------  Charts Widgets  --------------------------------------------//
+//-----------------------------------------------------------------------------------------------//
+//-----------------------------------------------------------------------------------------------//
+
+  List<Widget> tabs = [];
+
+  void _loadTabsWidgets() {
+    tabs.add(
+      Center(
+        child: SingleChildScrollView(
+          child: Center(
+            child: SizedBox(
+              width: Get.width,
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      'Choose Date'.title(),
+                      InkWell(
+                        onTap: () => appServices.openDateDialog(isDeviceLeakage: true, listsInitFunction: listsInit),
+                        child: Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            border: Border.all(width: 2, color: Colors.grey),
+                            borderRadius: BorderRadius.circular(40),
+                          ),
+                          child: Row(
+                            children: [
+                              appServices.startDate.value.subtitle(),
+                              ' to '.subtitle(),
+                              appServices.endDate.value.subtitle(),
+                            ],
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () => appServices.openDateDialog(isDeviceLeakage: true, listsInitFunction: listsInit),
+                        child: 'date'.icon(),
+                      ),
+                    ],
+                  ),
+                  80.height,
+                  appServices.litersSeries.isEmpty
+                      ? StringsManager.emptyReadingsErrorText.title(center: true)
+                      : emptyConsumption.value == StringsManager.emptyConsumptionErrorText
+                          ? emptyConsumption.value.title(center: true)
+                          : AspectRatio(
+                              aspectRatio: 1.50,
+                              child: DecoratedBox(
+                                decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(18),
+                                  ),
+                                  color: Color(0xff232d37),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                    right: 18,
+                                    left: 12,
+                                    top: 24,
+                                    bottom: 32,
+                                  ),
+                                  child: appServices.isCustom.value ? loadLitersBars() : LineChart(loadLineChartDataLiters()),
+                                ),
+                              ),
+                            ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+    tabs.add(
+      Center(
+        child: SingleChildScrollView(
+          child: Center(
+            child: SizedBox(
+              width: Get.width,
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      'Choose Date'.title(),
+                      InkWell(
+                        onTap: () => appServices.openDateDialog(isDeviceLeakage: true, listsInitFunction: listsInit),
+                        child: Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            border: Border.all(width: 2, color: Colors.grey),
+                            borderRadius: BorderRadius.circular(40),
+                          ),
+                          child: Row(
+                            children: [
+                              appServices.startDate.value.subtitle(),
+                              ' to '.subtitle(),
+                              appServices.endDate.value.subtitle(),
+                            ],
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () => appServices.openDateDialog(isDeviceLeakage: true, listsInitFunction: listsInit),
+                        child: 'date'.icon(),
+                      ),
+                    ],
+                  ),
+                  80.height,
+                  appServices.litersSeries.isEmpty
+                      ? StringsManager.emptyReadingsErrorText.title(center: true)
+                      : emptyConsumption.value == StringsManager.emptyConsumptionErrorText
+                          ? emptyConsumption.value.title(center: true)
+                          : AspectRatio(
+                              aspectRatio: 1.50,
+                              child: DecoratedBox(
+                                decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(18),
+                                  ),
+                                  color: Color(0xff232d37),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                    right: 18,
+                                    left: 12,
+                                    top: 24,
+                                    bottom: 32,
+                                  ),
+                                  child: appServices.isCustom.value
+                                      ? loadFlowRateBars()
+                                      : LineChart(
+                                          loadLineChartDataFlow(),
+                                        ),
+                                ),
+                              ),
+                            ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

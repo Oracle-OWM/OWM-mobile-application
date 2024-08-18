@@ -60,7 +60,7 @@ extension CustomIconProvider on String {
   Widget icon({Color? color, double? size}) => ImageIcon(
         Svg('${StringsManager.iconsPath}$this.svg'),
         color: color ?? Get.theme.colorScheme.secondary,
-        size: size ?? 24,
+        size: size ?? 30,
       );
 }
 
@@ -119,8 +119,9 @@ extension CustomTextStyles on String {
         textAlign: center ? TextAlign.center : TextAlign.start,
       );
 
-  Text caption({required}) => Text(
+  Text caption({bool center = true}) => Text(
         this,
+        textAlign: center ? TextAlign.center : TextAlign.start,
         style: Get.theme.textTheme.bodySmall!.merge(
           TextStyle(
             color: Colors.grey.shade600,

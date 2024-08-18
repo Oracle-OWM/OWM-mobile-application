@@ -9,11 +9,11 @@ import 'package:osm_v2/app/data/models/device_model.dart';
 import 'package:osm_v2/app/data/services/dio_helper.dart';
 import 'package:osm_v2/app/data/services/end_points.dart';
 import 'package:osm_v2/app/data/services/theme.dart';
+import 'package:osm_v2/app/modules/home/widgets/card.dart';
 
 import '../../../data/services/app_services.dart';
 
 class HomeController extends GetxController {
-  // final translationServices = Get.find<TranslationService>();
   final appServices = Get.find<AppServices>();
   // final mqttService = Get.find<MQTTService>();
   final double coverHeight = 280;
@@ -23,6 +23,7 @@ class HomeController extends GetxController {
   AllDevicesModel? allDevicesModel;
   RxBool loading = false.obs;
   RxBool dataReturned = false.obs;
+  List<PageCard> cards = [];
 
   // final wsUrl = Uri.parse('ws://192.168.1.17:6001/app/livepost_key?protocol=7&client=js&version=7.5.0&flash=false');
   // String deviceChannel = '{"event":"pusher:subscribe", "data":{"auth":"","channel":"dashboard-IoTDevice-details-channel"}}';
@@ -90,13 +91,13 @@ class HomeController extends GetxController {
       });
     } on DioException catch (e) {
       if (e.response != null) {
-        print(e.response!.data);
-        // print(e.response!.headers);
-        print(e.response!.requestOptions);
+        // print(e.response!.data);
+        // // print(e.response!.headers);
+        // print(e.response!.requestOptions);
       } else {
         // Something happened in setting up or sending the request that triggered an Error
-        print(e.requestOptions);
-        print(e.message);
+        // print(e.requestOptions);
+        // print(e.message);
       }
     }
     loading.value = false;
