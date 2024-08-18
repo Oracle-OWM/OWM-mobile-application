@@ -1,5 +1,5 @@
 class LoginModel {
-  int? status;
+  String? status;
   String? errorNum;
   String? message;
   User? user;
@@ -26,7 +26,7 @@ class LoginModel {
 }
 
 class User {
-  int? id;
+  String? id;
   String? username;
   String? firstName;
   String? lastName;
@@ -35,15 +35,7 @@ class User {
   String? image;
   TokenData? tokenData;
 
-  User(
-      {this.id,
-      this.username,
-      this.firstName,
-      this.lastName,
-      this.email,
-      this.phone,
-      this.image,
-      this.tokenData});
+  User({this.id, this.username, this.firstName, this.lastName, this.email, this.phone, this.image, this.tokenData});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -53,9 +45,7 @@ class User {
     email = json['email'];
     phone = json['phone'];
     image = json['image'];
-    tokenData = json['token_data'] != null
-        ? TokenData.fromJson(json['token_data'])
-        : null;
+    tokenData = json['token_data'] != null ? TokenData.fromJson(json['token_data']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -77,7 +67,7 @@ class User {
 class TokenData {
   String? accessToken;
   String? tokenType;
-  int? expiresIn;
+  String? expiresIn;
 
   TokenData({this.accessToken, this.tokenType, this.expiresIn});
 

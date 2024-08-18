@@ -38,13 +38,13 @@ class DeviceView extends GetView<DeviceController> {
             ),
             actions: [
               InkWell(
-                onTap: () => controller.appServices.delayToChangePowerStatus[controller.deviceModelName]!
+                onTap: () => controller.appServices.delayToChangePowerStatus[controller.deviceModelToken]!
                     ? null
-                    : controller.appServices.startRead[controller.deviceModelName] == 1
-                        ? controller.changePowerStatus(controller.deviceModelToken!, 0)
-                        : controller.changePowerStatus(controller.deviceModelToken!, 1),
+                    : controller.appServices.startRead[controller.deviceModelToken] == 'true'
+                        ? controller.changePowerStatus(controller.deviceModelToken!, 'false')
+                        : controller.changePowerStatus(controller.deviceModelToken!, 'true'),
                 child: Icon(
-                  controller.appServices.startRead[controller.deviceModelName] == 0 ? Icons.pause : Icons.play_arrow,
+                  controller.appServices.startRead[controller.deviceModelToken] == 'false' ? Icons.pause : Icons.play_arrow,
                   size: 30,
                 ),
               ),

@@ -14,7 +14,7 @@ class ServicesFunctions {
     await SharedHelper.init();
     await DioHelper.init(path: StringsManager.baseUrl);
     await Get.putAsync<TranslationService>(() async => TranslationService());
-    await Get.putAsync<MQTTService>(() async => MQTTService());
+    // await Get.putAsync<MQTTService>(() async => MQTTService());
     Get.log('All Services Started ...');
   }
 }

@@ -3,11 +3,12 @@ import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:osm_v2/app/core/constants/mqtt_channels.dart';
 import 'package:osm_v2/app/core/constants/strings.dart';
 import 'package:osm_v2/app/data/models/all_devices_model.dart';
+import 'package:osm_v2/app/data/models/change_power_status_model.dart';
 import 'package:osm_v2/app/data/services/app_services.dart';
-import 'package:osm_v2/app/data/services/mqtt_service.dart';
+import 'package:osm_v2/app/data/services/dio_helper.dart';
+import 'package:osm_v2/app/data/services/end_points.dart';
 
 import '../../../data/services/theme.dart';
 
@@ -17,9 +18,9 @@ class DeviceController extends GetxController {
     const Color(0xff02d39a),
   ];
   final AppServices appServices = Get.find<AppServices>();
-  final MQTTService mqttService = Get.find<MQTTService>();
+  // final MQTTService mqttService = Get.find<MQTTService>();
   final IoTDevices _deviceModel = Get.arguments['device'];
-  // ChangePowerStatusModel? _changePowerStatusModel;
+  ChangePowerStatusModel? _changePowerStatusModel;
   RxString emptyConsumption = ''.obs;
   final List<BarChartGroupData> _flowRateBarGroupData = [];
   final List<BarChartGroupData> _litersBarGroupData = [];
@@ -41,18 +42,44 @@ class DeviceController extends GetxController {
     super.onClose();
   }
 
-  void changePowerStatus(String deviceID, int state) {
-    mqttService.mqttPublishMsg(MqttChannels.valveStatusMQTTChannel, {
-      'token': deviceID,
-      MqttChannels.valveStatusMQTTChannel: state,
+  void changePowerStatus(String deviceID, String state) {
+    // todo implement new logic
+    // mqttService.mqttPublishMsg(MqttChannels.valveStatusMQTTChannel, {
+    //   'token': deviceID,
+    //   MqttChannels.valveStatusMQTTChannel: state,
+    // });
+    // appServices.startRead[deviceModelName!] = state;
+    // appServices.delayToChangePowerStatus[deviceModelName!] = true;
+
+    // appServices.reactivateSwitch(deviceModelName!);
+
+    // UiTheme.successGetBar('Valve Status Changed');
+    // UiTheme.warningGetBar(StringsManager.valveDelayWarningText);
+
+    DioHelper.postData(
+      url: EndPoints.changePowerStatus,
+      token: appServices.loginData!.user!.tokenData!.accessToken,
+      data: {
+        'meterId': deviceID
+        // 'user_id': appServices.loginData!.user!.id,
+      },
+    ).then((value) {
+      _changePowerStatusModel = ChangePowerStatusModel.fromJson(value.data);
+      if (_changePowerStatusModel!.status == '200') {
+        print(_changePowerStatusModel!.message);
+        // UiTheme.successGetBar(_changePowerStatusModel!.message);
+        appServices.startRead[deviceModelToken!] = state;
+        UiTheme.successGetBar('Valve Status Changed');
+        appServices.delayToChangePowerStatus[deviceModelToken!] = true;
+        appServices.reactivateSwitch(deviceModelToken!);
+        UiTheme.warningGetBar(StringsManager.valveDelayWarningText);
+      } else {
+        UiTheme.errorGetBar(_changePowerStatusModel!.message!);
+      }
+    }).catchError((onError) {
+      print(onError);
+      UiTheme.errorGetBar(onError.toString());
     });
-    appServices.startRead[deviceModelName!] = state;
-    appServices.delayToChangePowerStatus[deviceModelName!] = true;
-
-    appServices.reactivateSwitch(deviceModelName!);
-
-    UiTheme.successGetBar('Valve Status Changed');
-    UiTheme.warningGetBar(StringsManager.valveDelayWarningText);
   }
 
   void listsInit() {
@@ -61,9 +88,9 @@ class DeviceController extends GetxController {
 
       emptyConsumption.value = '';
       for (int j = 0; j < _deviceModel.readings!.length; j++) {
-        appServices.litersSeries.add(_deviceModel.readings![j].litersConsumed!);
+        appServices.litersSeries.add(_deviceModel.readings![j].litersConsumed!.toDouble());
         appServices.litersDays.add(_deviceModel.readings![j].createdAt!);
-        appServices.flowSeries.add(_deviceModel.readings![j].flowRate!);
+        appServices.flowSeries.add(_deviceModel.readings![j].flowRate!.toDouble());
         appServices.flowDays.add(_deviceModel.readings![j].createdAt!);
       }
     } else {
@@ -71,9 +98,9 @@ class DeviceController extends GetxController {
       emptyConsumption.value = '';
       for (int i = 0; i < _deviceModel.readings!.length; i++) {
         if (_isTimeValid(i)) {
-          appServices.litersSeries.add(_deviceModel.readings![i].litersConsumed!);
+          appServices.litersSeries.add(_deviceModel.readings![i].litersConsumed!.toDouble());
           appServices.litersDays.add(_deviceModel.readings![i].createdAt!);
-          appServices.flowSeries.add(_deviceModel.readings![i].flowRate!);
+          appServices.flowSeries.add(_deviceModel.readings![i].flowRate!.toDouble());
           appServices.flowDays.add(_deviceModel.readings![i].createdAt!);
         } else {
           emptyConsumption.value = StringsManager.emptyConsumptionErrorText;
@@ -215,7 +242,7 @@ class DeviceController extends GetxController {
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
-            interval: 1,
+            interval: 10,
             getTitlesWidget: appServices.leftTitleWidgets,
             reservedSize: 40,
           ),
@@ -228,14 +255,14 @@ class DeviceController extends GetxController {
       minX: 0,
       maxX: appServices.litersDays.length.toDouble(),
       minY: 0,
-      maxY: (appServices.flowSeries.reduce(max) * 100).ceil().toDouble(),
+      maxY: (appServices.flowSeries.reduce(max)).ceil().toDouble(),
       lineBarsData: [
         LineChartBarData(
           spots: [
             for (double i = 0; i < appServices.flowSeries.length; i++)
               FlSpot(
                 i,
-                (appServices.flowSeries[i.toInt()] * 100),
+                (appServices.flowSeries[i.toInt()]),
               ),
           ],
           gradient: LinearGradient(
@@ -307,14 +334,14 @@ class DeviceController extends GetxController {
         border: Border.all(color: const Color(0xff37434d)),
       ),
       maxX: appServices.litersDays.length.toDouble(),
-      maxY: (appServices.litersSeries.reduce(max) * 100).ceil().toDouble(),
+      maxY: (appServices.litersSeries.reduce(max)).ceil().toDouble(),
       lineBarsData: [
         LineChartBarData(
           spots: [
             for (double i = 0; i < appServices.litersSeries.length; i++)
               FlSpot(
                 i,
-                (appServices.litersSeries[i.toInt()] * 100).ceil().toDouble(),
+                (appServices.litersSeries[i.toInt()]).ceil().toDouble(),
               ),
           ],
           gradient: LinearGradient(

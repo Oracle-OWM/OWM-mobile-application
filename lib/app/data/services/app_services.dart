@@ -235,7 +235,7 @@ class AppServices extends GetxService {
             height: Get.height * 0.25,
             child: GridView.count(
               physics: const BouncingScrollPhysics(),
-              crossAxisCount: allDevicesModel!.ioTDevices!.length ~/ 2,
+              crossAxisCount: allDevicesModel!.ioTDevices!.isEmpty ? 1 : (allDevicesModel!.ioTDevices!.length + 2) ~/ 2,
               childAspectRatio: 0.7,
               children: [
                 for (int deviceIndex = 0; deviceIndex < allDevicesModel!.ioTDevices!.length; deviceIndex++)
@@ -274,7 +274,7 @@ class AppServices extends GetxService {
                                     ),
                                   CircleAvatar(
                                     radius: 10,
-                                    backgroundColor: startRead[allDevicesModel!.ioTDevices![deviceIndex].name] == 1 ? Colors.green : Colors.red,
+                                    backgroundColor: startRead[allDevicesModel!.ioTDevices![deviceIndex].token] == 'true' ? Colors.green : Colors.red,
                                   )
                                 ],
                               ),

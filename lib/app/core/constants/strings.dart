@@ -10,7 +10,8 @@ class StringsManager {
   static const emptyReadingsErrorText = 'No Readings Data can be found, please make sure that a device has been probably set';
   static const emptyCostErrorText = 'No Cost Data can be found for the selected days';
   static const valveDelayWarningText = 'You need to wait 5 mintues to change the value of the switch...';
-  static const baseUrl = 'http://195.179.193.132/index.php/api/auth/user/';
+  // static const baseUrl = 'http://195.179.193.132/index.php/api/auth/user/';
+  static const baseUrl = 'https://owmmeter.com/';
   static const normalReading = 'Normal';
   static const pay = 'assets/pay.png';
   static const consumption = 'assets/consumption.png';

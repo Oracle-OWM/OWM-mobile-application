@@ -1,5 +1,5 @@
 class ChangePowerStatusModel {
-  int? status;
+  String? status;
   String? message;
   String? errorNum;
 

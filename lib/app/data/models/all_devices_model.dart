@@ -1,14 +1,12 @@
 class AllDevicesModel {
-  int? status;
-  String? errorNum;
+  String? status;
   String? message;
   List<IoTDevices>? ioTDevices;
 
-  AllDevicesModel({this.status, this.errorNum, this.message, this.ioTDevices});
+  AllDevicesModel({this.status, this.message, this.ioTDevices});
 
   AllDevicesModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
-    errorNum = json['errorNum'];
     message = json['message'];
     if (json['IoTDevices'] != null) {
       ioTDevices = <IoTDevices>[];
@@ -21,7 +19,6 @@ class AllDevicesModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['status'] = status;
-    data['errorNum'] = errorNum;
     data['message'] = message;
     if (ioTDevices != null) {
       data['IoTDevices'] = ioTDevices!.map((v) => v.toJson()).toList();
@@ -31,22 +28,15 @@ class AllDevicesModel {
 }
 
 class IoTDevices {
-  int? id;
+  String? id;
   String? name;
   String? token;
-  int? startRead;
+  String? startRead;
   String? connectionStatus;
   String? flowStatus;
   List<Readings>? readings;
 
-  IoTDevices(
-      {this.id,
-      this.name,
-      this.token,
-      this.startRead,
-      this.connectionStatus,
-      this.flowStatus,
-      this.readings});
+  IoTDevices({this.id, this.name, this.token, this.startRead, this.connectionStatus, this.flowStatus, this.readings});
 
   IoTDevices.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -79,28 +69,21 @@ class IoTDevices {
 }
 
 class Readings {
-  int? id;
-  int? deviceId;
-  double? litersConsumed;
-  double? flowRate;
+  String? id;
+  String? deviceId;
+  dynamic litersConsumed;
+  dynamic flowRate;
   String? createdAt;
-  String? updatedAt;
 
-  Readings(
-      {this.id,
-      this.deviceId,
-      this.litersConsumed,
-      this.flowRate,
-      this.createdAt,
-      this.updatedAt});
+  Readings({this.id, this.deviceId, this.litersConsumed, this.flowRate, this.createdAt});
 
   Readings.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = json['_id'];
     deviceId = json['device_id'];
     litersConsumed = json['liters_consumed'];
     flowRate = json['flow_rate'];
     createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
+    // updatedAt = json['updated_at'];
   }
 
   Map<String, dynamic> toJson() {
@@ -110,7 +93,6 @@ class Readings {
     data['liters_consumed'] = litersConsumed;
     data['flow_rate'] = flowRate;
     data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
     return data;
   }
 }

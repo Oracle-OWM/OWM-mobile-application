@@ -64,8 +64,8 @@ class DeviceAndLeakageDetection extends GetView<HomeController> {
                   : SliverGrid(
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 4,
-                        mainAxisSpacing: 5,
-                        crossAxisSpacing: 5,
+                        mainAxisSpacing: 1,
+                        crossAxisSpacing: 7,
                         childAspectRatio: 0.5,
                       ),
                       delegate: SliverChildBuilderDelegate(
@@ -81,7 +81,7 @@ class DeviceAndLeakageDetection extends GetView<HomeController> {
                                   },
                                 ),
                                 child: SizedBox(
-                                  height: Get.height * 0.105,
+                                  height: Get.height * 0.1099,
                                   child: Column(
                                     children: [
                                       SizedBox(
@@ -106,7 +106,7 @@ class DeviceAndLeakageDetection extends GetView<HomeController> {
                                               ),
                                             CircleAvatar(
                                               radius: 10,
-                                              backgroundColor: controller.appServices.startRead[controller.allDevicesModel!.ioTDevices![deviceIndex].name] == 1 ? Colors.green : Colors.red,
+                                              backgroundColor: controller.appServices.startRead[controller.allDevicesModel!.ioTDevices![deviceIndex].token] == 'true' ? Colors.green : Colors.red,
                                             )
                                           ],
                                         ),
@@ -116,15 +116,16 @@ class DeviceAndLeakageDetection extends GetView<HomeController> {
                                   ),
                                 ),
                               ),
-                              controller.appServices.delayToChangePowerStatus[controller.allDevicesModel!.ioTDevices![deviceIndex].name!]!
+                              controller.appServices.delayToChangePowerStatus[controller.allDevicesModel!.ioTDevices![deviceIndex].token!]!
                                   ? const CircularProgressIndicator.adaptive()
                                   : Switch(
-                                      value: controller.appServices.startRead[controller.allDevicesModel!.ioTDevices![deviceIndex].name] == 1 ? true : false,
-                                      onChanged: (val) => controller.appServices.delayToChangePowerStatus[controller.allDevicesModel!.ioTDevices![deviceIndex].name!]!
+                                      inactiveTrackColor: Colors.grey,
+                                      value: controller.appServices.startRead[controller.allDevicesModel!.ioTDevices![deviceIndex].token] == 'true' ? true : false,
+                                      onChanged: (val) => controller.appServices.delayToChangePowerStatus[controller.allDevicesModel!.ioTDevices![deviceIndex].token!]!
                                           ? null
-                                          : controller.appServices.startRead[controller.allDevicesModel!.ioTDevices![deviceIndex].name] == 1
-                                              ? controller.changePowerStatus(deviceIndex, controller.allDevicesModel!.ioTDevices![deviceIndex].token!, 0)
-                                              : controller.changePowerStatus(deviceIndex, controller.allDevicesModel!.ioTDevices![deviceIndex].token!, 1),
+                                          : controller.appServices.startRead[controller.allDevicesModel!.ioTDevices![deviceIndex].token] == 'true'
+                                              ? controller.changePowerStatus(deviceIndex, controller.allDevicesModel!.ioTDevices![deviceIndex].token!, 'false')
+                                              : controller.changePowerStatus(deviceIndex, controller.allDevicesModel!.ioTDevices![deviceIndex].token!, 'true'),
                                     ),
                             ],
                           ),

@@ -1,35 +1,32 @@
 class DeviceModel {
-  int? status;
-  String? errorNum;
+  // String? status;
   String? message;
-  IoTDevice? ioTDevice;
+  // IoTDevice? ioTDevice;
 
-  DeviceModel({this.status, this.errorNum, this.message, this.ioTDevice});
+  DeviceModel({this.message});
 
   DeviceModel.fromJson(Map<String, dynamic> json) {
-    status = json['status'];
-    errorNum = json['errorNum'];
+    // status = json['status'];
     message = json['message'];
-    ioTDevice = json['IoTDevice'] != null ? IoTDevice.fromJson(json['IoTDevice']) : null;
+    // ioTDevice = json['IoTDevice'] != null ? IoTDevice.fromJson(json['IoTDevice']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['status'] = status;
-    data['errorNum'] = errorNum;
+    // data['status'] = status;
     data['message'] = message;
-    if (ioTDevice != null) {
-      data['IoTDevice'] = ioTDevice!.toJson();
-    }
+    // if (ioTDevice != null) {
+    //   data['IoTDevice'] = ioTDevice!.toJson();
+    // }
     return data;
   }
 }
 
 class IoTDevice {
-  int? id;
+  String? id;
   String? name;
   String? token;
-  int? startRead;
+  String? startRead;
   String? connectionStatus;
   String? flowStatus;
   List<Readings>? readings;
@@ -67,10 +64,10 @@ class IoTDevice {
 }
 
 class Readings {
-  int? id;
-  int? deviceId;
-  double? litersConsumed;
-  double? flowRate;
+  String? id;
+  String? deviceId;
+  dynamic litersConsumed;
+  dynamic flowRate;
   String? createdAt;
   String? updatedAt;
 

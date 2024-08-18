@@ -27,6 +27,7 @@ class PageContent extends GetView<HomeController> {
           ),
           InkWell(
             onTap: () async {
+              // controller.postDevice('123156781adcdef123456777');
               String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode('red', 'cancel', false, ScanMode.QR);
               if (barcodeScanRes != '-1') {
                 controller.postDevice(barcodeScanRes);

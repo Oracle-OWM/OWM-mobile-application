@@ -2,8 +2,8 @@ import 'package:dio/dio.dart';
 
 class DioHelper {
   static Dio? dio;
-        // baseUrl: 'http://192.168.1.17:8000/api/auth/user/',
-  static init({path})  {
+  // baseUrl: 'http://192.168.1.17:8000/api/auth/user/',
+  static init({path}) {
     dio = Dio(
       BaseOptions(
         baseUrl: path,
@@ -37,7 +37,7 @@ class DioHelper {
   }) async {
     dio!.options.headers = {
       'Content-Type': 'application/json',
-      'Accept': 'application/json',
+      'Accept': '*/*',
       'Authorization': 'Bearer $token',
     };
     return await dio!.post(
